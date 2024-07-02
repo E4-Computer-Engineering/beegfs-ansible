@@ -1,0 +1,5 @@
+this file shouldn't be used for authentication. It is here only for testing purposes, to create an authentication file common to all cluster replace it with the content below:
+
+``` bash
+dd if=/dev/random of=./files/connauthfile bs=128 count=1
+```

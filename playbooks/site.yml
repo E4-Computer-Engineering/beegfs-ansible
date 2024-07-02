@@ -1,0 +1,18 @@
+---
+- name: Import mgmtd playbook
+  ansible.builtin.import_playbook: mgmtd.yml
+
+- name: Import metad playbook
+  ansible.builtin.import_playbook: metad.yml
+
+- name: Import storaged playbook
+  ansible.builtin.import_playbook: storaged.yml
+
+- name: Import mon playbook
+  ansible.builtin.import_playbook: mon.yml
+
+- name: Import client playbook
+  ansible.builtin.import_playbook: client.yml
+
+- name: Import cluster playbook
+  ansible.builtin.import_playbook: cluster.yml

@@ -1,0 +1,106 @@
+---
+argument_specs:
+
+  main:
+    short_description: Configure Beegfs Monitoring services
+    description:
+      - Install and configure Beegfs Monitoring services.
+    author:
+      - Davide Obbi
+    version_added: "1.0.0"
+    options:
+      mon_start_services:
+        type: bool
+        description: Start the `beegfs-mon.service`
+        default: false
+      mon_ship_to_influxdb_exporter:
+        type: bool
+        description:
+          - Send the metrics to the [influxdb_exporter](https://github.com/prometheus/influxdb_exporter)
+        default: false
+      mon_sys_mgmtd_host:
+        type: str
+        description:
+          - The network address at which the Beegfs management service is responding
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: localhost
+      mon_db_type:
+        type: str
+        description:
+          - The database type where Beegfs monitoring service will ship the metrics
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        choices: ["influxdb", "cassandra"]
+        default: influxdbv2
+      mon_db_hostname:
+        type: str
+        description:
+          - The network address at which the metrics database service is responding
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: localhost
+      mon_db_host_port:
+        type: str
+        description:
+          - The port at which the `mon_db_hostname` is responding
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: 9122
+      mon_db_database:
+        type: str
+        description:
+          - The name to give to the Influxdb v1 database
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: beegfs_mon
+      mon_db_retention_duration:
+        type: str
+        description:
+          - The retention for the data points in Influxdb expressed in the form `^[0-9]+[smhdw]$`
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: 1d
+      mon_db_bucket:
+        type: str
+        description:
+          - The name to give to the Influxdb v2 database
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: beegfs_mon
+      mon_conn_mgmtd_port_tcp:
+        type: str
+        description:
+          - The TCP port at which the management service is responding at
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: "8008"
+      mon_conn_mgmtd_port_udp:
+        type: str
+        description:
+          - The UDP port at which the management service is responding at
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: "8008"
+      mon_log_type:
+        type: str
+        description:
+          - Where log entries for the Beegfs monitoring daemon should go
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.conf
+        default: syslog
+        choices: ["syslog", "file"]
+      mon_influxdbv1_username:
+        type: str
+        description:
+          - The username used to connect to the Influxdb v1 instance
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.auth
+        default: ""
+      mon_influxdbv1_password:
+        type: str
+        description:
+          - The password used to connect to the Influxdb v1 instance
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.auth
+        default: ""
+      mon_influxdbv2_organization:
+        type: str
+        description:
+          - The organization used to connect to the Influxdb v2 instance
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.auth
+        default: ""
+      mon_influxdbv2_token:
+        type: str
+        description:
+          - The token used to connect to the Influxdb v2 instance
+          - This option is used and documented in the file /etc/beegfs/beegfs-mon.auth
+        default: ""

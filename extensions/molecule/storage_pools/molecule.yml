@@ -1,0 +1,157 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: molecule/openstack/requirements.yml
+    role-file: molecule/openstack/requirements.yml
+driver:
+  port: 22
+  ssh_identity_file: ~/.ssh/e4github
+platforms:
+  - name: beestore-01
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+  - name: beestore-02
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - metadata
+  - name: beeclient-01
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - clients
+provisioner:
+  name: ansible
+  # needed otherwise molecule does not find it
+  env:
+    ANSIBLE_ROLES_PATH: ../../../roles/
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+  playbooks:
+    create: ../openstack/playbooks/create.yml
+    destroy: ../openstack/playbooks/destroy.yml
+    converge: ../openstack/playbooks/converge.yml
+  inventory:
+    group_vars:
+      all:
+        sys_mgmtd_host: "beestore-01"
+        system_beegfs_version: 7.4.3
+    host_vars:
+      beestore-01:
+        metad_server_targets:
+          - target_id: "1"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "101"
+        storaged_server_targets:
+          - target_id: "1"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: home
+            mirrorgroup_id: "201"
+            storagepool_id: "101"
+          - target_id: "2"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: home
+            mirrorgroup_id: "202"
+            storagepool_id: "101"
+          - target_id: "3"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: bulk
+            mirrorgroup_id: "203"
+            storagepool_id: "102"
+          - target_id: "4"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: fast
+            storagepool_id: "103"
+      beestore-02:
+        metad_server_targets:
+          - target_id: "21"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "101"
+        storaged_server_targets:
+          - target_id: "21"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: home
+            storagepool_id: "101"
+            mirrorgroup_id: "201"
+          - target_id: "22"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: home
+            storagepool_id: "101"
+            mirrorgroup_id: "202"
+          - target_id: "23"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: bulk
+            storagepool_id: "102"
+            mirrorgroup_id: "203"
+          - target_id: "24"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            storagepool_desc: fast
+            storagepool_id: "103"
+      beeclient-01:
+        client_clusters:
+          - sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            cluster_storage_nodes: ["beestore-01", "beestore-02"]
+            cluster_meta_nodes: ["beestore-01", "beestore-02"]
+            cluster_dir_paths:
+              - beegfs_path: home
+                fs_path: /usr/home
+                chunk_size: 512K
+                num_targets: 2
+                pattern: buddymirror
+                storagepool_id: "101"
+              - beegfs_path: data/bulk
+                fs_path: /bulk
+                chunk_size: 2M
+                num_targets: 1
+                pattern: buddymirror
+                storagepool_id: "102"
+              - beegfs_path: data/fast
+                fs_path: /fast
+                chunk_size: 1M
+                num_targets: 2
+                pattern: raid0
+                storagepool_id: "103"
+verifier:
+  name: ansible

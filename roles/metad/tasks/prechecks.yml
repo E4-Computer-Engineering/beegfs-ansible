@@ -1,0 +1,53 @@
+---
+- name: Display metadata target id(s)
+  ansible.builtin.debug:
+    msg: |
+      {{ (metad_server_targets | selectattr('target_id', 'defined') | map(attribute='target_id') | list) }}
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Display metadata target management nodes(s)
+  ansible.builtin.debug:
+    msg: |
+      {{ (metad_server_targets | selectattr('sys_mgmtd_host', 'defined') |
+       map(attribute='sys_mgmtd_host') | list) }}
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Create metadata_check fact
+  ansible.builtin.set_fact:
+    metadata_check: |
+      {
+      'target_id_total': {{ (metad_server_targets | selectattr('target_id', 'defined')
+      | map(attribute='target_id') | list) | length }},
+      'target_id_unique': {{ (metad_server_targets | selectattr('target_id', 'defined')
+      | map(attribute='target_id') | list) | unique | length }},
+      'mgmt_node_unique': {{ (metad_server_targets | selectattr('sys_mgmtd_host', 'defined')
+      | map(attribute='sys_mgmtd_host') | list) | unique | length }}
+      }
+  when: metad_server_targets | length > 0
+  tags:
+    - prechecks
+
+- name: Display metadata_check fact
+  ansible.builtin.debug:
+    var: metadata_check
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Assert that metadata target(s) have been correctly defined
+  ansible.builtin.assert:
+    that:
+      - metadata_check.target_id_total == metadata_check.target_id_unique
+      - metadata_check.mgmt_node_unique == 1
+    success_msg: "The metad_server_targets are correctly defined"
+    fail_msg: "The metad_server_targets are not correctly defined"
+  when: metad_server_targets | length > 0
+  tags:
+    - prechecks

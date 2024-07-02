@@ -1,0 +1,31 @@
+---
+namespace: e4
+name: beegfs
+version: 1.0.0
+readme: README.md
+authors:
+  - Davide Obbi <davide.obbi@e4company.com>
+  - Federico Ferrari <federico.ferrari@e4company.com>
+description: Collection to deploy Beegfs cluster components
+license_file: 'LICENSE'
+tags: ["storage", "infrastructure", "linux"]
+dependencies: {}
+repository: https://github.com/E4-Computer-Engineering/beegfs-ansible
+documentation: https://github.com/E4-Computer-Engineering/beegfs-ansible/README.md
+homepage: https://www.e4company.com/
+issues: https://github.com/E4-Computer-Engineering/beegfs-ansible/issues
+build_ignore:
+  - .github
+  - .gitignore
+  - .vscode/
+  - .ansible-lint
+  - .markdown-lint.yml
+  - .pre-commit-config.yaml
+  - .python-version
+  - .shellcheckrc
+  - .yamllint
+  - changelogs
+  - roles/*/tests
+  - tests
+  - 'requirements.txt'
+  - '*.tar.gz'

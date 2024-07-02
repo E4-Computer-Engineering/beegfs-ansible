@@ -1,0 +1,3 @@
+---
+system_os_release: rhel8
+system_upstream_repo_url: https://www.beegfs.io/release/beegfs_{{ system_beegfs_version }}/dists/rhel8

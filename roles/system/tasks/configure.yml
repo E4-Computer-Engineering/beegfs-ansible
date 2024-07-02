@@ -1,0 +1,51 @@
+---
+- name: Collect virtualization and network facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - network
+      - virtual
+
+- name: Copy connection authentication file
+  ansible.builtin.copy:
+    src: "{{ system_auth_file_path }}"
+    dest: /etc/beegfs/connauthfile
+    owner: root
+    group: root
+    mode: "0400"
+  when: system_deploy_auth_file
+  tags:
+    - configure
+
+- name: Ensure Beegfs nodes addresses presents in /etc/hosts file
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }}  {{ item }}"
+    state: present
+  when:
+    - hostvars[item].ansible_host is defined
+    # /etc/hosts is not writable inside docker containers
+    - not ansible_facts['virtualization_type'] == 'container'
+    - not ansible_facts['virtualization_type'] == 'docker'
+  loop: "{{ groups.all }}"
+  tags:
+    - configure
+
+- name: Check SELinux config file is present
+  ansible.builtin.stat:
+    path: /etc/selinux/config
+  register: _system_selinux_conf_file
+  tags:
+    - configure
+
+- name: Ensure SELinux state
+  ansible.builtin.lineinfile:
+    dest: /etc/selinux/config
+    regexp: '^SELINUX=(enforcing|disabled|permissive)$'
+    line: "SELINUX={{ system_selinux_state }}"
+    state: present
+  when:
+    - _system_selinux_conf_file.stat.exists
+  tags:
+    - configure

@@ -1,0 +1,56 @@
+---
+- name: Display storage target id(s)
+  ansible.builtin.debug:
+    msg: |
+      {{ (storaged_server_targets | selectattr('target_id', 'defined') | map(attribute='target_id') | list) }}
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Display storage target management nodes(s)
+  ansible.builtin.debug:
+    msg: |
+      {{ (storaged_server_targets | selectattr('sys_mgmtd_host', 'defined') |
+       map(attribute='sys_mgmtd_host') | list) }}
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Create storage_check fact
+  ansible.builtin.set_fact:
+    storage_check: |
+      {
+      'target_id_total': {{
+      (storaged_server_targets | selectattr('target_id', 'defined')
+      | map(attribute='target_id') | list) | length }},
+      'target_id_unique': {{
+      (storaged_server_targets | selectattr('target_id', 'defined')
+      | map(attribute='target_id') | list) | unique | length }},
+      'mgmt_node_unique': {{
+      (storaged_server_targets | selectattr('sys_mgmtd_host', 'defined')
+      | map(attribute='sys_mgmtd_host') | list) | unique | length }}
+      }
+  when: storaged_server_targets | length > 0
+  tags:
+    - prechecks
+
+- name: Display storage_check fact
+  ansible.builtin.debug:
+    var: storage_check
+  tags:
+    - prechecks
+    - debug
+    - never
+
+- name: Assert that storage target(s) have been correctly defined
+  ansible.builtin.assert:
+    that:
+      - storage_check.target_id_total == storage_check.target_id_unique
+      - storage_check.mgmt_node_unique == 1
+    success_msg: "There storaged_server_targets are not correctly defined"
+    fail_msg: "There storaged_server_targets are correctly defined"
+  when: storaged_server_targets | length > 0
+  tags:
+    - prechecks

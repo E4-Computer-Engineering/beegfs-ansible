@@ -1,0 +1,20 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependabot-deps-updates
+    commit-message:
+      prefix: "dependabot-deps-updates: "
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: daily
+    labels:
+      - dependabot-deps-updates
+    commit-message:
+      prefix: "dependabot-deps-updates: "

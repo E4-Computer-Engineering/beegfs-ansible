@@ -1,0 +1,6 @@
+---
+- name: Test metad role
+  hosts: localhost
+  remote_user: root
+  roles:
+    - metad

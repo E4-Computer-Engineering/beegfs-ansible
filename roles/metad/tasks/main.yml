@@ -1,0 +1,19 @@
+---
+- name: Execute prechecks
+  ansible.builtin.import_tasks: prechecks.yml
+
+- name: Execute configure
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Enable and start per cluster Beegfs metadata services
+  ansible.builtin.systemd:
+    name: "beegfs-meta@inst{{ item.target_id }}"
+    enabled: true
+    state: started
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "beegfs-meta@inst{{ item.target_id }}"
+  when:
+    - metad_start_services
+  tags:
+    - run

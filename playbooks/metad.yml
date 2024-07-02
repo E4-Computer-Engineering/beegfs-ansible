@@ -1,0 +1,11 @@
+---
+- name: Configure Beegfs Metadata
+  become: true
+  # serialize to ensure primary-secondary in buddymirror
+  serial: 1
+  gather_facts: false
+  hosts: '{{ meta_nodes | default("all") }}'
+  tasks:
+    - name: Import Beegfs metad role
+      ansible.builtin.import_role:
+        name: metad

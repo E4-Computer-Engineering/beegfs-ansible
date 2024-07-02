@@ -1,0 +1,19 @@
+---
+- name: Execute prechecks
+  ansible.builtin.import_tasks: prechecks.yml
+
+- name: Execute configure
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Enable and start per cluster Beegfs storage services
+  ansible.builtin.systemd:
+    name: "beegfs-storage@inst{{ item.target_id }}"
+    enabled: true
+    state: started
+  loop: "{{ storaged_server_targets }}"
+  loop_control:
+    label: "beegfs-storage@inst{{ item.target_id }}"
+  when:
+    - storaged_start_services
+  tags:
+    - run

@@ -1,0 +1,76 @@
+---
+- name: Check if it is a multi cluster deployment
+  ansible.builtin.set_fact:
+    multi_mode: "{{ client_clusters | length > 1 }}"
+  tags:
+    - prechecks
+
+- name: Check if Mellanox OFED is installed
+  ansible.builtin.command: 'ofed_info'
+  register: _ofed_installed
+  changed_when: false
+  failed_when: false
+  tags:
+    - prechecks
+
+- name: Check OFED library path
+  ansible.builtin.stat:
+    path: "{{ client_ofed_libs_path }}"
+  register: stat_ofed_libs
+  when: _ofed_installed.rc == 0
+  tags:
+    - prechecks
+
+- name: Assert that the `client_ofed_libs_path` variable is defined and exists if custom ofed are installed
+  ansible.builtin.assert:
+    that:
+      - stat_ofed_libs.stat.isdir
+    success_msg: "Directory {{ client_ofed_libs_path }} is existing in the system"
+    fail_msg: "Directory {{ client_ofed_libs_path }} is not existing in the system"
+  when: (_ofed_installed.rc == 0)
+  tags:
+    - prechecks
+
+- name: Create client_check fact
+  ansible.builtin.set_fact:
+    client_check: |
+      {
+      'helperd_port_tcp_total': {{ (client_clusters
+      | selectattr('conn_helperd_port_tcp', 'defined')
+      | map(attribute='conn_helperd_port_tcp') | list) | length }},
+      'helperd_port_tcp_unique': {{ (client_clusters
+      | selectattr('conn_helperd_port_tcp', 'defined')
+      | map(attribute='conn_helperd_port_tcp') | list) | unique | length }},
+      'client_port_udp_total': {{ (client_clusters
+      | selectattr('conn_client_port_udp', 'defined')
+      | map(attribute='conn_client_port_udp') | list) | length }},
+      'client_port_udp_unique': {{ (client_clusters
+      | selectattr('conn_client_port_udp', 'defined')
+      | map(attribute='conn_client_port_udp') | list) | unique | length }},
+      }
+  tags:
+    - prechecks
+  when:
+    - multi_mode
+
+- name: Display client_check fact
+  ansible.builtin.debug:
+    var: client_check
+  tags:
+    - prechecks
+    - debug
+    - never
+  when:
+    - multi_mode
+
+- name: Assert that client settings have been correctly defined
+  ansible.builtin.assert:
+    that:
+      - client_check.helperd_port_tcp_total == client_check.helperd_port_tcp_unique
+      - client_check.client_port_udp_total == client_check.client_port_udp_unique
+    success_msg: "The client settings are correctly defined"
+    fail_msg: "The client settings are not correctly defined"
+  tags:
+    - prechecks
+  when:
+    - multi_mode

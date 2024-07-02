@@ -1,0 +1,21 @@
+---
+mon_start_services: false
+mon_ship_to_influxdb_exporter: false
+
+# /etc/beegfs/beegfs-mon.conf
+mon_sys_mgmtd_host: localhost
+mon_db_database: beegfs_mon
+mon_db_bucket: beegfs_mon
+mon_conn_mgmtd_port_tcp: "8008"
+mon_conn_mgmtd_port_udp: "8008"
+mon_log_type: syslog
+mon_db_retention_duration: 1d
+mon_db_type: influxdb
+mon_db_hostname: localhost
+mon_db_host_port: "9122"
+
+# /etc/beegfs/beegfs-mon.auth
+mon_influxdbv1_username: ""
+mon_influxdbv1_password: ""
+mon_influxdbv2_organization: ""
+mon_influxdbv2_token: ""

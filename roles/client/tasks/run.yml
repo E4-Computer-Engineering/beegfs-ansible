@@ -1,0 +1,50 @@
+---
+- name: Enable and start per cluster Beegfs helperd service
+  ansible.builtin.systemd:
+    name: "beegfs-helperd"
+    enabled: true
+    state: started
+  when:
+    - not multi_mode
+    - client_start_services
+  tags:
+    - run
+
+- name: Enable and start per cluster Beegfs client service
+  ansible.builtin.systemd:
+    name: "beegfs-client"
+    enabled: true
+    state: started
+  when:
+    - not multi_mode
+    - client_start_services
+  tags:
+    - run
+
+- name: Enable and start per cluster Beegfs helperd services for multimode deployment
+  ansible.builtin.systemd:
+    name: "beegfs-helperd@{{ item.sys_mgmtd_host }}"
+    enabled: true
+    state: started
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "beegfs-helperd@{{ item.sys_mgmtd_host }}"
+  when:
+    - multi_mode
+    - client_start_services
+  tags:
+    - run
+
+- name: Enable and start per cluster Beegfs client services for multimode deployment
+  ansible.builtin.systemd:
+    name: "beegfs-client@{{ item.sys_mgmtd_host }}"
+    enabled: true
+    state: started
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "beegfs-client@{{ item.sys_mgmtd_host }}"
+  when:
+    - multi_mode
+    - client_start_services
+  tags:
+    - run

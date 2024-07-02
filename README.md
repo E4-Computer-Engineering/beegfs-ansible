@@ -1,6 +1,5 @@
 # Ansible Collection - e4.beegfs
 
-
 [![License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/E4-Computer-Engineering/beegfs/blob/main/LICENSE)
 [![CI Status](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/PullRequest.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/PullRequest.yml)
 [![Docs Status](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/DocsPush.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/DocsPush.yml)
@@ -16,6 +15,9 @@ This collection takes care of deployng the following [Beegfs features](https://d
 * Storage pools
 * Buddy Mirroring
 * Striping rules and custom mountpoints
+* Beeond
+
+This collection is compatible with the Beegfs versions allowed by the variable [system_beegfs_version](roles/system/meta/argument_specs.yml) of the system role.
 
 ## Components
 
@@ -25,21 +27,20 @@ This collection takes care of deployng the following [Beegfs features](https://d
 * Storage: There can be multiple clusters referring to multiple storage servers on a single node
 * Client: A client instance is able to handle connectivity to one or multiple clusters
 
+## Deploying the whole cluster
+
+To deploy a whole cluster with, the [site playbook](playbooks/site.yml) should be used, this will esnure the correct ordering and timing for all the Beegfs components.
+
+### Variables
+
+Variables are documented in each role's `argument_specs.yml`.
+In the [extensions directory](extensions/molecule/) it is possible to see examples of inventories and variables, such as: the `default` molecule scenario (deploy two single node Beegfs clusters), `buddy_mirror`...
+
+>WARNING: By default the collection will deploy a cluster authentication file `/etc/beegfs/connauthfile` that is already present in the [system role](roles/system/files/connauthfile). You should create your own.
+
 ## Collection Documentation
 
 Documentation is made available via [GitHub pages](https://e4-computer-engineering.github.io/beegfs-ansible/branch/main/), details on how to use each component (role,module, plugin) of the collection, are available there.
-
-To use the playbooks refer to the [Ansible documentation](https://docs.ansible.com/ansible/latest/collections_guide/collections_using_playbooks.html).
-
-All the playbooks require passing the target nodes at runtime as [extra-vars](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#id37), available target nodes variables:
-
-| name | description | default |
-|---|---|---|
-|client_nodes|nodes or groups in your inventory running `beegfs-client` |all|
-|mgmt_nodes|nodes or groups in your inventory running `beegfs-mgmtd` |all|
-|storage_nodes|nodes or groups in your inventory running `beegfs-storage`|all|
-|metadata_nodes|nodes or groups in your inventory running `beegfs-meta`|all|
-|monitoring_nodes|nodes or groups in your inventory running `beegfs-mon`|all|
 
 ## How to install
 

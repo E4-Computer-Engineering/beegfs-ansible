@@ -1,0 +1,15 @@
+---
+- name: Execute storage pools
+  ansible.builtin.import_tasks: storage_pools.yml
+  run_once: true
+
+- name: Execute buddy mirror
+  ansible.builtin.import_tasks: buddy_mirror.yml
+  run_once: true
+
+- name: Refresh all handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Execute dir layout
+  ansible.builtin.import_tasks: dir_layout.yml
+  when: client_clusters | subelements('cluster_dir_paths', skip_missing=True) | length > 0

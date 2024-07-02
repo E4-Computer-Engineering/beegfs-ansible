@@ -1,0 +1,14 @@
+### {{ ansible_managed }} ###
+connAuthFile       = /etc/beegfs/connauthfile
+connDisableAuthentication = false
+connHelperdPortTCP = {{ item.conn_helperd_port_tcp | default(client_conn_helperd_port_tcp) }}
+connPortShift      = 0
+
+logNoDate          = false
+logNumLines        = 50000
+logNumRotatedFiles = 5
+logStdFile         = /var/log/beegfs-client{{ '-' + item.sys_mgmtd_host | default(client_sys_mgmtd_host) }}.log
+
+runDaemonized      = true
+
+tuneNumWorkers     = 2

@@ -1,0 +1,10 @@
+### {{ ansible_managed }} ###
+# This file configures the credentials needed to connect to your monitoring database instance.
+# This currently only works with InfluxDB.
+
+username = {{ mon_influxdbv1_username }}
+password = {{ mon_influxdbv1_password }}
+
+# used by influxdb V2 only
+organization = {{ mon_influxdbv2_organization }}
+token = {{ mon_influxdbv2_token }}

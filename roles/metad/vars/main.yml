@@ -1,0 +1,3 @@
+---
+# vars file for metad
+metad_packages: ["beegfs-meta", "libbeegfs-ib"]

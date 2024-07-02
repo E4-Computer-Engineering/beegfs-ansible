@@ -1,0 +1,9 @@
+---
+- name: Configure Beegfs Client
+  become: true
+  gather_facts: false
+  hosts: '{{ client_nodes |default("all") }}'
+  tasks:
+    - name: Import Beegfs client role
+      ansible.builtin.import_role:
+        name: client
