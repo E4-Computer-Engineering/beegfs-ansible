@@ -35,8 +35,6 @@ For Vscode make sure to "Set the Python Interpreter" to the Pyenv virtualenv fro
 2. Make your changes and create the PR.
 3. Wait for the GitHub workflows to complete succesfully.
 
-NOTE: Under no circumstances a PR will be merged if something goes wrong during the workflow.
-
 ## Creating a new role
 
 Follow the instructions available in the [Molecule documentation](https://ansible.readthedocs.io/projects/molecule/getting-started/).

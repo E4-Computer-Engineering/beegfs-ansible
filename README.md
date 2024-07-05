@@ -29,23 +29,10 @@ This collection is compatible with the Beegfs versions allowed by the variable [
 
 To deploy a whole cluster with, the [site playbook](playbooks/site.yml) should be used, this will esnure the correct ordering and timing for all the Beegfs components.
 
-### Variables
-
-Variables are documented in each role's `argument_specs.yml`.
 In the [extensions directory](extensions/molecule/) it is possible to see examples of inventories and variables, such as: the `default` molecule scenario (deploy two single node Beegfs clusters), `buddy_mirror`...
 
 >WARNING: By default the collection will deploy a cluster authentication file `/etc/beegfs/connauthfile` that is already present in the [system role](roles/system/files/connauthfile). You should create your own.
 
-## Collection Documentation
+### Variables
 
-Documentation is made available via [GitHub pages](https://e4-computer-engineering.github.io/beegfs-ansible/branch/main/), details on how to use each component (role,module, plugin) of the collection, are available there.
-
-## How to install
-
-To install a release:
-
-```shell
-ansible-galaxy collection install git+git@github.com:E4-Computer-Engineering/beegfs-ansible.git/v1.0.0
-```
-
-For details refer to the [Ansible documentation](https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#installing-a-collection-from-a-git-repository).
+Variables are documented in each role's `argument_specs.yml`.
