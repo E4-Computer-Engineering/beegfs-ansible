@@ -195,7 +195,7 @@
         cmd: |
           set -o pipefail
           beegfs-ctl \
-          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --listmirrorgroups \
           --nodetype={{ item.value.mirror_type }} \
           | tail -n +3| tr -s " " | cut -d " " -f2
@@ -205,7 +205,7 @@
         label: |
           set -o pipefail
           beegfs-ctl \
-          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --listmirrorgroups \
           --nodetype={{ item.value.mirror_type }} \
           | tail -n +3| tr -s " " | cut -d " " -f2
@@ -220,7 +220,8 @@
 
     - name: Execute addmirrorgroup command for storage targets in multi cluster deployment
       ansible.builtin.command: |
-        beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+        beegfs-ctl \
+         --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
         --addmirrorgroup  \
         --nodetype={{ item.value.mirror_type }} \
         --primary={{ item.value.target_ids[0] }} \
@@ -236,7 +237,8 @@
         - item.value.mirror_type == 'storage'
       loop_control:
         label: |
-          beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --addmirrorgroup  \
           --nodetype={{ item.value.mirror_type }} \
           --primary={{ item.value.target_ids[0] }} \
@@ -247,7 +249,8 @@
 
     - name: Execute addmirrorgroup command for metadata targets in multi cluster deployment
       ansible.builtin.command: |
-        beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+        beegfs-ctl \
+        --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
         --addmirrorgroup  \
         --nodetype={{ item.value.mirror_type }} \
         --primary={{ item.value.target_ids[0] }} \
@@ -263,7 +266,8 @@
         - item.value.mirror_type == 'metadata'
       loop_control:
         label: |
-          beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --addmirrorgroup  \
           --nodetype={{ item.value.mirror_type }} \
           --primary={{ item.value.target_ids[0] }} \

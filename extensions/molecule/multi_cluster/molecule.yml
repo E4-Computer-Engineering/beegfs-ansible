@@ -1,0 +1,176 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: molecule/openstack/requirements.yml
+    role-file: molecule/openstack/requirements.yml
+driver:
+  port: 22
+  ssh_identity_file: ~/.ssh/e4github
+platforms:
+  - name: beestore-01
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+  - name: beestore-11
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - metadata
+  - name: beestore-02
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - metadata
+      - management
+      - monitoring
+  - name: beestore-22
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - metadata
+  - name: beeclient-01
+    image: Rocky-8-GenericCloud-LVM.x86_64
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: rocky
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - clients
+provisioner:
+  name: ansible
+  # needed otherwise molecule does not find it
+  env:
+    ANSIBLE_ROLES_PATH: ../../../roles/
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+  playbooks:
+    create: ../openstack/playbooks/create.yml
+    destroy: ../openstack/playbooks/destroy.yml
+    converge: ../openstack/playbooks/converge.yml
+  inventory:
+    group_vars:
+      all:
+        system_beegfs_version: 7.4.3
+    host_vars:
+      beestore-01:
+        sys_mgmtd_host: "beestore-01"
+        metad_server_targets:
+          - target_id: "1"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "101"
+        storaged_server_targets:
+          - target_id: "1"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "201"
+      beestore-11:
+        sys_mgmtd_host: "beestore-01"
+        metad_server_targets:
+          - target_id: "11"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "101"
+        storaged_server_targets:
+          - target_id: "11"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "201"
+      beestore-02:
+        sys_mgmtd_host: "beestore-02"
+        metad_server_targets:
+          - target_id: "2"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "102"
+        storaged_server_targets:
+          - target_id: "2"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "202"
+      beestore-22:
+        sys_mgmtd_host: "beestore-02"
+        metad_server_targets:
+          - target_id: "22"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "102"
+        storaged_server_targets:
+          - target_id: "22"
+            sys_mgmtd_host: "{{ sys_mgmtd_host }}"
+            mirrorgroup_id: "202"
+      beeclient-01:
+        client_clusters:
+          - sys_mgmtd_host: "beestore-01"
+            cluster_storage_nodes: ["beestore-01", "beestore-11"]
+            cluster_meta_nodes: ["beestore-01", "beestore-11"]
+            conn_client_port_udp: 8014
+            conn_helperd_port_tcp: 8016
+            cluster_dir_paths:
+              - beegfs_path: "/"
+                pattern: buddymirror
+          - sys_mgmtd_host: "beestore-02"
+            cluster_storage_nodes: ["beestore-02", "beestore-22"]
+            cluster_meta_nodes: ["beestore-02", "beestore-22"]
+            conn_client_port_udp: 8024
+            conn_helperd_port_tcp: 8026
+            cluster_dir_paths:
+              - beegfs_path: "/"
+                pattern: buddymirror
+verifier:
+  name: ansible

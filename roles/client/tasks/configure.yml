@@ -43,6 +43,22 @@
   tags:
     - configure
 
+
+- name: Ensure Beegfs service environment variables file
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/default/{{ item }}"
+    group: root
+    mode: 0640
+  loop:
+    - beegfs-client
+    - beegfs-helperd
+  notify:
+    - Restart beegfs client service
+    - Restart beegfs helperd service
+  tags:
+    - configure
+
 - name: Disable and mask canonical Beegfs client services
   ansible.builtin.systemd:
     name: "{{ item }}"
@@ -57,14 +73,14 @@
 
 - name: Create Beegfs per cluster configuration directories
   ansible.builtin.file:
-    path: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d"
+    path: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d"
     state: directory
     mode: "0755"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
-    label: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d"
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d"
   when: multi_mode
   tags:
     - configure
@@ -72,13 +88,13 @@
 - name: Ensure Beegfs helperd configuration files for multimode deployment
   ansible.builtin.template:
     src: "beegfs-helperd.conf.j2"
-    dest: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-helperd.conf"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-helperd.conf"
     mode: "0640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
-    label: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-helperd.conf"
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-helperd.conf"
   when: multi_mode
   notify:
     - Restart beegfs helperd@ services
@@ -88,13 +104,13 @@
 - name: Ensure Beegfs mounts configuration file for multimode deployment
   ansible.builtin.template:
     src: "beegfs-mounts.conf.j2"
-    dest: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-mounts.conf"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-mounts.conf"
     mode: "0640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
-    label: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-mounts.conf"
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-mounts.conf"
   when: multi_mode
   # WARNING: at the moment i can't think of a way to restart only the changed cluster service
   notify:
@@ -105,13 +121,13 @@
 - name: Ensure Beegfs client configuration files for multimode deployment
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
-    dest: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-client.conf"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host |replace('-', '') }}.d/beegfs-client.conf"
     mode: "0640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
-    label: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-client.conf"
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf"
   when: multi_mode
   # WARNING: at the moment i can't think of a way to restart only the changed cluster service
   notify:

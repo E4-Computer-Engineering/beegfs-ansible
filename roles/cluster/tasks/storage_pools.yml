@@ -97,7 +97,7 @@
         cmd: |
           set -o pipefail
           beegfs-ctl \
-          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --liststoragepools \
           | tail -n +3| tr -s " " | cut -d " " -f2
         executable: /bin/bash
@@ -106,7 +106,7 @@
         label: |
           set -o pipefail
           beegfs-ctl \
-          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --liststoragepools \
           | tail -n +3| tr -s " " | cut -d " " -f2
       register: existing_storage_pools_multi
@@ -126,7 +126,8 @@
 
     - name: Execute addstoragepool command for multi cluster deployment
       ansible.builtin.command: |
-        beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+        beegfs-ctl \
+        --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
         --addstoragepool  \
         --id={{ item.value.storagepool_id }} \
         --desc={{ item.key }} \
@@ -139,7 +140,8 @@
         - not (item.value.storagepool_id | string in my_storage_pools)
       loop_control:
         label: |
-          beegfs-ctl --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host }}.d/beegfs-client.conf \
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
           --addstoragepool  \
           --id={{ item.value.storagepool_id }} \
           --desc={{ item.key }} \

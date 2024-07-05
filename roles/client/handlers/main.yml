@@ -4,7 +4,9 @@
     daemon_reload: true
     name: "beegfs-helperd"
     state: restarted
-  when: client_start_services
+  when:
+    - client_start_services
+    - not multi_mode
   tags:
     - restart_services
 
@@ -13,14 +15,16 @@
     daemon_reload: true
     name: "beegfs-client"
     state: restarted
-  when: client_start_services
+  when:
+    - client_start_services
+    - not multi_mode
   tags:
     - restart_services
 
 - name: Restart beegfs helperd@ services
   ansible.builtin.systemd:
     daemon_reload: true
-    name: "beegfs-helperd@{{ item.sys_mgmtd_host }}"
+    name: "beegfs-helperd@{{ item.sys_mgmtd_host | replace('-', '') }}"
     state: restarted
   loop: "{{ client_clusters }}"
   when:
@@ -32,7 +36,7 @@
 - name: Restart beegfs client@ services
   ansible.builtin.systemd:
     daemon_reload: true
-    name: "beegfs-client@{{ item.sys_mgmtd_host }}"
+    name: "beegfs-client@{{ item.sys_mgmtd_host | replace('-', '') }}"
     state: restarted
   loop: "{{ client_clusters }}"
   when:

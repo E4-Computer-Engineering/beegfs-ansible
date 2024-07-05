@@ -38,6 +38,8 @@ argument_specs:
         default: "{{ role_path }}/files/connauthfile"
       system_selinux_state:
         type: str
-        description: Beegfs wants SElinux disabled unless configured accordingly
+        description:
+          - Beegfs wants SElinux disabled unless configured accordingly.
+          - If the task configuring SELinux has changed, the node is rebooted.
         default: disabled
         choices: ["disabled", "enforcing", "permissive"]

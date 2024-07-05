@@ -47,5 +47,6 @@
     state: present
   when:
     - _system_selinux_conf_file.stat.exists
+  notify: Reboot node
   tags:
     - configure

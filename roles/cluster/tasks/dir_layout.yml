@@ -66,14 +66,14 @@
 
 - name: Create Beegfs user mount point directories for multimode deployment
   ansible.builtin.file:
-    path: "/mnt/beegfs/{{ item.0.sys_mgmtd_host }}/{{ item.1.beegfs_path }}"
+    path: "/mnt/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}/{{ item.1.beegfs_path }}"
     state: directory
     mode: "0755"
     owner: root
     group: root
   loop: "{{ client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
   loop_control:
-    label: "/mnt/beegfs/{{ item.0.sys_mgmtd_host }}/{{ item.1.beegfs_path }}"
+    label: "/mnt/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}/{{ item.1.beegfs_path }}"
   when:
     - multi_mode
   run_once: true
@@ -83,13 +83,13 @@
 - name: Ensure Beegfs hook script file for multi mode deployment
   ansible.builtin.template:
     src: "beegfs-client-mount-hook.sh.j2"
-    dest: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-client-mount-hook.sh"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client-mount-hook.sh"
     mode: "0750"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
-    label: "/etc/beegfs/{{ item.sys_mgmtd_host }}.d/beegfs-client-mount-hook.sh"
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client-mount-hook.sh"
   when:
     - multi_mode
     - item.cluster_dir_paths is defined
@@ -144,7 +144,7 @@
 
 - name: Execute setpattern command for multi cluster deployment
   ansible.builtin.command: |
-    beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host }}.d/beegfs-client.conf \
+    beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
     --setpattern \
     --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
     --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \
@@ -157,7 +157,7 @@
     - multi_mode
   loop_control:
     label: |
-      beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host }}.d/beegfs-client.conf \
+      beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
       --setpattern \
       --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
       --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \

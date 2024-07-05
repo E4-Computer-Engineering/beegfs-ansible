@@ -1,8 +1,6 @@
 # Ansible Collection - e4.beegfs
 
 [![License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/E4-Computer-Engineering/beegfs/blob/main/LICENSE)
-[![CI Status](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/PullRequest.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/PullRequest.yml)
-[![Docs Status](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/DocsPush.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs/actions/workflows/DocsPush.yml)
 
 This Ansible collection aims to deploy Beegfs cluster components in the following scenarios:
 

@@ -63,5 +63,8 @@
     name: "{{ item }}"
     state: present
   loop: "{{ system_packages }}"
+  register: _package_inst
+  retries: 3
+  until: _package_inst is success
   tags:
     - install
