@@ -1,0 +1,47 @@
+---
+argument_specs:
+
+  main:
+    short_description: Configure Beegfs Management services
+    description:
+      - Install and configure Beegfs Management services.
+    author:
+      - Davide Obbi
+    version_added: "1.0.0"
+    options:
+      mgmtd_start_services:
+        type: bool
+        description: Start the `beegfs-mgmtd.service`
+        default: false
+      mgmtd_store_mgmtd_directory:
+        type: str
+        description:
+          - The filesystem path where the management service will write its data
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: /data/beegfs/beegfs_mgmtd
+      mgmtd_conn_mgmtd_port_tcp:
+        type: str
+        description:
+          - The TCP port at which the management service is responding at
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: "8008"
+      mgmtd_conn_mgmtd_port_udp:
+        type: str
+        description:
+          - The UDP port at which the management service is responding at
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: "8008"
+      mgmtd_log_type:
+        type: str
+        description:
+          - Where log entries for the Beegfs management daemon should go
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: syslog
+        choices: ["syslog", "file"]
+      mgmtd_quota_enable_enforcement:
+        type: str
+        description:
+          - Enable the quota enforcement feature
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: "false"
+        choices: ["false", "true"]

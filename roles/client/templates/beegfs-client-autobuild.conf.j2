@@ -1,0 +1,11 @@
+### {{ ansible_managed }} ###
+{% if _ofed_installed.rc == 0 %}
+buildArgs=-j8 OFED_INCLUDE_PATH={{ client_ofed_libs_path }}
+{% else %}
+buildArgs=-j8 BEEGFS_NO_RDMA=1
+{% endif %}
+{% if client_build_kernel_modules %}
+buildEnabled=true
+{% else %}
+buildEnabled=false
+{% endif %}

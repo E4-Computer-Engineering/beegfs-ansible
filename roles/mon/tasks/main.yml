@@ -1,0 +1,26 @@
+---
+- name: Ensure Beegfs monitoring configuration file
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/beegfs/{{ item }}"
+    backup: true
+    mode: "0640"
+    owner: root
+    group: root
+  loop:
+    - beegfs-mon.conf
+    - beegfs-mon.auth
+  notify:
+    - Restart beegfs mon service
+  tags:
+    - configure
+
+- name: Enable and start Beegfs mon service
+  ansible.builtin.systemd:
+    name: "beegfs-mon"
+    enabled: true
+    state: started
+  when:
+    - mon_start_services
+  tags:
+    - run

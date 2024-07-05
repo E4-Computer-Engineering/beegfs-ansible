@@ -1,0 +1,95 @@
+{
+  "editor.renderWhitespace": "trailing",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.comments.ignoreEmptyLines": true,
+  "editor.comments.insertSpace": true,
+  "editor.detectIndentation": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.indentSize": "tabSize",
+  "editor.insertSpaces": true,
+  "editor.rename.enablePreview": true,
+  "editor.renderFinalNewline": "on",
+  "editor.tabSize": 4,
+  "editor.unusualLineTerminators": "auto",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnType": false,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.renderIndicators": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.encoding": "utf8",
+  "files.insertFinalNewline": true,
+  "files.refactoring.autoSave": true,
+  "better-comments.multilineComments": true,
+  "json.format.enable": true,
+  "json.format.keepLines": false,
+  "json.validate.enable": true,
+  "redhat.telemetry.enabled": false,
+  "yaml.format.proseWrap": "preserve",
+  "yaml.hover": true,
+  "yaml.keyOrdering": false,
+  "yaml.schemaStore.enable": true,
+  "yaml.schemaStore.url": "https://www.schemastore.org/api/json/catalog.json",
+  "yaml.style.flowMapping": "allow",
+  "yaml.validate": false,
+  "markdown.occurrencesHighlight.enabled": true,
+  "markdown.preferredMdPathExtensionStyle": "auto",
+  "markdown.preview.doubleClickToSwitchToEditor": true,
+  "markdown.suggest.paths.enabled": true,
+  "markdown.updateLinksOnFileMove.enabled": "always",
+  "markdown.validate.unusedLinkDefinitions.enabled": "warning",
+  "markdown.math.enabled": true,
+  "python.languageServer": "Pylance",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.completeFunctionParens": true,
+  "shellcheck.ignorePatterns": {
+    "**/*.fish": true
+  },
+  "yaml.format.printWidth": 100,
+  "linter.linters": {
+    "markdownlint": {
+      "capabilities": ["fix-inline"],
+      "command": [
+        "markdownlint",
+        "--json",
+        ["$fixAll", "--fix"],
+        ["$config", "--config", "$config"],
+        "--stdin"
+      ],
+      "configFiles": [
+        ".markdownlint.json",
+        ".markdownlint.yaml",
+        ".markdownlint.yml",
+        ".markdownlintrc"
+      ],
+      "enabled": true,
+      "languages": ["markdown"],
+      "name": "markdownlint",
+      "url": "https://github.com/DavidAnson/markdownlint"
+    },
+    "yamllint": {
+      "capabilities": ["ignore-line"],
+      "command": [
+        "yamllint",
+        "--format",
+        "parsable",
+        ["$config", "--config-file", "$config"],
+        "-"
+      ],
+      "configFiles": [".yamllint.yml", ".yamllint.yaml", ".yamllint"],
+      "enabled": true,
+      "languages": ["yaml"],
+      "name": "yamllint",
+      "url": "https://github.com/adrienverge/yamllint"
+    }
+  },
+  "shellcheck.useWorkspaceRootAsCwd": true,
+  "files.associations": {
+    "*.yaml": "ansible",
+    "*.yml": "ansible"
+  },
+  "ansible.python.interpreterPath": "/home/dobbi/.pyenv/versions/3.12.4/envs/beegfs-ansible/bin/python"
+}

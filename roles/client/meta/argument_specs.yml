@@ -1,0 +1,106 @@
+---
+argument_specs:
+
+  main:
+    short_description: Deploy Beegfs client services
+    description:
+      - Install and configure Beegfs client services for single and multi cluster environments.
+    author:
+      - Davide Obbi
+    version_added: 1.0.0
+    options:
+      client_start_services:
+        type: bool
+        description:
+          - Start the `beegfs-client|neegfs-helperd.service` or `beegfs-client|beegfs-helperd@.service`
+        default: false
+      client_enable_beeond:
+        type: bool
+        description: install Beegfs Beeond packages on the node
+        default: false
+      client_ofed_libs_path:
+        type: str
+        description:
+          - The filesystem path where the OFED kernel libraries are located
+          - Needed by the client to build with RDMA support
+      client_build_kernel_modules:
+        type: bool
+        description: Build the client kernel modules
+        default: false
+      client_clusters:
+        type: list
+        elements: dict
+        description: The list of clusters and their parameters for each client instance
+        default:
+          - sys_mgmtd_host:
+              type: str
+              description:
+                - The address at which the management service is responding at
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: localhost
+            conn_client_port_udp:
+              type: str
+              description:
+                - The UDP port at which the client service is responding at
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "8004"
+            conn_helperd_port_tcp:
+              type: str
+              description:
+                - The TCP port at which the helperd service is responding at
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "8006"
+            conn_mgmtd_port_tcp:
+              type: str
+              description:
+                - The TCP port at which the management service is responding at
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "8008"
+            conn_mgmtd_port_udp:
+              type: str
+              description:
+                - The UDP port at which the management service is responding at
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "8008"
+            conn_rdma_buf_size:
+              type: str
+              description:
+                - The RDMA buffer size allocated for communication
+                - conn_rdma_buf_num * conn_rdma_buf_size
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "8192"
+            conn_rdma_buf_num:
+              type: str
+              description:
+                - The RDMA buffer count allocated for the communication
+                - conn_rdma_buf_num * conn_rdma_buf_size
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "70"
+            tune_file_cache_buf_size:
+              type: str
+              description:
+                - The cache buffer size on client side
+                - Must accomodate for conn_rdma_buf_num * conn_rdma_buf_size
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "1048576"
+            quota_enabled:
+              type: str
+              description:
+                - Enable the quota enforcement feature
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "false"
+              choices: ["false", "true"]
+            sys_xattrs_enabled:
+              type: str
+              description:
+                - Enable the storing of extra attributes feature
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "false"
+              choices: ["false", "true"]
+            sys_acls_enabled:
+              type: str
+              description:
+                - Enable the ACL feature
+                - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+              default: "false"
+              choices: ["false", "true"]

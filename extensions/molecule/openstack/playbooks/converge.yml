@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Print some info
+      ansible.builtin.debug:
+        msg: "{{ groups }}"
+
+
+    - name: Wait 600 seconds for target connection to become available
+      ansible.builtin.wait_for_connection:
+
+- name: Include site playbook
+  ansible.builtin.import_playbook: ../../../../playbooks/site.yml
+  vars:
+    client_nodes: clients
+    mgmt_nodes: management
+    meta_nodes: metadata
+    storage_nodes: storage
+    mon_nodes: monitoring

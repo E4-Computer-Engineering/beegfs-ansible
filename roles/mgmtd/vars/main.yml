@@ -1,0 +1,3 @@
+---
+# vars file for mgmt
+mgmtd_packages: ["beegfs-mgmtd"]

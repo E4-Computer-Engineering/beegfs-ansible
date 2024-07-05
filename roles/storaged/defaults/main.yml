@@ -1,0 +1,22 @@
+---
+storaged_start_services: true
+
+# /etc/beegfs/beegfs-storage.conf
+storaged_target_id: "1"
+storaged_sys_mgmtd_host: localhost
+storaged_conn_mgmtd_port_tcp: "8008"
+storaged_conn_mgmtd_port_udp: "8008"
+storaged_conn_storage_port_tcp: "8003"
+storaged_conn_storage_port_udp: "8003"
+storaged_conn_rdma_buf_size: "8192"
+storaged_conn_rdma_buf_num: "70"
+storaged_log_type: "syslog"
+storaged_sys_target_offline_timeout_secs: "180"
+storaged_tune_file_read_size: 1024k
+storaged_tune_file_write_size: 1024k
+storaged_tune_num_workers: "12"
+storaged_quota_enable_enforcement: "false"
+
+storaged_storagepool_id: "1"
+storaged_mirrorgroup_id: ""
+storaged_storagepool_desc: ""

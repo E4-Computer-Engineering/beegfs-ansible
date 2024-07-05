@@ -1,0 +1,279 @@
+---
+- name: Build buddymirror list fact
+  ansible.builtin.set_fact:
+    buddymirror_list: |-
+      [
+      {% for cluster in client_clusters %}
+        {% set sys_mgmtd_host = cluster['sys_mgmtd_host'] %}
+        {% for host in cluster['cluster_storage_nodes'] %}
+          {% for target in hostvars[host]['storaged_server_targets'] %}
+            {% if target.get('mirrorgroup_id') %}
+              {
+                "mirrorgroup_id": "{{ target['mirrorgroup_id'] }}",
+                "target_id": "{{ target['target_id'] }}",
+                "sys_mgmtd_host": "{{ sys_mgmtd_host }}",
+                "mirror_type": "storage",
+              },
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        {% for host in cluster['cluster_meta_nodes'] %}
+          {% for target in hostvars[host]['metad_server_targets'] %}
+            {% if target.get('mirrorgroup_id') %}
+              {
+                "mirrorgroup_id": "{{ target['mirrorgroup_id'] }}",
+                "target_id": "{{ target['target_id'] }}",
+                "sys_mgmtd_host": "{{ sys_mgmtd_host }}",
+                "mirror_type": "metadata",
+              },
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+      ]
+  tags:
+    - buddy_mirror
+    - meta_mirror
+
+- name: Check that mirrorgroup_id is unique at cluster level
+  ansible.builtin.set_fact:
+    mirrorgroup_check: |
+      {
+      'id_metadata': {{ (buddymirror_list | selectattr('mirror_type', 'equalto', 'metadata')
+      | map(attribute='mirrorgroup_id') | list) }},
+      'id_storage': {{ (buddymirror_list | selectattr('mirror_type', 'equalto', 'storage')
+      | map(attribute='mirrorgroup_id') | list) }},
+      }
+  tags:
+    - prechecks
+    - buddy_mirror
+    - meta_mirror
+
+- name: Assert that mirrorgroup_id(s) have no duplicates
+  ansible.builtin.assert:
+    that:
+      - item not in mirrorgroup_check.id_storage
+    success_msg: "The mirrorgroup ID(s) have no duplicate definitions"
+    fail_msg: "There mirror group ID {{ item }} is duplicated:
+              Even if Beegfs allows same mirror group IDs among storage and metadata, we do not"
+  loop: "{{ mirrorgroup_check.id_metadata }}"
+  tags:
+    - prechecks
+
+- name: Populate buddymirror data fact
+  ansible.builtin.set_fact:
+    buddymirror_data: |-
+      {%- set buddymirror_data = {} -%}
+      {%- for item in buddymirror_list -%}
+        {%- set mirrorgroup_id = item['mirrorgroup_id'] -%}
+        {%- set target_id = item['target_id'] -%}
+        {%- set sys_mgmtd_host = item['sys_mgmtd_host'] -%}
+        {%- set mirror_type = item['mirror_type'] -%}
+        {%- if mirrorgroup_id not in buddymirror_data -%}
+          {%- set _ = buddymirror_data.update(
+            {
+              mirrorgroup_id: {
+                'target_ids': [],
+                'sys_mgmtd_host': sys_mgmtd_host,
+                'mirror_type': mirror_type,
+              }
+            }
+          ) -%}
+        {%- endif -%}
+        {%- set _ = buddymirror_data[mirrorgroup_id]['target_ids'].append(target_id) -%}
+      {%- endfor -%}
+      {{ buddymirror_data }}
+  when: buddymirror_list | length > 0
+  tags:
+    - buddy_mirror
+    - meta_mirror
+
+- name: Ensure the defined buddy mirror groups
+  when: buddymirror_data is defined
+  notify: Pause for 30 seconds to propagate definitions
+  tags:
+    - buddy_mirror
+    - meta_mirror
+  block:
+
+    - name: Check that only two target ids are present within the same mirrorgroup_id
+      ansible.builtin.assert:
+        that:
+          - item.value.target_ids | length == 2
+        success_msg: "The mirrorgroup have the correct number of target ids"
+        fail_msg: "The mirrorgroup ID {{ item.key }} has
+                   {{ item.value.target_ids | length }} target ID(s) instead of 2"
+      loop: "{{ buddymirror_data | dict2items }}"
+
+    - name: Check existence of buddy mirror groups
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          beegfs-ctl \
+          --listmirrorgroups \
+          --nodetype={{ item.value.mirror_type }} \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+        executable: /bin/bash
+      loop: "{{ buddymirror_data | dict2items }}"
+      loop_control:
+        label: |
+          set -o pipefail
+          beegfs-ctl \
+          --listmirrorgroups \
+          --nodetype={{ item.value.mirror_type }} \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+      register: existing_buddy_mirrorgroups
+      changed_when: false
+      failed_when: false
+      when:
+        - not multi_mode
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Execute addmirrorgroup command for storage targets
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --addmirrorgroup  \
+        --nodetype={{ item.value.mirror_type }} \
+        --primary={{ item.value.target_ids[0] }} \
+        --secondary={{ item.value.target_ids[1] }} \
+        --groupid={{ item.key }}
+      changed_when: false
+      loop: "{{ buddymirror_data | dict2items }}"
+      register: beegfsctl_addmirrorgroup
+      when:
+        - not multi_mode
+        - not (
+          item.key in existing_buddy_mirrorgroups.results
+          | map(attribute='stdout_lines')
+          | flatten)
+        - item.value.mirror_type == 'storage'
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --addmirrorgroup  \
+          --nodetype={{ item.value.mirror_type }} \
+          --primary={{ item.value.target_ids[0] }} \
+          --secondary={{ item.value.target_ids[1] }} \
+          --groupid={{ item.key }}
+      tags:
+        - buddy_mirror
+
+    - name: Execute addmirrorgroup command for metadata targets
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --addmirrorgroup  \
+        --nodetype={{ item.value.mirror_type }} \
+        --primary={{ item.value.target_ids[0] }} \
+        --secondary={{ item.value.target_ids[1] }} \
+        --groupid={{ item.key }}
+      changed_when: false
+      loop: "{{ buddymirror_data | dict2items }}"
+      register: beegfsctl_addmirrorgroup
+      when:
+        - not multi_mode
+        - not ( item.key in existing_buddy_mirrorgroups.results
+          | map(attribute='stdout_lines')
+          | flatten)
+        - item.value.mirror_type == 'metadata'
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --addmirrorgroup  \
+          --nodetype={{ item.value.mirror_type }} \
+          --primary={{ item.value.target_ids[0] }} \
+          --secondary={{ item.value.target_ids[1] }} \
+          --groupid={{ item.key }}
+      notify: Execute metadata enable mirror command
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Check existence of buddy mirror groups for multi server deployment
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --listmirrorgroups \
+          --nodetype={{ item.value.mirror_type }} \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+        executable: /bin/bash
+      loop: "{{ buddymirror_data | dict2items }}"
+      loop_control:
+        label: |
+          set -o pipefail
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --listmirrorgroups \
+          --nodetype={{ item.value.mirror_type }} \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+      register: existing_buddy_mirrorgroups_multi
+      changed_when: false
+      failed_when: false
+      when:
+        - multi_mode
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Execute addmirrorgroup command for storage targets in multi cluster deployment
+      ansible.builtin.command: |
+        beegfs-ctl \
+         --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+        --addmirrorgroup  \
+        --nodetype={{ item.value.mirror_type }} \
+        --primary={{ item.value.target_ids[0] }} \
+        --secondary={{ item.value.target_ids[1] }} \
+        --groupid={{ item.key }}
+      changed_when: false
+      loop: "{{ buddymirror_data | dict2items }}"
+      when:
+        - multi_mode
+        - not ( item.key in existing_buddy_mirrorgroups_multi.results
+          | map(attribute='stdout_lines')
+          | flatten)
+        - item.value.mirror_type == 'storage'
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --addmirrorgroup  \
+          --nodetype={{ item.value.mirror_type }} \
+          --primary={{ item.value.target_ids[0] }} \
+          --secondary={{ item.value.target_ids[1] }} \
+          --groupid={{ item.key }}
+      tags:
+        - buddy_mirror
+
+    - name: Execute addmirrorgroup command for metadata targets in multi cluster deployment
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+        --addmirrorgroup  \
+        --nodetype={{ item.value.mirror_type }} \
+        --primary={{ item.value.target_ids[0] }} \
+        --secondary={{ item.value.target_ids[1] }} \
+        --groupid={{ item.key }}
+      changed_when: false
+      loop: "{{ buddymirror_data | dict2items }}"
+      when:
+        - multi_mode
+        - not ( item.key in existing_buddy_mirrorgroups_multi.results
+          | map(attribute='stdout_lines')
+          | flatten)
+        - item.value.mirror_type == 'metadata'
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --addmirrorgroup  \
+          --nodetype={{ item.value.mirror_type }} \
+          --primary={{ item.value.target_ids[0] }} \
+          --secondary={{ item.value.target_ids[1] }} \
+          --groupid={{ item.key }}
+      notify: Execute metadata enable mirrormd command for multi cluster deployment
+      tags:
+        - buddy_mirror
+        - meta_mirror

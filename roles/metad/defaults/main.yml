@@ -1,0 +1,19 @@
+---
+metad_start_services: true
+
+# /etc/beegfs/beegfs-meta.conf
+metad_target_id: "1"
+metad_sys_mgmtd_host: localhost
+metad_conn_metad_port_tcp: "8005"
+metad_conn_metad_port_udp: "8005"
+metad_conn_rdma_buf_size: "8192"
+metad_conn_rdma_buf_num: "70"
+metad_tune_bind_to_numa_zone: ""
+metad_conn_mgmtd_port_tcp: "8008"
+metad_conn_mgmtd_port_udp: "8008"
+metad_log_type: syslog
+metad_quota_enable_enforcement: "false"
+metad_store_client_x_attrs: "false"
+metad_store_client_acls: "false"
+
+metad_mirrorgroup_id: ""

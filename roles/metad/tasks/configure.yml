@@ -1,0 +1,85 @@
+---
+- name: Disable and mask canonical Beegfs metadata service
+  ansible.builtin.systemd:
+    name: beegfs-meta.service
+    enabled: false
+    masked: true
+  tags:
+    - configure
+
+- name: Create Beegfs per metadata server configuration directories
+  ansible.builtin.file:
+    path: "/etc/beegfs/inst{{ item.target_id }}.d"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "/etc/beegfs/inst{{ item.target_id }}.d"
+  tags:
+    - configure
+
+- name: Create Beegfs metadata directories
+  ansible.builtin.file:
+    path: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
+  tags:
+    - configure
+
+- name: Check if metadata data folder/s are empty before proceeding
+  ansible.builtin.find:
+    paths: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
+    excludes: "lost+found"
+  register: metad_target_dirs_content
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
+  tags:
+    - configure
+
+- name: Ensure Beegfs metadata configuration files
+  ansible.builtin.template:
+    src: "beegfs-meta.conf.j2"
+    dest: "/etc/beegfs/inst{{ item.target_id }}.d/beegfs-meta.conf"
+    mode: "0640"
+    owner: root
+    group: root
+  vars:
+    settings: "{{ item }}"
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "/etc/beegfs/inst{{ item.target_id }}.d/beegfs-meta.conf"
+  notify:
+    - Restart beegfs meta@ services
+  tags:
+    - configure
+
+- name: Execute metadata setup command
+  ansible.builtin.command: |
+      /opt/beegfs/sbin/beegfs-setup-meta -C -u \
+      -c /etc/beegfs/inst{{ item.item.target_id }}.d/beegfs-meta.conf \
+      -p /data/beegfs/beegfs_meta/t{{ item.item.target_id }} \
+      -s {{ item.item.target_id }} \
+      -S {{ inventory_hostname_short }}-inst{{ item.item.target_id }} \
+      -m {{ item.item.sys_mgmtd_host }}
+  changed_when: false
+  when:
+    - item.matched == 0
+  loop: "{{ metad_target_dirs_content.results }}"
+  loop_control:
+    label: |
+      /opt/beegfs/sbin/beegfs-setup-meta -C -u \
+      -c /etc/beegfs/inst{{ item.item.target_id }}.d/beegfs-meta.conf \
+      -p /data/beegfs/beegfs_meta/t{{ item.item.target_id }} \
+      -s {{ item.item.target_id }} \
+      -S {{ inventory_hostname_short }}-inst{{ item.item.target_id }} \
+      -m {{ item.item.sys_mgmtd_host }}
+  tags:
+    - configure

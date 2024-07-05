@@ -1,0 +1,169 @@
+---
+- name: Populate service facts
+  ansible.builtin.service_facts:
+  tags:
+    - dir_layout
+
+- name: Create filesystem mount point directories
+  ansible.builtin.file:
+    path: "{{ item.1.fs_path }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
+  when:
+    - item.1.fs_path is defined
+  tags:
+    - dir_layout
+
+- name: Ensure Beegfs hook script file
+  ansible.builtin.template:
+    src: "beegfs-client-mount-hook.sh.j2"
+    dest: "/etc/beegfs/beegfs-client-mount-hook.sh"
+    mode: "0750"
+    owner: root
+    group: root
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "{{ item.sys_mgmtd_host }}"
+  when:
+    - not multi_mode
+  notify:
+    - Restart beegfs client service
+  tags:
+    - dir_layout
+
+- name: Ensure Beegfs client service file for custom mounts
+  ansible.builtin.template:
+    src: "beegfs-client.service.j2"
+    dest: "/etc/systemd/system/beegfs-client.service"
+    mode: "0640"
+    owner: root
+    group: root
+  when:
+    - not multi_mode
+  notify:
+    - Restart beegfs client service
+  tags:
+    - dir_layout
+
+- name: Create Beegfs user mount point directories for single cluster deployment
+  ansible.builtin.file:
+    path: "/mnt/beegfs/{{ item.1.beegfs_path }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
+  loop_control:
+    label: "/mnt/beegfs/{{ item.1.beegfs_path }}"
+  when:
+    - not multi_mode
+  run_once: true
+  tags:
+    - dir_layout
+
+- name: Create Beegfs user mount point directories for multimode deployment
+  ansible.builtin.file:
+    path: "/mnt/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}/{{ item.1.beegfs_path }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
+  loop_control:
+    label: "/mnt/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}/{{ item.1.beegfs_path }}"
+  when:
+    - multi_mode
+  run_once: true
+  tags:
+    - dir_layout
+
+- name: Ensure Beegfs hook script file for multi mode deployment
+  ansible.builtin.template:
+    src: "beegfs-client-mount-hook.sh.j2"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client-mount-hook.sh"
+    mode: "0750"
+    owner: root
+    group: root
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client-mount-hook.sh"
+  when:
+    - multi_mode
+    - item.cluster_dir_paths is defined
+  # WARNING: at the moment i can't think of a way to restart only the changed cluster service
+  notify:
+    - Restart beegfs client@ services
+  tags:
+    - dir_layout
+
+- name: Ensure Beegfs client service file for custom mounts and multi mode deployment
+  ansible.builtin.template:
+    src: "beegfs-client.service.j2"
+    dest: "/etc/systemd/system/beegfs-client@.service"
+    mode: "0640"
+    owner: root
+    group: root
+  when:
+    - multi_mode
+  notify:
+    - Restart beegfs client@ services
+  tags:
+    - dir_layout
+
+- name: Ensure the new directory structure
+  ansible.builtin.meta: flush_handlers
+
+- name: Execute setpattern command
+  ansible.builtin.command: |
+    beegfs-ctl \
+    --setpattern \
+    --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
+    --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \
+    --pattern={{ item.1.pattern | default(cluster_dir_pattern) }} \
+    --storagepoolid={{ item.1.storagepool_id | default(cluster_dir_storagepool_id) }} \
+    /mnt/beegfs/{{ item.1.beegfs_path }}
+  changed_when: false
+  loop: "{{  client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
+  when:
+    - not multi_mode
+  loop_control:
+    label: |
+      beegfs-ctl \
+      --setpattern \
+      --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
+      --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \
+      --pattern={{ item.1.pattern |default(cluster_dir_pattern) }} \
+      --storagepoolid={{ item.1.storagepool_id | default(cluster_dir_storagepool_id) }} \
+      /mnt/beegfs/{{ item.1.beegfs_path }}
+  run_once: true
+  tags:
+    - dir_layout
+
+- name: Execute setpattern command for multi cluster deployment
+  ansible.builtin.command: |
+    beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+    --setpattern \
+    --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
+    --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \
+    --pattern={{ item.1.pattern | default(cluster_dir_pattern) }} \
+    --storagepoolid={{ item.1.storagepool_id | default(cluster_dir_storagepool_id) }} \
+    /mnt/beegfs/{{ item.0.sys_mgmtd_host }}/{{ item.1.beegfs_path }}
+  changed_when: false
+  loop: "{{  client_clusters | subelements('cluster_dir_paths', skip_missing=True) }}"
+  when:
+    - multi_mode
+  loop_control:
+    label: |
+      beegfs-ctl --cfgFile=/etc/beegfs/{{ item.0.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+      --setpattern \
+      --chunksize={{ item.1.chunk_size | default(cluster_dir_chunk_size) }} \
+      --numtargets={{ item.1.num_targets | default(cluster_dir_num_targets) }} \
+      --pattern={{ item.1.pattern | default(cluster_dir_pattern) }} \
+      --storagepoolid={{ item.1.storagepool_id | default(cluster_dir_storagepool_id) }} \
+      /mnt/beegfs/{{ item.0.sys_mgmtd_host }}/{{ item.1.beegfs_path }}
+  run_once: true
+  tags:
+    - dir_layout

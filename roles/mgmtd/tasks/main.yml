@@ -1,0 +1,50 @@
+---
+- name: Create Beegfs mgmtd data directories
+  ansible.builtin.file:
+    path: "{{ mgmtd_store_mgmtd_directory }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  tags:
+    - configure
+
+- name: Ensure Beegfs management configuration file
+  ansible.builtin.template:
+    src: "beegfs-mgmtd.conf.j2"
+    dest: "/etc/beegfs/beegfs-mgmtd.conf"
+    backup: true
+    mode: "0640"
+    owner: root
+    group: root
+  notify:
+    - Restart beegfs mgmtd service
+  tags:
+    - configure
+
+- name: Check if management data folder is empty before proceeding
+  ansible.builtin.find:
+    paths: "{{ mgmtd_store_mgmtd_directory }}"
+    excludes: "lost+found"
+  register: mgmtd_target_dir_content
+  tags:
+    - configure
+
+- name: Execute management setup command for single cluster deployment
+  ansible.builtin.command: |
+    /opt/beegfs/sbin/beegfs-setup-mgmtd -C -p {{ mgmtd_store_mgmtd_directory }}
+  changed_when: false
+  when:
+    - mgmtd_target_dir_content.matched == 0
+  tags:
+    - configure
+
+- name: Enable and start per cluster Beegfs mgmtd service
+  ansible.builtin.systemd:
+    name: "beegfs-mgmtd"
+    enabled: true
+    state: started
+  when:
+    - mgmtd_start_services
+  tags:
+    - run

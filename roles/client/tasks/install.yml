@@ -1,0 +1,32 @@
+---
+- name: Install Beegfs Beeond package
+  ansible.builtin.package:
+    name: "beeond"
+    state: present
+  when:
+    - client_enable_beeond is defined
+    - client_enable_beeond
+  tags:
+    - install
+
+- name: Install `kernel-devel` package on Redhat like systems
+  ansible.builtin.package:
+    name: "kernel-devel-{{ ansible_kernel }}"
+    state: present
+  when:
+    - client_build_kernel_modules is defined
+    - client_build_kernel_modules
+    - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
+  tags:
+    - install
+
+- name: Install `kernel-headers` package on Ubuntu
+  ansible.builtin.package:
+    name: "linux-headers-{{ ansible_kernel }}"
+    state: present
+  when:
+    - client_build_kernel_modules is defined
+    - client_build_kernel_modules
+    - ansible_distribution == 'Ubuntu'
+  tags:
+    - install

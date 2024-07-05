@@ -1,0 +1,9 @@
+---
+- name: Configure Beegfs Management
+  become: true
+  gather_facts: false
+  hosts: '{{ mgmt_nodes |default("all") }}'
+  tasks:
+    - name: Import Beegfs mgmtd role
+      ansible.builtin.import_role:
+        name: mgmtd

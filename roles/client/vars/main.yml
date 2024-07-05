@@ -1,0 +1,3 @@
+---
+# vars.yml file
+client_packages: ["beegfs-client", "beegfs-helperd", "beegfs-utils"]

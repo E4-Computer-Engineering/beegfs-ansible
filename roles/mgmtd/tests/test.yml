@@ -1,0 +1,6 @@
+---
+- name: Test mgmtd role
+  hosts: localhost
+  remote_user: root
+  roles:
+    - mgmtd

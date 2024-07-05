@@ -1,0 +1,12 @@
+---
+- name: Restart beegfs meta@ services
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "beegfs-meta@inst{{ item.target_id }}"
+    state: restarted
+  loop: "{{ metad_server_targets }}"
+  loop_control:
+    label: "beegfs-meta@inst{{ item.target_id }}"
+  when: metad_start_services
+  tags:
+    - restart_services

@@ -1,0 +1,148 @@
+---
+- name: Build storagepools list fact
+  ansible.builtin.set_fact:
+    storagepools_list: |-
+      [
+      {% for cluster in client_clusters %}
+        {% set sys_mgmtd_host = cluster['sys_mgmtd_host'] %}
+        {% for host in cluster['cluster_storage_nodes'] %}
+          {% set host_counter = 0 %}
+          {% for target in hostvars[host]['storaged_server_targets'] %}
+            {% if target.get('storagepool_desc') and target.get('storagepool_id') %}
+              {
+                "storagepool_id": "{{ target['storagepool_id'] }}",
+                "storagepool_desc": "{{ target['storagepool_desc'] }}",
+                "target_id": "{{ target['target_id'] }}",
+                "sys_mgmtd_host": "{{ sys_mgmtd_host }}",
+              },
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+      ]
+  tags:
+    - storage_pools
+
+- name: Populate storagepools data fact
+  ansible.builtin.set_fact:
+    storagepools_data: |-
+      {%- set storagepools_data = {} -%}
+      {%- for item in storagepools_list -%}
+        {%- set storagepool_desc = item['storagepool_desc'] -%}
+        {%- set storagepool_id = item['storagepool_id'] -%}
+        {%- set target_id = item['target_id'] -%}
+        {%- set sys_mgmtd_host = item['sys_mgmtd_host'] -%}
+        {%- if storagepool_desc not in storagepools_data -%}
+          {%- set _ = storagepools_data.update(
+            {
+              storagepool_desc: {
+                'target_ids': [],
+                'sys_mgmtd_host': sys_mgmtd_host,
+                'storagepool_id': storagepool_id
+              }
+            }
+          ) -%}
+        {%- endif -%}
+        {%- set _ = storagepools_data[storagepool_desc]['target_ids'].append(target_id) -%}
+      {%- endfor -%}
+      {{ storagepools_data }}
+  when: storagepools_list | length > 0
+  tags:
+    - storage_pools
+
+- name: Ensure the defined storage pools
+  when: storagepools_data is defined
+  notify: Pause for 30 seconds to propagate definitions
+  tags:
+    - storage_pools
+  block:
+
+    - name: Check existence of storage pools
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          beegfs-ctl \
+          --liststoragepools \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+        executable: /bin/bash
+      register: existing_storage_pools
+      changed_when: false
+      failed_when: false
+      when:
+        - not multi_mode
+
+    - name: Execute addstoragepool command
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --addstoragepool  \
+        --id={{ item.value.storagepool_id }} \
+        --desc={{ item.key }} \
+        --targets={{ item.value.target_ids | join(',') }}
+      changed_when: false
+      loop: "{{ storagepools_data | dict2items }}"
+      register: beegfsctl_addstoragepool
+      when:
+        - not multi_mode
+        - not (item.value.storagepool_id |string in existing_storage_pools.stdout_lines)
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --addstoragepool  \
+          --id={{ item.value.storagepool_id }} \
+          --desc={{ item.key }} \
+          --targets={{ item.value.target_ids }}
+
+    - name: Check existence of storage pools for multi server deployment
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --liststoragepools \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+        executable: /bin/bash
+      loop: "{{ storagepools_data | dict2items }}"
+      loop_control:
+        label: |
+          set -o pipefail
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --liststoragepools \
+          | tail -n +3| tr -s " " | cut -d " " -f2
+      register: existing_storage_pools_multi
+      changed_when: false
+      when:
+        - multi_mode
+
+    - name: Define struct with existing storage pools for multimode deployments
+      ansible.builtin.set_fact:
+        my_storage_pools: "{{ my_storage_pools | default([]) }} + {{ item.stdout_lines }}"
+      loop: "{{ existing_storage_pools_multi.results }}"
+      loop_control:
+        label: "{{ existing_storage_pools_multi.results }}"
+      when:
+        - not item is skipped
+        - multi_mode
+
+    - name: Execute addstoragepool command for multi cluster deployment
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+        --addstoragepool  \
+        --id={{ item.value.storagepool_id }} \
+        --desc={{ item.key }} \
+        --targets={{ item.value.target_ids | join(',') }}
+      changed_when: false
+      loop: "{{ storagepools_data | dict2items }}"
+      register: beegfsctl_addstoragepool_multi
+      when:
+        - multi_mode
+        - not (item.value.storagepool_id | string in my_storage_pools)
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --addstoragepool  \
+          --id={{ item.value.storagepool_id }} \
+          --desc={{ item.key }} \
+          --targets={{ item.value.target_ids | join(',') }}

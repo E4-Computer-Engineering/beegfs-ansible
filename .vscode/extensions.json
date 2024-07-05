@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "fnando.linter",
+        "redhat.ansible",
+        "redhat.vscode-yaml",
+        "timonwong.shellcheck"
+    ]
+}

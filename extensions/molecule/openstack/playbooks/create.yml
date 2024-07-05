@@ -1,0 +1,63 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+    - name: Create instance via server module
+      openstack.cloud.server:
+        name: "{{ item.name }}"
+        image: "{{ item.image }}"
+        flavor: "{{ item.flavor }}"
+        key_name: "{{ item.key_name }}"
+        nics: "{{ item.nics }}"
+        availability_zone: "{{ item.availability_zone }}"
+        security_groups: "{{ item.security_groups }}"
+        meta: "{{ item.meta }}"
+        validate_certs: "{{ item.validate_certs }}"
+      register: server_create
+      loop: "{{ molecule_yml.platforms }}"
+
+    - name: Create and assign floating IPs
+      openstack.cloud.floating_ip:
+        server: "{{ item.name }}"
+        network: "{{ item.external_network }}"
+        validate_certs: "{{ item.validate_certs }}"
+      loop: "{{ molecule_yml.platforms }}"
+
+    - name: Create instance config
+      when: server_create.changed | default(false) | bool  # noqa no-handler
+      block:
+        - name: Gather instance info
+          openstack.cloud.server_info:
+            name: "{{ item.name }}"
+            validate_certs: "{{ item.validate_certs }}"
+          register: server_info
+          loop: "{{ molecule_yml.platforms }}"
+
+        - name: Populate instance config dict  # noqa jinja
+          ansible.builtin.set_fact:
+            instance_conf_dict: {
+              'instance': "{{ item.1.hostname }}",
+              'address': "{{ item.1.access_ipv4 }}",
+              'user': "{{ item.1.metadata.cloud_user }}",
+              'port': "{{ molecule_yml.driver.port }}",
+              'identity_file': "{{ molecule_yml.driver.ssh_identity_file }}"
+            }
+          loop: "{{ server_info.results | subelements('servers', skip_missing=True) }}"
+          register: instance_config_dict
+
+        - name: Convert instance config dict to a list
+          ansible.builtin.set_fact:
+            instance_conf: "{{ instance_config_dict.results |
+                            map(attribute='ansible_facts.instance_conf_dict') | list }}"
+
+        - name: Dump instance config
+          ansible.builtin.copy:
+            content: |
+              # Molecule managed
+
+              {{ instance_conf | to_json | from_json | to_yaml }}
+            dest: "{{ molecule_instance_config }}"
+            mode: "0600"

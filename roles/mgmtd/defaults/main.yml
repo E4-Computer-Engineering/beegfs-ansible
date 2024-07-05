@@ -1,0 +1,9 @@
+---
+mgmtd_start_services: true
+
+# /etc/beegfs/beegfs-mgmt.conf
+mgmtd_store_mgmtd_directory: /data/beegfs/beegfs_mgmtd
+mgmtd_conn_mgmtd_port_tcp: "8008"
+mgmtd_conn_mgmtd_port_udp: "8008"
+mgmtd_log_type: syslog
+mgmtd_quota_enable_enforcement: "false"

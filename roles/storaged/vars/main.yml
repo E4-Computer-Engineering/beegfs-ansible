@@ -1,0 +1,3 @@
+---
+# vars file for storaged
+storaged_packages: ["beegfs-storage", "libbeegfs-ib"]

@@ -1,0 +1,10 @@
+---
+- name: Restart beegfs storage@ services
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "beegfs-storage@inst{{ item.target_id }}"
+    state: restarted
+  loop: "{{ storaged_server_targets }}"
+  loop_control:
+    label: "beegfs-storage@inst{{ item.target_id }}"
+  when: storaged_start_services
