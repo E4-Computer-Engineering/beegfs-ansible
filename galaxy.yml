@@ -11,7 +11,7 @@ license_file: 'LICENSE'
 tags: ["storage", "infrastructure", "linux"]
 dependencies: {}
 repository: https://github.com/E4-Computer-Engineering/beegfs-ansible
-documentation: https://github.com/E4-Computer-Engineering/beegfs-ansible/README.md
+documentation: https://e4-computer-engineering.github.io/beegfs-ansible/
 homepage: https://www.e4company.com/
 issues: https://github.com/E4-Computer-Engineering/beegfs-ansible/issues
 build_ignore:
