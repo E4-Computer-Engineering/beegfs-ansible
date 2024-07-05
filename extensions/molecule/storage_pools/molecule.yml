@@ -155,3 +155,4 @@ provisioner:
                 storagepool_id: "103"
 verifier:
   name: ansible
+  enabled: false

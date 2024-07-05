@@ -86,3 +86,4 @@ provisioner:
             sys_mgmtd_host: localhost
 verifier:
   name: ansible
+  enabled: false

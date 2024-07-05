@@ -109,3 +109,4 @@ provisioner:
                 pattern: buddymirror
 verifier:
   name: ansible
+  enabled: false

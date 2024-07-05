@@ -1,0 +1,35 @@
+---
+name: Molecule
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario:
+          - default
+          - buddy_mirror
+          - storage_pools
+          - multi_cluster
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: "${{ github.repository }}"
+      - name: Molecule
+        uses: gofrolist/molecule-action@v2
+        with:
+          molecule-working-dir: extensions
+          molecule_command: test
+          molecule_args: --scenario-name ${{ matrix.scenario }}
+        env:
+          ANSIBLE_FORCE_COLOR: '1'
