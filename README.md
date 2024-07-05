@@ -1,6 +1,7 @@
 # Ansible Collection - e4.beegfs
 
 [![License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/E4-Computer-Engineering/beegfs/blob/main/LICENSE)
+[![Documentation](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/DocsPush.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/DocsPush.yml)
 
 This Ansible collection aims to deploy Beegfs cluster components in the following scenarios:
 
@@ -14,8 +15,11 @@ This collection takes care of deployng the following [Beegfs features](https://d
 * Buddy Mirroring
 * Striping rules and custom mountpoints
 * Beeond
+* Monitoring service
 
 This collection is compatible with the Beegfs versions allowed by the variable [system_beegfs_version](roles/system/meta/argument_specs.yml) of the system role.
+
+Collection documentation is available [here](https://e4-computer-engineering.github.io/beegfs-ansible/branch/main/).
 
 ## Components
 
@@ -32,7 +36,3 @@ To deploy a whole cluster with, the [site playbook](playbooks/site.yml) should b
 In the [extensions directory](extensions/molecule/) it is possible to see examples of inventories and variables, such as: the `default` molecule scenario (deploy two single node Beegfs clusters), `buddy_mirror`...
 
 >WARNING: By default the collection will deploy a cluster authentication file `/etc/beegfs/connauthfile` that is already present in the [system role](roles/system/files/connauthfile). You should create your own.
-
-### Variables
-
-Variables are documented in each role's `argument_specs.yml`.
