@@ -90,6 +90,5 @@
   "files.associations": {
     "*.yaml": "ansible",
     "*.yml": "ansible"
-  },
-  "ansible.python.interpreterPath": "/home/dobbi/.pyenv/versions/3.12.4/envs/beegfs-ansible/bin/python"
+  }
 }
