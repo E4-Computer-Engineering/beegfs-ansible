@@ -1,0 +1,60 @@
+---
+ancestor: null
+releases:
+  1.0.0:
+    changes:
+      release_summary: '| Release Date: 2024-07-05
+
+        | This is the first proper release of the ``E4.beegfs`` collection
+
+        '
+    fragments:
+      - 1.0.0.yml
+      - playbooks.yml
+    objects:
+      playbook:
+        - description: 'Execute the Beegfs.client role.'
+          name: client.yml
+          namespace: null
+        - description: 'Execute the Beegfs.cluster role.'
+          name: cluster.yml
+          namespace: null
+        - description: 'Execute the Beegfs.metad role.'
+          name: metad.yml
+          namespace: null
+        - description: 'Execute the Beegfs.mgmtd role.'
+          name: mgmtd.yml
+          namespace: null
+        - description: 'Execute the Beegfs.mon role.'
+          name: mon.yml
+          namespace: null
+        - description: 'Execute all the playbooks in `playbooks/` directory \
+                        in the correct order to deploy a Beegfs cluster.'
+          name: site.yml
+          namespace: null
+        - description: 'Execute the Beegfs.storaged role.'
+          name: storaged.yml
+          namespace: null
+      role:
+        - description: Deploy Beegfs client services.
+          name: client
+          namespace: null
+        - description: Configure Beegfs cluster features.
+          name: cluster
+          namespace: null
+        - description: Configure Beegfs Metadata services.
+          name: metad
+          namespace: null
+        - description: Configure Beegfs Management services.
+          name: mgmtd
+          namespace: null
+        - description: Configure Beegfs Monitoring services.
+          name: mon
+          namespace: null
+        - description: Configure Beegfs Storage services.
+          name: storaged
+          namespace: null
+        - description: Configure Beegfs base system.
+          name: system
+          namespace: null
+    release_date: '2024-07-05'

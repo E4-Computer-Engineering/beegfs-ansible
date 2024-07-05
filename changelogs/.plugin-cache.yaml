@@ -1,0 +1,48 @@
+---
+objects:
+  role:
+    client:
+      description: Deploy Beegfs client services
+      name: client
+      version_added: 1.0.0
+    cluster:
+      description: Configure Beegfs cluster features
+      name: cluster
+      version_added: 1.0.0
+    metad:
+      description: Configure Beegfs Metadata services
+      name: metad
+      version_added: 1.0.0
+    mgmtd:
+      description: Configure Beegfs Management services
+      name: mgmtd
+      version_added: 1.0.0
+    mon:
+      description: Configure Beegfs Monitoring services
+      name: mon
+      version_added: 1.0.0
+    storaged:
+      description: Configure Beegfs Storage services
+      name: storaged
+      version_added: 1.0.0
+    system:
+      description: Configure Beegfs base system
+      name: system
+      version_added: 1.0.0
+plugins:
+  become: {}
+  cache: {}
+  callback: {}
+  cliconf: {}
+  connection: {}
+  filter: {}
+  httpapi: {}
+  inventory: {}
+  lookup: {}
+  module: {}
+  netconf: {}
+  shell: {}
+  strategy: {}
+  test: {}
+  vars: {}
+version: 1.0.0

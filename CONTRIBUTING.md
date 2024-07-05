@@ -70,7 +70,7 @@ As mentioned [here](https://github.com/ansible-community/antsibull-changelog/blo
 
   ``` yml
   release_summary: |
-     | Release Date: 2024-05-30
+     | Release Date: 2024-07-05
      | This is the first proper release of the ``E4.beegfs`` collection
   ```
 
