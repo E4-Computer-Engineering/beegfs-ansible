@@ -28,7 +28,7 @@ jobs:
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         with:
-          molecule-working-dir: extensions
+          molecule_working_dir: extensions
           molecule_command: test
           molecule_args: --scenario-name ${{ matrix.scenario }}
         env:
