@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Davide Obbi
-  namespace: e4
+  namespace: e4_computer_engineering
   role_name: mgmtd
   description: Beegfs Management Ansible role
   company: E4 company

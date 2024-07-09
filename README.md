@@ -1,4 +1,4 @@
-# Ansible Collection - e4.beegfs
+# Ansible Collection - e4_computer_engineering.beegfs
 
 [![License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/E4-Computer-Engineering/beegfs/blob/main/LICENSE)
 [![Documentation](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/DocsPush.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/DocsPush.yml)

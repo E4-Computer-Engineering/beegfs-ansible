@@ -33,6 +33,6 @@ sections:
     - Bugfixes
   - - known_issues
     - Known Issues
-title: E4.Beegfs
+title: e4_computer_engineering.beegfs
 trivial_section_name: trivial
 use_fqcn: true

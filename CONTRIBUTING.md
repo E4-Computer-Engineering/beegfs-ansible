@@ -71,7 +71,7 @@ As mentioned [here](https://github.com/ansible-community/antsibull-changelog/blo
   ``` yml
   release_summary: |
      | Release Date: 2024-07-05
-     | This is the first proper release of the ``E4.beegfs`` collection
+     | This is the first proper release of the ``e4_computer_engineering.beegfs`` collection
   ```
 
 * If creating new playbooks, create another [fragment](changelogs/fragments/) with the `add` keyword:
