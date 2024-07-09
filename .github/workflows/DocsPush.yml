@@ -23,12 +23,12 @@ jobs:
     with:
       init-lenient: false
       init-fail-on-error: true
-      collection-name: e4.beegfs
+      collection-name: e4_computer_engineering.beegfs
       squash-hierarchy: true
-      init-project: E4.Beegfs Collection
-      init-copyright: E4.Beegfs Contributors
-      init-title: E4.Beegfs Collection Documentation
-      init-html-short-title: E4.Beegfs Collection Docs
+      init-project: e4_computer_engineering.beegfs Collection
+      init-copyright: e4_computer_engineering.beegfs Contributors
+      init-title: e4_computer_engineering.beegfs Collection Documentation
+      init-html-short-title: e4_computer_engineering.beegfs Collection Docs
 
   publish-docs-gh-pages:
     # use to prevent running on forks
