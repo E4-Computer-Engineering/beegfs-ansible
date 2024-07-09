@@ -25,6 +25,7 @@ build_ignore:
   - .shellcheckrc
   - .yamllint
   - changelogs
+  - extensions/
   - roles/*/tests
   - tests
   - 'requirements.txt'
