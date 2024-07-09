@@ -1,7 +1,7 @@
 ---
 namespace: e4_computer_engineering
 name: beegfs
-version: 1.0.0
+version: 1.0.1
 readme: README.md
 authors:
   - Davide Obbi <davide.obbi@e4company.com>
@@ -17,7 +17,7 @@ issues: https://github.com/E4-Computer-Engineering/beegfs-ansible/issues
 build_ignore:
   - .github
   - .gitignore
-  - .vscode/
+  - .vscode
   - .ansible-lint
   - .markdown-lint.yml
   - .pre-commit-config.yaml
@@ -25,7 +25,6 @@ build_ignore:
   - .shellcheckrc
   - .yamllint
   - changelogs
-  - extensions/
   - roles/*/tests
   - tests
   - 'requirements.txt'
