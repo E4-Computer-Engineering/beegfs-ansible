@@ -121,7 +121,7 @@
 - name: Ensure Beegfs client configuration files for multimode deployment
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
-    dest: "/etc/beegfs/{{ item.sys_mgmtd_host |replace('-', '') }}.d/beegfs-client.conf"
+    dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf"
     mode: "0640"
     owner: root
     group: root
