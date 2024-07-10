@@ -3,7 +3,7 @@
   ansible.builtin.template:
     src: "beegfs-client-autobuild.conf.j2"
     dest: "/etc/beegfs/beegfs-client-autobuild.conf"
-    mode: "0640"
+    mode: "640"
     owner: root
     group: root
   tags:
@@ -15,7 +15,7 @@
     dest: "/etc/beegfs/beegfs-helperd.conf"
     backup: true
     owner: root
-    mode: "0640"
+    mode: "640"
     group: root
   loop: "{{ client_clusters }}"
   loop_control:
@@ -31,7 +31,7 @@
     src: "beegfs-client.conf.j2"
     dest: "/etc/beegfs/beegfs-client.conf"
     backup: true
-    mode: "0640"
+    mode: "640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
@@ -49,7 +49,7 @@
     src: "{{ item }}.j2"
     dest: "/etc/default/{{ item }}"
     group: root
-    mode: 0640
+    mode: "640"
   loop:
     - beegfs-client
     - beegfs-helperd
@@ -75,7 +75,7 @@
   ansible.builtin.file:
     path: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d"
     state: directory
-    mode: "0755"
+    mode: "755"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
@@ -89,7 +89,7 @@
   ansible.builtin.template:
     src: "beegfs-helperd.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-helperd.conf"
-    mode: "0640"
+    mode: "640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
@@ -105,7 +105,7 @@
   ansible.builtin.template:
     src: "beegfs-mounts.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-mounts.conf"
-    mode: "0640"
+    mode: "640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
@@ -122,7 +122,7 @@
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf"
-    mode: "0640"
+    mode: "640"
     owner: root
     group: root
   loop: "{{ client_clusters }}"
