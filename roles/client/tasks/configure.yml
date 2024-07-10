@@ -49,7 +49,7 @@
     src: "{{ item }}.j2"
     dest: "/etc/default/{{ item }}"
     group: root
-    mode: 0640
+    mode: "0640"
   loop:
     - beegfs-client
     - beegfs-helperd
