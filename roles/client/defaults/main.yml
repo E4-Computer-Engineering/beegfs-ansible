@@ -1,6 +1,7 @@
 ---
 client_start_services: true
 client_enable_beeond: false
+client_clusters: []
 
 # /etc/beegfs/beegfs-client-autobuild.conf
 client_ofed_libs_path:

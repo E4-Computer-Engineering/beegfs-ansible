@@ -17,97 +17,97 @@ argument_specs:
         type: list
         elements: dict
         description: The list of metadata targets and their parameters for each metadata server
-        default:
-          - target_id:
-              type: str
-              description: The ID to assign to the metadata target object
-              default: "1"
-            sys_mgmtd_host:
-              type: str
-              description:
-                - The address at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: localhost
-            conn_metad_port_tcp:
-              type: str
-              description:
-                - The TCP port at which the metadata service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "8015"
-            conn_metad_port_udp:
-              type: str
-              description:
-                - The TCP port at which the metadata service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "8015"
-            conn_rdma_buf_size:
-              type: str
-              description:
-                - The RDMA buffer size allocated for communication
-                - conn_rdma_buf_num * conn_rdma_buf_size
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "8192"
-            conn_rdma_buf_num:
-              type: str
-              description:
-                - The RDMA buffer count allocated for the communication
-                - conn_rdma_buf_num * conn_rdma_buf_size
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "70"
-            tune_bind_to_numa_zone:
-              type: str
-              description:
-                - Bind the `beegfs-meta` daemon to a specific NUMA node
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: ""
-            conn_mgmtd_port_tcp:
-              type: str
-              description:
-                - The TCP port at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "8008"
-            conn_mgmtd_port_udp:
-              type: str
-              description:
-                - The UDP port at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "8008"
-            log_type:
-              type: str
-              description:
-                - Where log entries for the Beegfs management daemon should go
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: syslog
-              choices: ["syslog", "file"]
-            quota_enable_enforcement:
-              type: str
-              description:
-                - Enable the quota enforcement feature
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "false"
-              choices: ["false", "true"]
-            store_client_x_attrs:
-              type: str
-              description:
-                - Enable the storing of extra attributes feature
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "false"
-              choices: ["false", "true"]
-            store_client_acls:
-              type: str
-              description:
-                - Enable the ACL feature
-                - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
-              default: "false"
-              choices: ["false", "true"]
-            mirrorgroup_id:
-              type: str
-              description:
-                - An ID that must be unique among metadata and storage target mirror group definitions
-                - Even if Beegfs allows to have the same ID definition among metadata
-                  and storage mirrror groups we do not support it
-                - You must specify the same mirrorgroup id in two and only two metadata target
-                  to have a mirror relationship created
-                - The order in which the targets appear in the metad_server_targets structure defines
-                  if these are primaries or secondaries
-              default: ""
+        options:
+          target_id:
+            type: str
+            description: The ID to assign to the metadata target object
+            default: "1"
+          sys_mgmtd_host:
+            type: str
+            description:
+              - The address at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: localhost
+          conn_metad_port_tcp:
+            type: str
+            description:
+              - The TCP port at which the metadata service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "8015"
+          conn_metad_port_udp:
+            type: str
+            description:
+              - The TCP port at which the metadata service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "8015"
+          conn_rdma_buf_size:
+            type: str
+            description:
+              - The RDMA buffer size allocated for communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "8192"
+          conn_rdma_buf_num:
+            type: str
+            description:
+              - The RDMA buffer count allocated for the communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "70"
+          tune_bind_to_numa_zone:
+            type: str
+            description:
+              - Bind the `beegfs-meta` daemon to a specific NUMA node
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: ""
+          conn_mgmtd_port_tcp:
+            type: str
+            description:
+              - The TCP port at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "8008"
+          conn_mgmtd_port_udp:
+            type: str
+            description:
+              - The UDP port at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "8008"
+          log_type:
+            type: str
+            description:
+              - Where log entries for the Beegfs management daemon should go
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: syslog
+            choices: ["syslog", "file"]
+          quota_enable_enforcement:
+            type: str
+            description:
+              - Enable the quota enforcement feature
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "false"
+            choices: ["false", "true"]
+          store_client_x_attrs:
+            type: str
+            description:
+              - Enable the storing of extra attributes feature
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "false"
+            choices: ["false", "true"]
+          store_client_acls:
+            type: str
+            description:
+              - Enable the ACL feature
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "false"
+            choices: ["false", "true"]
+          mirrorgroup_id:
+            type: str
+            description:
+              - An ID that must be unique among metadata and storage target mirror group definitions
+              - Even if Beegfs allows to have the same ID definition among metadata
+                and storage mirrror groups we do not support it
+              - You must specify the same mirrorgroup id in two and only two metadata target
+                to have a mirror relationship created
+              - The order in which the targets appear in the metad_server_targets structure defines
+                if these are primaries or secondaries
+            default: ""

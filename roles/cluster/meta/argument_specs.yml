@@ -24,34 +24,34 @@ argument_specs:
         type: list
         elements: dict
         description: The list of directory paths relative to the Beegfs mountpoint with custom striping rules
-        default:
-          - beegfs_path:
-              type: str
-              description: The path relative to the Beegfs mountpoint where the directory should exist
-              required: true
-            fs_path:
-              type: str
-              description: The path relative to the root filesystem where the directory should be bind mounted
-              required: false
-            chunk_size:
-              type: str
-              description: The chunk size to use by the Beegfs striping policy
-              required: false
-              default: 512K
-              choices: ["512K", "1M", "2M"]
-            num_targets:
-              type: str
-              description: The number of desired targets to use by the Beegfs striping policy
-              default: 4
-              required: false
-            pattern:
-              type: str
-              description: The pattern or protection level to use by the Beegfs striping policy
-              required: false
-              default: raid0
-              choices: ["raid0", "buddymirror"]
-            storagepool_id:
-              type: str
-              default: 1
-              description: The storage pool id that should be targeted by the Beegfs triping policy
-              required: false
+        options:
+          beegfs_path:
+            type: str
+            description: The path relative to the Beegfs mountpoint where the directory should exist
+            required: true
+          fs_path:
+            type: str
+            description: The path relative to the root filesystem where the directory should be bind mounted
+            required: false
+          chunk_size:
+            type: str
+            description: The chunk size to use by the Beegfs striping policy
+            required: false
+            default: 512K
+            choices: ["512K", "1M", "2M"]
+          num_targets:
+            type: str
+            description: The number of desired targets to use by the Beegfs striping policy
+            default: 4
+            required: false
+          pattern:
+            type: str
+            description: The pattern or protection level to use by the Beegfs striping policy
+            required: false
+            default: raid0
+            choices: ["raid0", "buddymirror"]
+          storagepool_id:
+            type: str
+            default: 1
+            description: The storage pool id that should be targeted by the Beegfs triping policy
+            required: false

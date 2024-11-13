@@ -1,5 +1,6 @@
 ---
 metad_start_services: true
+metad_server_targets: []
 
 # /etc/beegfs/beegfs-meta.conf
 metad_target_id: "1"

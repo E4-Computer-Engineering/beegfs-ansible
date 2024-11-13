@@ -17,113 +17,113 @@ argument_specs:
         type: list
         elements: dict
         description: The list of storage targets and their parameters for each storage server
-        default:
-          - target_id:
-              type: str
-              description: The ID to assign to the storage target object
-              default: "1"
-            sys_mgmtd_host:
-              type: str
-              description:
-                - The address at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: localhost
-            conn_storage_port_tcp:
-              type: str
-              description:
-                - The TCP port at which the storage service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "8013"
-            conn_storage_port_udp:
-              type: str
-              description:
-                - The UDP port at which the storage service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "8013"
-            conn_rdma_buf_size:
-              type: str
-              description:
-                - The RDMA buffer size allocated for communication
-                - conn_rdma_buf_num * conn_rdma_buf_size
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "8192"
-            conn_rdma_buf_num:
-              type: str
-              description:
-                - The RDMA buffer count allocated for the communication
-                - conn_rdma_buf_num * conn_rdma_buf_size
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "70"
-            conn_mgmtd_port_tcp:
-              type: str
-              description:
-                - The TCP port at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "8008"
-            conn_mgmtd_port_udp:
-              type: str
-              description:
-                - The UDP port at which the management service is responding at
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "8008"
-            log_type:
-              type: str
-              description:
-                - Where log entries for the Beegfs management daemon should go
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: syslog
-              choices: ["syslog", "file"]
-            sys_target_offline_timeout_secs:
-              type: str
-              description:
-                - Timeout in seconds before the target is considered "Offline"
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "180"
-            tune_file_read_size:
-              type: str
-              description:
-                - The file read size from filesystem
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "1024"
-            tune_file_write_size:
-              type: str
-              description:
-                - The file write size on filesystem
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "1024"
-            tune_num_workers:
-              type: str
-              description:
-                - Number of worker threads to assign to the beegfs-storage.service
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "12"
-            quota_enable_enforcement:
-              type: str
-              description:
-                - Enable the quota enforcement feature
-                - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-              default: "false"
-              choices: ["false", "true"]
-            mirrorgroup_id:
-              type: str
-              description:
-                - An ID that must be unique among metadata and storage target mirror group definitions
-                - Even if Beegfs allows to have the same ID definition among metadata
-                  and storage mirrror groups we do not support it
-                - You must specify the same mirrorgroup id in two and only two storage targets
-                  to have a mirror relationship created
-                - The order in which the targets appear in the storaged_server_targets structure defines
-                  if these are primaries or secondaries
-              default: ""
-            storagepool_id:
-              type: str
-              description:
-                - The storage pool id to assign the storage target
-                - The name must be unique inside the cluster
-              default: "1"
-            storagepool_desc:
-              type: str
-              description:
-                - A name for the storagepool that the target must be part of
-                - The name must be unique inside the cluster
-              default: ""
+        options:
+          target_id:
+            type: str
+            description: The ID to assign to the storage target object
+            default: "1"
+          sys_mgmtd_host:
+            type: str
+            description:
+              - The address at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: localhost
+          conn_storage_port_tcp:
+            type: str
+            description:
+              - The TCP port at which the storage service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "8013"
+          conn_storage_port_udp:
+            type: str
+            description:
+              - The UDP port at which the storage service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "8013"
+          conn_rdma_buf_size:
+            type: str
+            description:
+              - The RDMA buffer size allocated for communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "8192"
+          conn_rdma_buf_num:
+            type: str
+            description:
+              - The RDMA buffer count allocated for the communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "70"
+          conn_mgmtd_port_tcp:
+            type: str
+            description:
+              - The TCP port at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "8008"
+          conn_mgmtd_port_udp:
+            type: str
+            description:
+              - The UDP port at which the management service is responding at
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "8008"
+          log_type:
+            type: str
+            description:
+              - Where log entries for the Beegfs management daemon should go
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: syslog
+            choices: ["syslog", "file"]
+          sys_target_offline_timeout_secs:
+            type: str
+            description:
+              - Timeout in seconds before the target is considered "Offline"
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "180"
+          tune_file_read_size:
+            type: str
+            description:
+              - The file read size from filesystem
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "1024"
+          tune_file_write_size:
+            type: str
+            description:
+              - The file write size on filesystem
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "1024"
+          tune_num_workers:
+            type: str
+            description:
+              - Number of worker threads to assign to the beegfs-storage.service
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "12"
+          quota_enable_enforcement:
+            type: str
+            description:
+              - Enable the quota enforcement feature
+              - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
+            default: "false"
+            choices: ["false", "true"]
+          mirrorgroup_id:
+            type: str
+            description:
+              - An ID that must be unique among metadata and storage target mirror group definitions
+              - Even if Beegfs allows to have the same ID definition among metadata
+                and storage mirrror groups we do not support it
+              - You must specify the same mirrorgroup id in two and only two storage targets
+                to have a mirror relationship created
+              - The order in which the targets appear in the storaged_server_targets structure defines
+                if these are primaries or secondaries
+            default: ""
+          storagepool_id:
+            type: str
+            description:
+              - The storage pool id to assign the storage target
+              - The name must be unique inside the cluster
+            default: "1"
+          storagepool_desc:
+            type: str
+            description:
+              - A name for the storagepool that the target must be part of
+              - The name must be unique inside the cluster
+            default: ""

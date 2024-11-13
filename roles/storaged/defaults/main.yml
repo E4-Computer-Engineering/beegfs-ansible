@@ -1,5 +1,6 @@
 ---
 storaged_start_services: true
+storaged_server_targets: []
 
 # /etc/beegfs/beegfs-storage.conf
 storaged_target_id: "1"
