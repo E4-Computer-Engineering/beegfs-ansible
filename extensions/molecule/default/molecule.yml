@@ -29,7 +29,7 @@ platforms:
       - monitoring
       - clients
   - name: beeubuntu2204-01
-    image: ubuntu-2204-kube-v1.28.9
+    image: Ubuntu-jammy-22.04
     flavor: m1.medium
     key_name: dobbi
     meta:

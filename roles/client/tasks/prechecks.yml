@@ -31,6 +31,75 @@
   tags:
     - prechecks
 
+# https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
+- name: Check NVIDIA-FS files
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  register: stat_nvidia_fs
+  with_fileglob:
+    - _client_nvidia_fs_path'*/{nvfs-dma.h,config-host.h}'
+  when:
+    - client_nvfs_libs_path
+    - client_nvfs_libs_path | length > 0
+  tags:
+    - prechecks
+
+# https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
+- name: Check NVIDIA-LIBS files
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  register: stat_nvidia_libs
+  with_fileglob:
+    - _client_nvidia_path'*/nv-p2p.h'
+  when:
+    - client_nvidia_libs_path
+    - client_nvidia_libs_path | length > 0
+  tags:
+    - prechecks
+
+# https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
+- name: Assert that MOFED is installed when NVIDIA-FS and NVIDIA-LIBS files are defined for GDS
+  ansible.builtin.assert:
+    that:
+      - _ofed_installed.rc == 0
+    success_msg: "NVIDIA MOFED is correctly installed for GDS"
+    fail_msg: "NVIDIA-LIBS and NVIDIA-FS paths are defined but MOFED is not installed"
+  when:
+    - client_nvfs_libs_path
+    - client_nvfs_libs_path | length > 0
+    - client_nvidia_libs_path
+    - client_nvidia_libs_path | length > 0
+  tags:
+    - prechecks
+
+# https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
+- name: Assert that the correct NVIDIA-FS files are present for GDS
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+    success_msg: "NVIDIA-FS files are present in the correct paths"
+    fail_msg: "NVIDIA-FS files are NOT present in the correct paths"
+  when:
+    - client_nvfs_libs_path
+    - client_nvfs_libs_path | length > 0
+  loop: "{{ stat_nvidia_fs.results }}"
+  tags:
+    - prechecks
+
+# https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
+- name: Assert that the correct NVIDIA-LIBS files are present for GDS
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+    success_msg: "NVIDIA-LIBS files are present in the correct paths"
+    fail_msg: "NVIDIA-LIBS files are NOT present in the correct paths"
+  when:
+    - client_nvidia_libs_path
+    - client_nvidia_libs_path | length > 0
+  loop: "{{ stat_nvidia_libs.results }}"
+  tags:
+    - prechecks
+
 - name: Create client_check fact
   ansible.builtin.set_fact:
     client_check: |
