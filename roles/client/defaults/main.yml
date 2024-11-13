@@ -4,6 +4,8 @@ client_enable_beeond: false
 
 # /etc/beegfs/beegfs-client-autobuild.conf
 client_ofed_libs_path:
+client_nvfs_libs_path:
+client_nvidia_libs_path:
 client_build_kernel_modules: true
 
 # /etc/beegfs/beegfs-helperd.conf /etc/beegfs/beegfs-client.conf
