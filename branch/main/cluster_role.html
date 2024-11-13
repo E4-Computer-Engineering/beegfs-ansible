@@ -165,7 +165,61 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The list of directory paths relative to the Beegfs mountpoint with custom striping rules</p>
-<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[{&quot;beegfs_path&quot;:</span> <span class="pre">{&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">path</span> <span class="pre">relative</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">Beegfs</span> <span class="pre">mountpoint</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">directory</span> <span class="pre">should</span> <span class="pre">exist&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">true,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;},</span> <span class="pre">&quot;chunk_size&quot;:</span> <span class="pre">{&quot;choices&quot;:</span> <span class="pre">[&quot;512K&quot;,</span> <span class="pre">&quot;1M&quot;,</span> <span class="pre">&quot;2M&quot;],</span> <span class="pre">&quot;default&quot;:</span> <span class="pre">&quot;512K&quot;,</span> <span class="pre">&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">chunk</span> <span class="pre">size</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">Beegfs</span> <span class="pre">striping</span> <span class="pre">policy&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">false,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;},</span> <span class="pre">&quot;fs_path&quot;:</span> <span class="pre">{&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">path</span> <span class="pre">relative</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">root</span> <span class="pre">filesystem</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">directory</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">bind</span> <span class="pre">mounted&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">false,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;},</span> <span class="pre">&quot;num_targets&quot;:</span> <span class="pre">{&quot;default&quot;:</span> <span class="pre">4,</span> <span class="pre">&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">desired</span> <span class="pre">targets</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">Beegfs</span> <span class="pre">striping</span> <span class="pre">policy&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">false,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;},</span> <span class="pre">&quot;pattern&quot;:</span> <span class="pre">{&quot;choices&quot;:</span> <span class="pre">[&quot;raid0&quot;,</span> <span class="pre">&quot;buddymirror&quot;],</span> <span class="pre">&quot;default&quot;:</span> <span class="pre">&quot;raid0&quot;,</span> <span class="pre">&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">pattern</span> <span class="pre">or</span> <span class="pre">protection</span> <span class="pre">level</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">Beegfs</span> <span class="pre">striping</span> <span class="pre">policy&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">false,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;},</span> <span class="pre">&quot;storagepool_id&quot;:</span> <span class="pre">{&quot;default&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;description&quot;:</span> <span class="pre">&quot;The</span> <span class="pre">storage</span> <span class="pre">pool</span> <span class="pre">id</span> <span class="pre">that</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">targeted</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">Beegfs</span> <span class="pre">triping</span> <span class="pre">policy&quot;,</span> <span class="pre">&quot;required&quot;:</span> <span class="pre">false,</span> <span class="pre">&quot;type&quot;:</span> <span class="pre">&quot;str&quot;}}]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/beegfs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-beegfs-path"><strong>beegfs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/beegfs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the Beegfs mountpoint where the directory should exist</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/chunk_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-chunk-size"><strong>chunk_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/chunk_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The chunk size to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;512K&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;1M&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;2M&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/fs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-fs-path"><strong>fs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/fs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the root filesystem where the directory should be bind mounted</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/num_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-num-targets"><strong>num_targets</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/num_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The number of desired targets to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;4&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/pattern"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-pattern"><strong>pattern</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The pattern or protection level to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;raid0&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;buddymirror&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/storagepool_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-storagepool-id"><strong>storagepool_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/storagepool_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The storage pool id that should be targeted by the Beegfs triping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
