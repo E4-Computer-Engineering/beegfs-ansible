@@ -4,11 +4,11 @@
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="2.16.1" name="antsibull-docs" />
+<meta content="2.16.2" name="antsibull-docs" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>e4_computer_engineering.beegfs.client role – Deploy Beegfs client services &mdash; e4_computer_engineering.beegfs Collection  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5707b69d" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=41de9001" />
       <link rel="stylesheet" type="text/css" href="_static/css/ansible.css?v=c5b67dd2" />
       <link rel="stylesheet" type="text/css" href="_static/antsibull-minimal.css" />
       <link rel="stylesheet" type="text/css" href="_static/css/rtd-ethical-ads.css?v=289b023e" />
@@ -179,6 +179,32 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_dir_paths"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-dir-paths"><strong>cluster_dir_paths</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_dir_paths" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the paths that will be mounted on the client</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_meta_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-meta-nodes"><strong>cluster_meta_nodes</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_meta_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the hosts that will run the metadata services and hold the meta targets</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_storage_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-storage-nodes"><strong>cluster_storage_nodes</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_storage_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the hosts that will run the storage services and hold the storage targets</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_client_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-client-port-udp"><strong>conn_client_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_client_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -187,7 +213,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8004&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_helperd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-helperd-port-tcp"><strong>conn_helperd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_helperd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -196,7 +222,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8006&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-mgmtd-port-tcp"><strong>conn_mgmtd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -205,7 +231,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-mgmtd-port-udp"><strong>conn_mgmtd_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -214,7 +240,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_rdma_buf_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-rdma-buf-num"><strong>conn_rdma_buf_num</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -224,7 +250,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_rdma_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-rdma-buf-size"><strong>conn_rdma_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -234,7 +260,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/quota_enabled"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-quota-enabled"><strong>quota_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/quota_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -247,7 +273,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/sys_acls_enabled"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-sys-acls-enabled"><strong>sys_acls_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/sys_acls_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -260,7 +286,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-sys-mgmtd-host"><strong>sys_mgmtd_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -269,7 +295,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;localhost&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/sys_xattrs_enabled"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-sys-xattrs-enabled"><strong>sys_xattrs_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/sys_xattrs_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -282,7 +308,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/tune_file_cache_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-tune-file-cache-buf-size"><strong>tune_file_cache_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/tune_file_cache_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -292,7 +318,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1048576&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_enable_beeond"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-enable-beeond"><strong>client_enable_beeond</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_enable_beeond" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -304,7 +330,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_ofed_libs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-ofed-libs-path"><strong>client_ofed_libs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_ofed_libs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -312,7 +338,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Needed by the client to build with RDMA support</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-start-services"><strong>client_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
