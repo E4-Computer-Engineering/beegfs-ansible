@@ -24,6 +24,18 @@
   tags:
     - install
 
+- name: Add Almalinux vault AppStream repository to install correct kernel-devel package
+  ansible.builtin.yum_repository:
+    name: vault-devel
+    description: "AlmaLinux {{ ansible_distribution_version }} - Vault AppStream"
+    baseurl: "http://repo.almalinux.org/vault/{{ ansible_distribution_version }}/AppStream/x86_64/os/"
+    gpgcheck: true
+    gpgkey: "///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-{{ ansible_distribution_version }}"
+  when:
+    - ansible_distribution == 'AlmaLinux'
+  tags:
+    - install
+
 - name: Add Beegfs YUM Repository
   ansible.builtin.yum_repository:
     name: beegfs
@@ -33,6 +45,7 @@
     gpgkey: "{{ system_repo_gpg_keys }}"
   when:
     - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
+      or (ansible_distribution == 'AlmaLinux')
   tags:
     - install
 

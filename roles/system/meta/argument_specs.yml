@@ -11,9 +11,9 @@ argument_specs:
     options:
       system_beegfs_version:
         type: str
-        description: The Beegfs version that will be used by the package repositories
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5"]
       system_repo_gpg_keys:
         type: str
         description: Beegfs repository GPG key URL

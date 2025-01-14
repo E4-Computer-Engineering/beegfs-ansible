@@ -32,6 +32,26 @@ argument_specs:
         elements: dict
         description: The list of clusters and their parameters for each client instance
         options:
+          cluster_storage_nodes:
+            type: list
+            elements: str
+            description:
+              - The list of the hosts that will run the storage services and hold the storage targets
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: []
+          cluster_meta_nodes:
+            type: list
+            elements: str
+            description:
+              - The list of the hosts that will run the metadata services and hold the meta targets
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: []
+          cluster_dir_paths:
+            type: list
+            elements: str
+            description:
+              - The list of the paths that will be mounted on the client
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
           sys_mgmtd_host:
             type: str
             description:
