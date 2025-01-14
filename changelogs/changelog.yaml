@@ -69,3 +69,19 @@ releases:
     fragments:
     - summary.yml
     release_date: '2024-12-21'
+  1.0.3:
+    changes:
+      release_summary: '| Release Date: 2025-14-01
+
+        | The release includes:
+
+        | - support for rhel like distros version 9 including Almalinux.
+
+        | - bump of the Beegfs version to 7.4.5.
+
+        | - fixes to the client argument_specs file that blocked execution.
+
+        '
+    fragments:
+    - realease.yml
+    release_date: '2025-01-14'

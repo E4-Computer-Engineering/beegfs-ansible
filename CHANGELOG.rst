@@ -4,6 +4,18 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v1.0.3
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-14-01
+| The release includes:
+| - support for rhel like distros version 9 including Almalinux.
+| - bump of the Beegfs version to 7.4.5.
+| - fixes to the client argument_specs file that blocked execution.
+
 v1.0.2
 ======
 
@@ -12,16 +24,6 @@ Release Summary
 
 | Release Date: 2024-21-12
 | This is the second release update of the ``e4_computer_engineering.beegfs`` collection
-
-
-Updates
--------
-
-- docs: properly parse nested structures in argument_specs.yml
-- docs: add client role playbook examples
-- chore: use Ubuntu22.04 cloud image in openstack molecule
-- feat: add support for NVIDIA GPU direct storage
-- fix: autobuild only if ofed kernerl path is defined
 
 v1.0.0
 ======
