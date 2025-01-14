@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="2.16.2" name="antsibull-docs" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features &mdash; e4_computer_engineering.beegfs Collection  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=41de9001" />
+      <link rel="stylesheet" type="text/css" href="_static/css/ansible.css?v=c5b67dd2" />
+      <link rel="stylesheet" type="text/css" href="_static/antsibull-minimal.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/rtd-ethical-ads.css?v=289b023e" />
+
+  
+    <link rel="shortcut icon" href="_static/images/Ansible-Mark-RGB_Black.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7f41d439"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services" href="metad_role.html" />
+    <link rel="prev" title="e4_computer_engineering.beegfs.client role – Deploy Beegfs client services" href="client_role.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
+
+
+
+
+</head>
+
+<body class="wy-body-for-nav"><!-- extra body elements for Ansible beyond RTD Sphinx Theme -->
+
+<div class="DocSite-globalNav ansibleNav">
+  <ul>
+    <li><a href="https://www.ansible.com/blog" target="_blank">Blog</a></li>
+    <li><a href="https://forum.ansible.com/" target="_blank">Ansible community forum</a></li>
+    <li><a href="https://docs.ansible.com/" target="_blank">Documentation</a></li>
+  </ul>
+</div>
+
+<a class="DocSite-nav" href="/" style="padding-bottom: 30px;">
+
+  <img class="DocSiteNav-logo"
+    src="_static/images/Ansible-Mark-RGB_White.png"
+    alt="Ansible Logo">
+  <div class="DocSiteNav-title">e4_computer_engineering.beegfs Collection Docs</div>
+</a>
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            e4_computer_engineering.beegfs Collection
+          </a><!--- Based on https://github.com/rtfd/sphinx_rtd_theme/pull/438/files -->
+
+<div class="version">
+  
+    
+  
+</div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <label class="sr-only" for="q">Search docs:</label>
+    <input type="text" class="st-default-search-input" id="q" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="client_role.html">e4_computer_engineering.beegfs.client role – Deploy Beegfs client services</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#entry-point-main-configure-beegfs-cluster-features">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs cluster features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authors">Authors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#collection-links">Collection links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metad_role.html">e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mgmtd_role.html">e4_computer_engineering.beegfs.mgmtd role – Configure Beegfs Management services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mon_role.html">e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storaged_role.html">e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_role.html">e4_computer_engineering.beegfs.system role – Configure Beegfs base system</a></li>
+</ul>
+<!-- extra nav elements for Ansible beyond RTD Sphinx Theme -->
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">e4_computer_engineering.beegfs Collection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  
+           <div itemprop="articleBody">
+             
+  <span class="target" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role"></span><section id="e4-computer-engineering-beegfs-cluster-role-configure-beegfs-cluster-features">
+<h1>e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features<a class="headerlink" href="#e4-computer-engineering-beegfs-cluster-role-configure-beegfs-cluster-features" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 1.0.3).</p>
+<p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
+To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
+<p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">e4_computer_engineering.beegfs</span></code>.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">e4_computer_engineering.beegfs.cluster</span></code>.</p>
+</div>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#entry-point-main-configure-beegfs-cluster-features" id="id1">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs cluster features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#authors" id="id4">Authors</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="entry-point-main-configure-beegfs-cluster-features">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs cluster features</a><a class="headerlink" href="#entry-point-main-configure-beegfs-cluster-features" title="Link to this heading"></a></h2>
+<p class="ansible-version-added">New in e4_computer_engineering.beegfs 1.0.0</p>
+<section id="synopsis">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Configure Beegfs cluster features like BuddyMirror, StoragePools and Striping policies.</p></li>
+<li><p>These settings are configured by the use of the `beegfs-ctl` command-line.</p></li>
+</ul>
+</section>
+<section id="parameters">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths"><strong>cluster_dir_paths</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The list of directory paths relative to the Beegfs mountpoint with custom striping rules</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/beegfs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-beegfs-path"><strong>beegfs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/beegfs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the Beegfs mountpoint where the directory should exist</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/chunk_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-chunk-size"><strong>chunk_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/chunk_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The chunk size to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;512K&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;1M&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;2M&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/fs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-fs-path"><strong>fs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/fs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the root filesystem where the directory should be bind mounted</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/num_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-num-targets"><strong>num_targets</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/num_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The number of desired targets to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;4&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/pattern"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-pattern"><strong>pattern</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The pattern or protection level to use by the Beegfs striping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;raid0&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;buddymirror&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_dir_paths/storagepool_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-dir-paths-storagepool-id"><strong>storagepool_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_dir_paths/storagepool_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The storage pool id that should be targeted by the Beegfs triping policy</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_meta_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-meta-nodes"><strong>cluster_meta_nodes</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_meta_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The list of the hosts that will run the metadata services and hold the meta targets</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--cluster_storage_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-cluster-role-parameter-main-cluster-storage-nodes"><strong>cluster_storage_nodes</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--cluster_storage_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The list of the hosts that will run the storage services and hold the storage targets</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="authors">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Authors</a><a class="headerlink" href="#authors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Davide Obbi</p></li>
+</ul>
+<section id="collection-links">
+<h4>Collection links<a class="headerlink" href="#collection-links" title="Link to this heading"></a></h4>
+<ul class="ansible-links">
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/E4-Computer-Engineering/beegfs-ansible/issues" rel="noopener external" target="_blank">Issue Tracker</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://www.e4company.com/" rel="noopener external" target="_blank">Homepage</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/E4-Computer-Engineering/beegfs-ansible" rel="noopener external" target="_blank">Repository (Sources)</a></span></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          
+
+<footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="client_role.html" class="btn btn-neutral float-left" title="e4_computer_engineering.beegfs.client role – Deploy Beegfs client services" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="metad_role.html" class="btn btn-neutral float-right" title="e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright e4_computer_engineering.beegfs Contributors.</p>
+  </div>
+
+  
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script><!-- extra footer elements for Ansible beyond RTD Sphinx Theme -->
+
+</body>
+</html>
