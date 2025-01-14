@@ -9,11 +9,11 @@ driver:
   ssh_identity_file: ~/.ssh/e4github
 platforms:
   - name: beestore-01
-    image: Rocky-8-GenericCloud-LVM.x86_64
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -28,11 +28,11 @@ platforms:
       - metadata
       - monitoring
   - name: beestore-11
-    image: Rocky-8-GenericCloud-LVM.x86_64
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -45,11 +45,11 @@ platforms:
       - storage
       - metadata
   - name: beestore-02
-    image: Rocky-8-GenericCloud-LVM.x86_64
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -64,11 +64,11 @@ platforms:
       - management
       - monitoring
   - name: beestore-22
-    image: Rocky-8-GenericCloud-LVM.x86_64
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -81,11 +81,11 @@ platforms:
       - storage
       - metadata
   - name: beeclient-01
-    image: Rocky-8-GenericCloud-LVM.x86_64
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -112,7 +112,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        system_beegfs_version: 7.4.3
+        system_beegfs_version: 7.4.5
     host_vars:
       beestore-01:
         sys_mgmtd_host: "beestore-01"

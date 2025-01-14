@@ -8,12 +8,12 @@ driver:
   port: 22
   ssh_identity_file: ~/.ssh/e4github
 platforms:
-  - name: beerocky8-01
-    image: Rocky-8-GenericCloud-LVM.x86_64
+  - name: beealma94-01
+    image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: dobbi
     meta:
-      cloud_user: rocky
+      cloud_user: almalinux
     availability_zone: nova
     security_groups:
       - ssh_icmp
@@ -63,11 +63,11 @@ provisioner:
     converge: ../openstack/playbooks/converge.yml
   inventory:
     host_vars:
-      beerocky8-01:
+      beealma94-01:
         client_clusters:
           - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beerocky8-01"]
-            cluster_meta_nodes: ["beerocky8-01"]
+            cluster_storage_nodes: ["beealma94-01"]
+            cluster_meta_nodes: ["beealma94-01"]
       beeubuntu2204-01:
         client_clusters:
           - sys_mgmtd_host: localhost
@@ -75,7 +75,7 @@ provisioner:
             cluster_meta_nodes: ["beeubuntu2204-01"]
     group_vars:
       all:
-        system_beegfs_version: 7.4.3
+        system_beegfs_version: 7.4.5
       metadata:
         metad_server_targets:
           - target_id: 1

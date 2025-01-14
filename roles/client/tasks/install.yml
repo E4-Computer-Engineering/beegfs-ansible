@@ -17,6 +17,7 @@
     - client_build_kernel_modules is defined
     - client_build_kernel_modules
     - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
+      or (ansible_distribution == 'AlmaLinux')
   tags:
     - install
 
