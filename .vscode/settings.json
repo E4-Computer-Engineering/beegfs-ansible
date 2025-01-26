@@ -91,5 +91,5 @@
     "*.yaml": "ansible",
     "*.yml": "ansible"
   },
-  "ansible.python.interpreterPath": "~/.pyenv/versions/beegfs-ansible/bin/python"
+  "ansible.python.interpreterPath": "${HOME}/.pyenv/versions/beegfs-ansible/bin/python"
 }
