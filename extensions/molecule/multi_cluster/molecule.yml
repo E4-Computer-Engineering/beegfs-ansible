@@ -112,7 +112,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        system_beegfs_version: 7.4.5
+        system_beegfs_version: 7.4.6
     host_vars:
       beestore-01:
         sys_mgmtd_host: "beestore-01"
