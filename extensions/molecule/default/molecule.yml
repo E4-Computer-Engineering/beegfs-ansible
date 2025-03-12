@@ -75,7 +75,7 @@ provisioner:
             cluster_meta_nodes: ["beeubuntu2204-01"]
     group_vars:
       all:
-        system_beegfs_version: 7.4.5
+        system_beegfs_version: 7.4.6
       metadata:
         metad_server_targets:
           - target_id: 1
