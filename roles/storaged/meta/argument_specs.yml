@@ -20,7 +20,12 @@ argument_specs:
         options:
           target_id:
             type: str
-            description: The ID to assign to the storage target object
+            description:
+              - The ID to assign to the storage target object
+              - Albeit not required by Beegfs, the ID needs to be unique in the cluster
+              - The ID is used to create the target directory mountpoint `/data/beegfs_storage/t<target_id>`
+              - The ID is used to setup the Buddy Mirror relationship
+              - The ID is used to setup the Storage Pool membership
             default: "1"
           sys_mgmtd_host:
             type: str
