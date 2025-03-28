@@ -299,6 +299,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/target_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The ID to assign to the metadata target object</p>
+<p>Albeit not required by Beegfs, the ID needs to be unique in the cluster</p>
+<p>The ID is used to create the target directory mountpoint `/data/beegfs_meta/t&lt;target_id&gt;`</p>
+<p>The ID is used to setup the metada mirror relationship</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
 </div></td>
 </tr>
