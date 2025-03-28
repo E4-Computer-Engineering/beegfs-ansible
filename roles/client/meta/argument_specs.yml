@@ -26,7 +26,14 @@ argument_specs:
       client_build_kernel_modules:
         type: bool
         description: Build the client kernel modules
-        default: false
+        default: true
+      client_install_kernel_dev:
+        type: bool
+        description:
+          - Install the kernel development packages
+          - Needed to build the client kernel modules
+          - If the kernel* is filtered out from package manager, it breaks the Ansible module
+        default: true
       client_clusters:
         type: list
         elements: dict
