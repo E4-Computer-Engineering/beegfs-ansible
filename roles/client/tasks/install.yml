@@ -18,6 +18,8 @@
     - client_build_kernel_modules
     - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
       or (ansible_distribution == 'AlmaLinux')
+    - client_install_kernel_dev is defined
+    - client_install_kernel_dev
   tags:
     - install
 
@@ -29,5 +31,7 @@
     - client_build_kernel_modules is defined
     - client_build_kernel_modules
     - ansible_distribution == 'Ubuntu'
+    - client_install_kernel_dev is defined
+    - client_install_kernel_dev
   tags:
     - install

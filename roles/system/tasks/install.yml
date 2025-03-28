@@ -12,7 +12,18 @@
   tags:
     - install
 
-- name: Add Rocky vault devel repository to install correct kernel-devel package
+- name: Check if the Rocky vault repo exists
+  ansible.builtin.uri:
+    url: "http://dl.rockylinux.org/vault/rocky/{{ ansible_distribution_version }}/devel/x86_64/os/"
+    method: HEAD
+  register: rocky_vault_test
+  failed_when: rocky_vault_test.status is undefined or rocky_vault_test.status <= 0
+  when:
+    - ansible_distribution == 'Rocky'
+  tags:
+    - install
+
+- name: Add Rocky vault devel repository for correct kernel-devel package if not on latest OS release
   ansible.builtin.yum_repository:
     name: vault-devel
     description: "Rocky Linux {{ ansible_distribution_version }} - Vault Devel"
@@ -21,10 +32,22 @@
     gpgkey: "///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial"
   when:
     - ansible_distribution == 'Rocky'
+    - rocky_vault_test.status == 200
   tags:
     - install
 
-- name: Add Almalinux vault AppStream repository to install correct kernel-devel package
+- name: Check if the Almalinux vault repo exists
+  ansible.builtin.uri:
+    url: "http://repo.almalinux.org/vault/{{ ansible_distribution_version }}/AppStream/x86_64/os/"
+    method: HEAD
+  register: alma_vault_test
+  failed_when: alma_vault_test.status is undefined or alma_vault_test.status <= 0
+  when:
+    - ansible_distribution == 'AlmaLinux'
+  tags:
+    - install
+
+- name: Add Almalinux vault AppStream repository for correct kernel-devel package if not on latest OS release
   ansible.builtin.yum_repository:
     name: vault-devel
     description: "AlmaLinux {{ ansible_distribution_version }} - Vault AppStream"
@@ -33,6 +56,7 @@
     gpgkey: "///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-{{ ansible_distribution_version }}"
   when:
     - ansible_distribution == 'AlmaLinux'
+    - alma_vault_test.status == 200
   tags:
     - install
 
