@@ -7,8 +7,13 @@
   ansible.builtin.import_tasks: buddy_mirror.yml
   run_once: true
 
-- name: Refresh all handlers
-  ansible.builtin.meta: flush_handlers
+- name: Execute beegfs client
+  ansible.builtin.import_role:
+    name: client
+    tasks_from: run
+  vars:
+    # We need the client mounting the Beegfs storage to execute setpattern command
+    client_start_service: true
 
 - name: Execute dir layout
   ansible.builtin.import_tasks: dir_layout.yml

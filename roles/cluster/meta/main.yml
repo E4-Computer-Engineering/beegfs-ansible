@@ -16,3 +16,6 @@ galaxy_info:
 
 dependencies:
   - role: client
+    vars:
+      # Clients must be disconnected to run mirrormd command succesfully
+      client_start_services: false
