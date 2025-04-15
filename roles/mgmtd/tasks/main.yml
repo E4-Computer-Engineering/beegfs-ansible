@@ -32,7 +32,7 @@
 
 - name: Execute management setup command for single cluster deployment
   ansible.builtin.command: |
-    /opt/beegfs/sbin/beegfs-setup-mgmtd -C -p {{ mgmtd_store_mgmtd_directory }}
+    /opt/beegfs/sbin/beegfs-setup-mgmtd -C -p {{ mgmtd_store_mgmtd_directory }} -S {{ mgmtd_string_id }}
   changed_when: false
   when:
     - mgmtd_target_dir_content.matched == 0

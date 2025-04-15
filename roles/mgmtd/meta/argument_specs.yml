@@ -9,6 +9,13 @@ argument_specs:
       - Davide Obbi
     version_added: "1.0.0"
     options:
+      mgmtd_string_id:
+        type: str
+        description:
+          - The string ID of the management server
+          - This ID will be used in server-related log messages
+          - To set to a common name in HA configurations where two mgmtd servers work in active/passive
+        default: "{{ inventory_hostname_short }}"
       mgmtd_start_services:
         type: bool
         description: Start the `beegfs-mgmtd.service`
