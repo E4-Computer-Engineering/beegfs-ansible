@@ -2,6 +2,7 @@
 mgmtd_start_services: true
 
 # /etc/beegfs/beegfs-mgmt.conf
+mgmtd_string_id: "{{ inventory_hostname_short }}"
 mgmtd_store_mgmtd_directory: /data/beegfs/beegfs_mgmtd
 mgmtd_conn_mgmtd_port_tcp: "8008"
 mgmtd_conn_mgmtd_port_udp: "8008"

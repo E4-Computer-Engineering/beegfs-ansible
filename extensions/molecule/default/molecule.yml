@@ -64,6 +64,7 @@ provisioner:
   inventory:
     host_vars:
       beealma95-01:
+        mgmtd_string_id: almamaster
         client_clusters:
           - sys_mgmtd_host: localhost
             cluster_storage_nodes: ["beealma95-01"]
