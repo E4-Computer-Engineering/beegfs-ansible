@@ -168,9 +168,9 @@
         --primary={{ item.value.target_ids[0] }} \
         --secondary={{ item.value.target_ids[1] }} \
         --groupid={{ item.key }}
+      register: beegfsctl_addmetamirrorgroup
       changed_when: false
       loop: "{{ buddymirror_data | dict2items }}"
-      register: beegfsctl_addmirrorgroup
       when:
         - not multi_mode
         - not ( item.key in existing_buddy_mirrorgroups.results
@@ -185,7 +185,33 @@
           --primary={{ item.value.target_ids[0] }} \
           --secondary={{ item.value.target_ids[1] }} \
           --groupid={{ item.key }}
-      notify: Execute metadata enable mirror command
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Set changed status based on addmirrorgroup command results
+      ansible.builtin.set_fact:
+        _changed_status: "{{ item.rc == 0 }}"
+      loop: "{{ beegfsctl_addmetamirrorgroup.results }}"
+      when:
+        - item.item.value.mirror_type == 'metadata'
+        - not multi_mode
+        - not item.skipped is defined
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Execute metadata enable mirror command
+      ansible.builtin.command: |
+        beegfs-ctl --mirrormd
+      changed_when: false
+      register: result
+      retries: 3
+      delay: 5
+      until: result.rc == 0
+      when:
+        - not multi_mode
+        - _changed_status is defined
       tags:
         - buddy_mirror
         - meta_mirror
@@ -257,6 +283,7 @@
         --secondary={{ item.value.target_ids[1] }} \
         --groupid={{ item.key }}
       changed_when: false
+      register: beegfsctl_addmetamirrorgroup_multi
       loop: "{{ buddymirror_data | dict2items }}"
       when:
         - multi_mode
@@ -273,7 +300,43 @@
           --primary={{ item.value.target_ids[0] }} \
           --secondary={{ item.value.target_ids[1] }} \
           --groupid={{ item.key }}
-      notify: Execute metadata enable mirrormd command for multi cluster deployment
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+
+    - name: Set changed status based on addmirrorgroup command results for multi cluster deployment
+      ansible.builtin.set_fact:
+        _changed_status_multi: "{{ item.rc == 0 }}"
+      loop: "{{ beegfsctl_addmetamirrorgroup_multi.results }}"
+      when:
+        - multi_mode
+        - item.item.value.mirror_type == 'metadata'
+        - not item.skipped is defined
+      tags:
+        - buddy_mirror
+        - meta_mirror
+
+    - name: Execute metadata enable mirrormd command for multi cluster deployment
+      ansible.builtin.command: |
+        beegfs-ctl \
+        --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+        --mirrormd
+      changed_when: false
+      register: result
+      retries: 3
+      delay: 5
+      until: result.rc == 0
+      loop: "{{ buddymirror_data | dict2items }}"
+      loop_control:
+        label: |
+          beegfs-ctl \
+          --cfgFile=/etc/beegfs/{{ item.value.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf \
+          --mirrormd
+      when:
+        - multi_mode
+        - item.value.mirror_type == 'metadata'
+        - _changed_status_multi is defined
       tags:
         - buddy_mirror
         - meta_mirror

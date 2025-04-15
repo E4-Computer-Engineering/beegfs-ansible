@@ -1,18 +1,4 @@
 ---
-- name: Execute metadata enable mirror command
-  ansible.builtin.command: |
-    beegfs-ctl --mirrormd
-  changed_when: false
-  when:
-    - not multi_mode
-
-- name: Execute metadata enable mirrormd command for multi cluster deployment
-  ansible.builtin.command: |
-    beegfs-ctl --cfgFile=/etc/beegfs/{{ item.item.value.sys_mgmtd_host }}/beegfs-client.conf --mirrormd
-  changed_when: false
-  when:
-    - multi_mode
-
 - name: Pause for 30 seconds to propagate definitions
   ansible.builtin.pause:
     seconds: 30
