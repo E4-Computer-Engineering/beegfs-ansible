@@ -224,6 +224,16 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;/data/beegfs/beegfs_mgmtd&quot;</span></code></p>
 </div></td>
 </tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_string_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-string-id"><strong>mgmtd_string_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_string_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The string ID of the management server</p>
+<p>This ID will be used in server-related log messages</p>
+<p>To set to a common name in HA configurations where two mgmtd servers work in active/passive</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">inventory_hostname_short</span> <span class="pre">}}&quot;</span></code></p>
+</div></td>
+</tr>
 </tbody>
 </table>
 </section>
