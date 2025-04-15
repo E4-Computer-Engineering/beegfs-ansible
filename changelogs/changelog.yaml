@@ -85,3 +85,29 @@ releases:
     fragments:
     - realease.yml
     release_date: '2025-01-14'
+  1.0.4:
+    changes:
+      release_summary: '| Release Date: 2025-04-15
+
+        | This is the new release of ``e4_computer_engineering.beegfs`` collection.
+
+        | This release includes the following changes:
+
+        | - Added support for Beegfs 7.4.6 and 7.2.5
+
+        | - Fixed bug with metadata mirrormd command
+
+        | - Added support for mgmtd ID mgmtd_string_id:
+
+        | - Docs improvement for storage and meta ID specifics
+
+        | - Fix to addition of Alma and Rocky Vault repo only if not on latest OS
+        release
+
+        | - Manually control the installation of kernel-devel and kernel-headers if
+        needed
+
+        '
+    fragments:
+    - release.yml
+    release_date: '2025-04-15'

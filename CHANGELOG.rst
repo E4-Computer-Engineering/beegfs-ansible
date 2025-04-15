@@ -4,6 +4,22 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v1.0.4
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-04-15
+| This is the new release of ``e4_computer_engineering.beegfs`` collection.
+| This release includes the following changes:
+| - Added support for Beegfs 7.4.6 and 7.2.5
+| - Fixed bug with metadata mirrormd command
+| - Added support for mgmtd ID mgmtd_string_id:
+| - Docs improvement for storage and meta ID specifics
+| - Fix to addition of Alma and Rocky Vault repo only if not on latest OS release
+| - Manually control the installation of kernel-devel and kernel-headers if needed
+
 v1.0.3
 ======
 
