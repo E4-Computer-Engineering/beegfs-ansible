@@ -8,6 +8,26 @@ driver:
   port: 22
   ssh_identity_file: ~/.ssh/e4github
 platforms:
+  - name: beealma810-01
+    image: AlmaLinux-8-GenericCloud-8.10
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: almalinux
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+      - clients
   - name: beealma95-01
     image: AlmaLinux-9-GenericCloud-9.5
     flavor: m1.medium
@@ -63,6 +83,11 @@ provisioner:
     converge: ../openstack/playbooks/converge.yml
   inventory:
     host_vars:
+      beealma810-01:
+        client_clusters:
+          - sys_mgmtd_host: localhost
+            cluster_storage_nodes: ["beealma810-01"]
+            cluster_meta_nodes: ["beealma810-01"]
       beealma95-01:
         mgmtd_string_id: almamaster
         client_clusters:
