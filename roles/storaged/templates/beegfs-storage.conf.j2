@@ -1,6 +1,6 @@
 ### {{ ansible_managed }} ###
 sysMgmtdHost                 = {{ settings.sys_mgmtd_host | default(storaged_sys_mgmtd_host) }}
-storeStorageDirectory        = /data/beegfs/beegfs_storage/t{{ settings.target_id | default(storaged_target_id) }}
+storeStorageDirectory        = /data/beegfs/beegfs_storage/t{{ settings.target_id | default(storaged_target_id) }}/dir
 storeAllowFirstRunInit       = false
 storeFsUUID                  =
 connAuthFile                 = /etc/beegfs/connauthfile

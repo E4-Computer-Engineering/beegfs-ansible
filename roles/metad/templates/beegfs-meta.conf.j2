@@ -1,6 +1,6 @@
 ### {{ ansible_managed }} ###
 sysMgmtdHost                 = {{ settings.sys_mgmtd_host | default(metad_sys_mgmtd_host) }}
-storeMetaDirectory           = /data/beegfs/beegfs_meta/t{{ settings.target_id | default(metad_target_id) }}
+storeMetaDirectory           = /data/beegfs/beegfs_meta/t{{ settings.target_id | default(metad_target_id) }}/dir
 storeAllowFirstRunInit       = false
 storeFsUUID                  =
 connAuthFile                 = /etc/beegfs/connauthfile

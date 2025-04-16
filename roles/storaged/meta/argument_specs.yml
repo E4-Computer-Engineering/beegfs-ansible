@@ -27,6 +27,12 @@ argument_specs:
               - The ID is used to setup the Buddy Mirror relationship
               - The ID is used to setup the Storage Pool membership
             default: "1"
+          device:
+            type: str
+            description:
+              - "Name of the device that will mount the beegfs storage partition"
+              - "Note that /dev/ must be omitted because it is already present in the path of the device"
+            required: true
           sys_mgmtd_host:
             type: str
             description:

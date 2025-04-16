@@ -2,6 +2,15 @@
 metad_start_services: true
 metad_server_targets: []
 
+# Filesystem specs
+metad_filesystem_type: "ext4"
+metad_filesystem_bytes_per_inode: 2048
+metad_filesystem_inode_size: 512
+metad_filesystem_journal_size: 400
+metad_filesystem_features: "dir_index,large_dir,filetype"
+metad_filesystem_options: "defaults,noatime,nodiratime,nofail"
+metad_filesystem_purge: false
+
 # /etc/beegfs/beegfs-meta.conf
 metad_target_id: "1"
 metad_sys_mgmtd_host: localhost

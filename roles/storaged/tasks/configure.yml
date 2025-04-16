@@ -1,4 +1,12 @@
 ---
+- name: Collect mounted devices
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - hardware
+  tags:
+    - configure
+
 - name: Disable and mask canonical Beegfs storage service
   ansible.builtin.systemd:
     name: beegfs-storage.service
@@ -24,9 +32,99 @@
     - storaged_configure
     - configure
 
+- name: Generate UUID for each storage target
+  ansible.builtin.command:
+    uuidgen
+  loop: "{{ storaged_server_targets }}"
+  register: storaged_generated_uuids
+  changed_when: false
+  tags:
+    - configure
+
+- name: Set important variables for each storage target
+  ansible.builtin.set_fact:
+    storaged_uuids_and_devices: >
+      {
+        {% for device in storaged_server_targets %}
+          {% set device_uuid = storaged_generated_uuids.results[loop.index0].stdout %}
+          {% set target_directory = 't' + (device.target_id | string) %}
+          {% set target_options = storaged_filesystem_options +
+            (storaged_filesystem_quota_options if (device.quota_enable_enforcement | bool ) else '') %}
+            "{{ target_directory }}":"{{ device_uuid }}",
+            "{{ device.device }}":"{{ (
+              ansible_mounts |
+              selectattr('device', 'equalto', device.device) |
+              list | length > 0) |
+              lower }}",
+            "{{ target_directory + "_filesystem_options" }}":"{{ target_options }}"
+          {% if not loop.last %},{% endif %}
+        {% endfor %}
+      }
+  tags:
+    - configure
+
+- name: Purge filesystems
+  when: storaged_filesystem_purge
+  block:
+
+    - name: Stop beegfs storage@ services
+      ansible.builtin.systemd_service:
+        name: "beegfs-storage@inst{{ item.target_id }}"
+        state: stopped
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "beegfs-storage@inst{{ item.target_id }}"
+      tags:
+        - purge
+
+    - name: Unmount Beegfs storage targets
+      ansible.posix.mount:
+        path: "/data/beegfs/beegfs_storage/t{{ target.target_id }}"
+        state: absent
+      vars:
+        target: "{{ item }}"
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+      register: result
+      retries: 3
+      delay: 5
+      until: result.failed == false
+      tags:
+        - purge
+
+    - name: Remove Beegfs storage directories
+      ansible.builtin.file:
+        path: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+        state: absent
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+      tags:
+        - purge
+
+- name: Create filesystem on each storage target
+  community.general.filesystem:
+    fstype: "{{ storaged_filesystem_type }}"
+    dev: "/dev/{{ target.device }}"
+    force: "{{ storaged_filesystem_purge }}"
+    opts: |-
+      -d su={{ storaged_filesystem_strip_unit }},sw={{ storaged_filesystem_strip_width }}
+      -l version={{ storaged_filesystem_log_version }},su={{ storaged_filesystem_log_unit }}
+      -isize={{ storaged_filesystem_inode_size }}
+    uuid: "{{ storaged_uuids_and_devices['t' + (target.target_id | string)] }}"
+  vars:
+    target: "{{ item }}"
+  loop: "{{ storaged_server_targets }}"
+  loop_control:
+    label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+  when: (not storaged_uuids_and_devices[target.device]) or storaged_filesystem_purge
+  tags:
+    - configure
+
 - name: Create Beegfs storage directories
   ansible.builtin.file:
-    path: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+    path: "/data/beegfs/beegfs_storage/t{{ item.target_id }}/dir"
     state: directory
     mode: "0700"
     owner: root
@@ -39,9 +137,25 @@
     - storaged_configure
     - configure
 
+- name: Mount Beegfs storage targets
+  ansible.posix.mount:
+    path: "/data/beegfs/beegfs_storage/t{{ target.target_id }}"
+    src: 'UUID="{{ storaged_uuids_and_devices["t" + (target.target_id | string)] }}"'
+    fstype: "{{ storaged_filesystem_type }}"
+    opts: "{{ storaged_filesystem_options | regex_replace(' ', '') }}"
+    state: mounted
+  vars:
+    target: "{{ item }}"
+  loop: "{{ storaged_server_targets }}"
+  loop_control:
+    label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+  when: (not storaged_uuids_and_devices[target.device]) or storaged_filesystem_purge
+  tags:
+    - configure
+
 - name: Check if storage data folder/s are empty before proceeding
   ansible.builtin.find:
-    paths: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+    paths: "/data/beegfs/beegfs_storage/t{{ item.target_id }}/dir"
     excludes: "lost+found"
   register: storaged_target_dirs_content
   loop: "{{ storaged_server_targets }}"
@@ -95,7 +209,7 @@
   ansible.builtin.command: |
       /opt/beegfs/sbin/beegfs-setup-storage -C -u \
       -c /etc/beegfs/inst{{ item.item.target_id }}.d/beegfs-storage.conf \
-      -p /data/beegfs/beegfs_storage/t{{ item.item.target_id }} \
+      -p /data/beegfs/beegfs_storage/t{{ item.item.target_id }}/dir \
       -s {{ item.item.target_id }} \
       -i {{ item.item.target_id }} \
       -I {{ inventory_hostname_short }}-t{{ item.item.target_id }} \
@@ -109,7 +223,7 @@
     label: |
       /opt/beegfs/sbin/beegfs-setup-storage -C -u \
       -c /etc/beegfs/inst{{ item.item.target_id }}.d/beegfs-storage.conf \
-      -p /data/beegfs/beegfs_storage/t{{ item.item.target_id }} \
+      -p /data/beegfs/beegfs_storage/t{{ item.item.target_id }}/dir \
       -s {{ item.item.target_id }} \
       -i {{ item.item.target_id }} \
       -I {{ inventory_hostname_short }}-t{{ item.item.target_id }} \
