@@ -2,6 +2,24 @@
 storaged_start_services: true
 storaged_server_targets: []
 
+# Filesystem specs
+storaged_filesystem_type: "xfs"
+storaged_filesystem_strip_unit: "128k"
+storaged_filesystem_strip_width: 8
+storaged_filesystem_log_version: 2
+storaged_filesystem_log_bufs: 8
+storaged_filesystem_log_unit: "128k"
+storaged_filesystem_inode_size: 512
+storaged_filesystem_alloc_size: "131072k"
+storaged_filesystem_options: >-
+  defaults,noatime,nodiratime,seclabel,swalloc,attr2,largeio,inode64,nofail,
+  allocsize={{ storaged_filesystem_alloc_size }},
+  logbufs={{ storaged_filesystem_log_bufs }},
+  logbsize={{ storaged_filesystem_log_unit }}
+storaged_filesystem_quota_options: ",uqnoenforce,gqnoenforce"
+storaged_filesystem_purge: false
+
+
 # /etc/beegfs/beegfs-storage.conf
 storaged_target_id: "1"
 storaged_sys_mgmtd_host: localhost
