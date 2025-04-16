@@ -7,6 +7,8 @@
     owner: root
     group: root
   tags:
+    - mgmtd
+    - mgmtd_configure
     - configure
 
 - name: Ensure Beegfs management configuration file
@@ -20,6 +22,8 @@
   notify:
     - Restart beegfs mgmtd service
   tags:
+    - mgmtd
+    - mgmtd_configure
     - configure
 
 - name: Check if management data folder is empty before proceeding
@@ -37,6 +41,8 @@
   when:
     - mgmtd_target_dir_content.matched == 0
   tags:
+    - mgmtd
+    - mgmtd_configure
     - configure
 
 - name: Enable and start per cluster Beegfs mgmtd service
@@ -47,4 +53,6 @@
   when:
     - mgmtd_start_services
   tags:
+    - mgmtd
+    - mgmtd_run
     - run

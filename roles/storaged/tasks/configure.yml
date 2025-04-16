@@ -5,6 +5,8 @@
     enabled: false
     masked: true
   tags:
+    - storaged
+    - storaged_configure
     - configure
 
 - name: Create Beegfs per storage server configuration directories
@@ -18,6 +20,8 @@
   loop_control:
     label: "/etc/beegfs/inst{{ item.target_id }}.d"
   tags:
+    - storaged
+    - storaged_configure
     - configure
 
 - name: Create Beegfs storage directories
@@ -31,6 +35,8 @@
   loop_control:
     label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
   tags:
+    - storaged
+    - storaged_configure
     - configure
 
 - name: Check if storage data folder/s are empty before proceeding
@@ -42,6 +48,8 @@
   loop_control:
     label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
   tags:
+    - storaged
+    - storaged_configure
     - configure
 
 - name: Ensure Beegfs storage configuration files
@@ -59,6 +67,8 @@
   notify:
     - Restart beegfs storage@ services
   tags:
+    - storaged
+    - storaged_configure
     - configure
 
 - name: Execute storage setup command
@@ -86,4 +96,6 @@
       -S {{ inventory_hostname_short }}-inst{{ item.item.target_id }} \
       -m {{ item.item.sys_mgmtd_host }}
   tags:
+    - storaged
+    - storaged_configure
     - configure

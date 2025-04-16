@@ -13,6 +13,8 @@
   notify:
     - Restart beegfs mon service
   tags:
+    - mon
+    - mon_configure
     - configure
 
 - name: Enable and start Beegfs mon service
@@ -23,4 +25,6 @@
   when:
     - mon_start_services
   tags:
+    - mon
+    - mon_run
     - run

@@ -9,6 +9,8 @@
     - ansible_distribution_major_version is version('9', '==')
     - client_dkms_install
   tags:
+    - client
+    - client_install
     - install
 
 - name: Add EPEL9 Repository required by Beegfs DKMS install for RHEL
@@ -21,6 +23,8 @@
     - ansible_distribution_major_version is version('9', '==')
     - client_dkms_install
   tags:
+    - client
+    - client_install
     - install
 
 - name: Add EPEL8 Repository required by Beegfs DKMS install for Rocky and Almalinux
@@ -33,6 +37,8 @@
     - ansible_distribution_major_version is version('8', '==')
     - client_dkms_install
   tags:
+    - client
+    - client_install
     - install
 
 - name: Add EPEL8 Repository required by Beegfs DKMS install for RHEL
@@ -45,6 +51,8 @@
     - ansible_distribution_major_version is version('8', '==')
     - client_dkms_install
   tags:
+    - client
+    - client_install
     - install
 
 - name: Install Beegfs Beeond package
@@ -55,6 +63,8 @@
     - client_enable_beeond is defined
     - client_enable_beeond
   tags:
+    - client
+    - client_install
     - install
 
 - name: Install `kernel-devel` `kernel-core` packages on Redhat like systems
@@ -72,6 +82,8 @@
     - client_install_kernel_dev is defined
     - client_install_kernel_dev
   tags:
+    - client
+    - client_install
     - install
 
 - name: Install `kernel-headers` package on Ubuntu
@@ -85,4 +97,6 @@
     - client_install_kernel_dev is defined
     - client_install_kernel_dev
   tags:
+    - client
+    - client_install
     - install

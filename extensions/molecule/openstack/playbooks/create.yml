@@ -5,6 +5,13 @@
   gather_facts: false
   tasks:
 
+    - name: Create instance volumes
+      openstack.cloud.volume:
+        name: "{{ item.1 }}"
+        state: present
+        size: 2
+      loop: "{{ molecule_yml.platforms | subelements('volumes') }}"
+
     - name: Create instance via server module
       openstack.cloud.server:
         name: "{{ item.name }}"
@@ -12,11 +19,12 @@
         flavor: "{{ item.flavor }}"
         key_name: "{{ item.key_name }}"
         nics: "{{ item.nics }}"
-        availability_zone: "{{ item.availability_zone }}"
         security_groups: "{{ item.security_groups }}"
         meta: "{{ item.meta }}"
         validate_certs: "{{ item.validate_certs }}"
+        volumes: "{{ item.volumes }}"
         volume_size: 20
+        boot_from_volume: true
         terminate_volume: true
       register: server_create
       loop: "{{ molecule_yml.platforms }}"

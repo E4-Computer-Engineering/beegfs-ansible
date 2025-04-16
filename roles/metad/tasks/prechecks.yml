@@ -4,7 +4,6 @@
     msg: |
       {{ (metad_server_targets | selectattr('target_id', 'defined') | map(attribute='target_id') | list) }}
   tags:
-    - prechecks
     - debug
     - never
 
@@ -14,7 +13,6 @@
       {{ (metad_server_targets | selectattr('sys_mgmtd_host', 'defined') |
        map(attribute='sys_mgmtd_host') | list) }}
   tags:
-    - prechecks
     - debug
     - never
 
@@ -31,13 +29,14 @@
       }
   when: metad_server_targets | length > 0
   tags:
+    - metad
+    - metad_prechecks
     - prechecks
 
 - name: Display metadata_check fact
   ansible.builtin.debug:
     var: metadata_check
   tags:
-    - prechecks
     - debug
     - never
 
@@ -50,4 +49,6 @@
     fail_msg: "The metad_server_targets are not correctly defined"
   when: metad_server_targets | length > 0
   tags:
+    - metad
+    - metad_prechecks
     - prechecks

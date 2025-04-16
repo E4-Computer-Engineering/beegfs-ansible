@@ -4,12 +4,16 @@
     gather_subset:
       - distribution
   tags:
+    - system
+    - system_install
     - install
 
 - name: Load OS specific variables
   ansible.builtin.include_vars:
     file: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   tags:
+    - system
+    - system_install
     - install
 
 - name: Check if the Rocky vault repo exists
@@ -21,6 +25,8 @@
   when:
     - ansible_distribution == 'Rocky'
   tags:
+    - system
+    - system_install
     - install
 
 - name: Add Rocky vault devel repository for correct kernel-devel package if not on latest OS release
@@ -34,6 +40,8 @@
     - ansible_distribution == 'Rocky'
     - rocky_vault_test.status == 200
   tags:
+    - system
+    - system_install
     - install
 
 - name: Check if the Almalinux vault repo exists
@@ -45,6 +53,8 @@
   when:
     - ansible_distribution == 'AlmaLinux'
   tags:
+    - system
+    - system_install
     - install
 
 - name: Add Almalinux vault AppStream repository for correct kernel-devel package if not on latest OS release
@@ -58,6 +68,8 @@
     - ansible_distribution == 'AlmaLinux'
     - alma_vault_test.status == 200
   tags:
+    - system
+    - system_install
     - install
 
 - name: Add Beegfs YUM Repository
@@ -71,6 +83,8 @@
     - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
       or (ansible_distribution == 'AlmaLinux')
   tags:
+    - system
+    - system_install
     - install
 
 - name: Add Beegfs APT signing key
@@ -83,6 +97,8 @@
   when:
     - ansible_distribution == 'Ubuntu'
   tags:
+    - system
+    - system_install
     - install
 
 - name: Add Beegfs APT Repository
@@ -93,6 +109,8 @@
   when:
     - ansible_distribution == 'Ubuntu'
   tags:
+    - system
+    - system_install
     - install
 
 - name: Install System packages "{{ system_packages }}"
@@ -104,4 +122,6 @@
   retries: 3
   until: _package_inst is success
   tags:
+    - system
+    - system_install
     - install

@@ -7,6 +7,8 @@
   when: system_deploy_auth_file
   become: false
   tags:
+    - system
+    - system_prechecks
     - prechecks
 
 - name: Assert that the authentication file is locally existing
@@ -17,4 +19,6 @@
     fail_msg: "File {{ system_auth_file_path }} does not exists locally"
   when: system_deploy_auth_file
   tags:
+    - system
+    - system_prechecks
     - prechecks

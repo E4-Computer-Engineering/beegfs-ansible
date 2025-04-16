@@ -6,15 +6,15 @@ dependency:
     role-file: molecule/openstack/requirements.yml
 driver:
   port: 22
-  ssh_identity_file: ~/.ssh/e4github
+  ssh_identity_file: ~/.ssh/med-deployer-dev
 platforms:
   - name: beestore-01
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -30,10 +30,10 @@ platforms:
   - name: beestore-11
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -47,10 +47,10 @@ platforms:
   - name: beestore-02
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -66,10 +66,10 @@ platforms:
   - name: beestore-22
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -83,10 +83,10 @@ platforms:
   - name: beeclient-01
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
