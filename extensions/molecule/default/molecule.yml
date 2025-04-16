@@ -68,6 +68,66 @@ platforms:
       - metadata
       - monitoring
       - clients
+  - name: beealma810-02
+    image: AlmaLinux-8-GenericCloud-8.10
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: almalinux
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+      - clients
+  - name: beealma95-02
+    image: AlmaLinux-9-GenericCloud-9.5
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: almalinux
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+      - clients
+  - name: beeubuntu2204-02
+    image: Ubuntu-jammy-22.04
+    flavor: m1.medium
+    key_name: dobbi
+    meta:
+      cloud_user: ubuntu
+    availability_zone: nova
+    security_groups:
+      - ssh_icmp
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - management
+      - metadata
+      - monitoring
+      - clients
 provisioner:
   name: ansible
   # needed otherwise molecule does not find it
@@ -89,12 +149,31 @@ provisioner:
             cluster_storage_nodes: ["beealma810-01"]
             cluster_meta_nodes: ["beealma810-01"]
       beealma95-01:
-        mgmtd_string_id: almamaster
+        mgmtd_string_id: localhost
         client_clusters:
           - sys_mgmtd_host: localhost
             cluster_storage_nodes: ["beealma95-01"]
             cluster_meta_nodes: ["beealma95-01"]
       beeubuntu2204-01:
+        client_clusters:
+          - sys_mgmtd_host: localhost
+            cluster_storage_nodes: ["beeubuntu2204-01"]
+            cluster_meta_nodes: ["beeubuntu2204-01"]
+      beealma810-02:
+        client_dkms_install: true
+        client_clusters:
+          - sys_mgmtd_host: localhost
+            cluster_storage_nodes: ["beealma810-01"]
+            cluster_meta_nodes: ["beealma810-01"]
+      beealma95-02:
+        client_dkms_install: true
+        mgmtd_string_id: localhost
+        client_clusters:
+          - sys_mgmtd_host: localhost
+            cluster_storage_nodes: ["beealma95-01"]
+            cluster_meta_nodes: ["beealma95-01"]
+      beeubuntu2204-02:
+        client_dkms_install: true
         client_clusters:
           - sys_mgmtd_host: localhost
             cluster_storage_nodes: ["beeubuntu2204-01"]

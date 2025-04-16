@@ -18,6 +18,7 @@
   when:
     - client_start_services
     - not multi_mode
+    - not client_dkms_install
   tags:
     - restart_services
 
@@ -42,5 +43,14 @@
   when:
     - client_start_services
     - multi_mode
+    - not client_dkms_install
+  tags:
+    - restart_services
+
+- name: Load beegfs module
+  ansible.builtin.command: modprobe beegfs
+  changed_when: false
+  when:
+    - client_dkms_install
   tags:
     - restart_services
