@@ -3,6 +3,7 @@
 
 ### Ansible ###
 *.retry
+.ansible/
 
 ### Patch ###
 *.orig
