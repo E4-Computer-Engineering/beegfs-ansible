@@ -1,0 +1,10 @@
+### {{ ansible_managed }} ###
+{% if client_ofed_libs_path and client_ofed_libs_path | length > 0 %}
+OFED_INCLUDE_PATH={{ client_ofed_libs_path }}
+{% if client_nvfs_libs_path and client_nvfs_libs_path | length > 0 and client_nvidia_libs_path and client_nvidia_libs_path | length >0 %}
+NVFS_INCLUDE_PATH={{ client_nvfs_libs_path }}
+NVIDIA_INCLUDE_PATH={{ client_nvidia_libs_path }}
+{% endif %}
+{% else %}
+BEEGFS_NO_RDMA=1
+{% endif %}

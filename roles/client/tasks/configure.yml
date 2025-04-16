@@ -6,6 +6,8 @@
     mode: "0640"
     owner: root
     group: root
+  when:
+    - not client_dkms_install
   tags:
     - configure
 
@@ -37,7 +39,8 @@
   loop: "{{ client_clusters }}"
   loop_control:
     label: "{{ item.sys_mgmtd_host }}"
-  when: not multi_mode
+  when:
+    - not multi_mode
   notify:
     - Restart beegfs client service
   tags:
@@ -111,7 +114,9 @@
   loop: "{{ client_clusters }}"
   loop_control:
     label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-mounts.conf"
-  when: multi_mode
+  when:
+    - multi_mode
+    - not client_dkms_install
   # WARNING: at the moment i can't think of a way to restart only the changed cluster service
   notify:
     - Restart beegfs client@ services
@@ -132,5 +137,101 @@
   # WARNING: at the moment i can't think of a way to restart only the changed cluster service
   notify:
     - Restart beegfs client@ services
+  tags:
+    - configure
+
+- name: Ensure Beegfs modules configuration file
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/beegfs-client-dkms.conf"
+    content: beegfs
+    mode: "0644"
+    owner: root
+    group: root
+  when:
+    - client_dkms_install
+  notify:
+    - Load beegfs module
+  tags:
+    - configure
+
+# As per Beegfs DKMS documentation this file needs to exists before installing the beegfs-client-dkms
+- name: Ensure The Beegfs client DKMS build
+  when:
+    - client_dkms_install
+  tags:
+    - configure
+    - install
+  block:
+    - name: Ensure Beegfs client build DKMS configuration file
+      ansible.builtin.template:
+        src: "beegfs-client-build.mk.j2"
+        dest: "/etc/beegfs/beegfs-client-build.mk"
+        mode: "0640"
+        owner: root
+        group: root
+
+    - name: Install beegfs-client-dkms package
+      ansible.builtin.package:
+        name: beegfs-client-dkms
+        state: present
+      register: _package_inst
+      retries: 3
+      until: _package_inst is success
+
+- name: Enable and start per cluster Beegfs helperd service
+  ansible.builtin.systemd:
+    name: "beegfs-helperd"
+    enabled: true
+    state: started
+  when:
+    - not multi_mode
+    - client_dkms_install
+  tags:
+    - configure
+
+- name: Enable and start per cluster Beegfs helperd services for multimode deployment
+  ansible.builtin.systemd:
+    name: "beegfs-helperd@{{ item.sys_mgmtd_host | replace('-', '') }}"
+    enabled: true
+    state: started
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "beegfs-helperd@{{ item.sys_mgmtd_host | replace('-', '') }}"
+  when:
+    - multi_mode
+    - client_dkms_install
+  tags:
+    - configure
+
+- name: Mount Beegfs DKMS client filesystem
+  ansible.posix.mount:
+    src: beegfs_nodev
+    path: /mnt/beegfs
+    fstype: beegfs
+    opts: rw,relatime,cfgFile=/etc/beegfs/beegfs-client.conf,_netdev,x-systemd.after=beegfs-helperd,nofail
+    state: mounted
+  when:
+    - client_dkms_install
+    - not multi_mode
+  tags:
+    - configure
+
+- name: Mount Beegfs DKMS client filesystem for multimode deployment
+  ansible.posix.mount:
+    src: beegfs_nodev
+    path: /mnt/beegfs
+    fstype: beegfs
+    opts: "rw,relatime,\
+           cfgFile=/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf,\
+           _netdev,x-systemd.after=beegfs-helperd,nofail"
+    state: mounted
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "rw,relatime,\
+            cfgFile=/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf,\
+            _netdev,x-systemd.after=beegfs-helperd,nofail"
+  when:
+    - client_dkms_install
+    - multi_mode
   tags:
     - configure

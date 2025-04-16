@@ -18,6 +18,7 @@
   when:
     - not multi_mode
     - client_start_services
+    - not client_dkms_install
   tags:
     - run
 
@@ -46,5 +47,6 @@
   when:
     - multi_mode
     - client_start_services
+    - not client_dkms_install
   tags:
     - run

@@ -16,6 +16,8 @@
         security_groups: "{{ item.security_groups }}"
         meta: "{{ item.meta }}"
         validate_certs: "{{ item.validate_certs }}"
+        volume_size: 20
+        terminate_volume: true
       register: server_create
       loop: "{{ molecule_yml.platforms }}"
 

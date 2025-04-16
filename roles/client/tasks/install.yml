@@ -1,4 +1,52 @@
 ---
+- name: Add EPEL9 Repository required by Beegfs DKMS install for Rocky and Almalinux
+  ansible.builtin.shell: dnf config-manager --set-enabled crb \
+                         && dnf install -y \
+                         https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  changed_when: false
+  when:
+    - (ansible_distribution == 'Rocky') or (ansible_distribution == 'AlmaLinux')
+    - ansible_distribution_major_version is version('9', '==')
+    - client_dkms_install
+  tags:
+    - install
+
+- name: Add EPEL9 Repository required by Beegfs DKMS install for RHEL
+  ansible.builtin.shell: subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms \
+                          && dnf install -y \
+                          https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  changed_when: false
+  when:
+    - ansible_distribution == 'RedHat'
+    - ansible_distribution_major_version is version('9', '==')
+    - client_dkms_install
+  tags:
+    - install
+
+- name: Add EPEL8 Repository required by Beegfs DKMS install for Rocky and Almalinux
+  ansible.builtin.shell: dnf config-manager --set-enabled powertools \
+                         && dnf install -y \
+                         https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  changed_when: false
+  when:
+    - (ansible_distribution == 'Rocky') or (ansible_distribution == 'AlmaLinux')
+    - ansible_distribution_major_version is version('8', '==')
+    - client_dkms_install
+  tags:
+    - install
+
+- name: Add EPEL8 Repository required by Beegfs DKMS install for RHEL
+  ansible.builtin.shell: subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms \
+                         && dnf install -y \
+                         https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  changed_when: false
+  when:
+    - ansible_distribution == 'RedHat'
+    - ansible_distribution_major_version is version('8', '==')
+    - client_dkms_install
+  tags:
+    - install
+
 - name: Install Beegfs Beeond package
   ansible.builtin.package:
     name: "beeond"
@@ -9,10 +57,13 @@
   tags:
     - install
 
-- name: Install `kernel-devel` package on Redhat like systems
+- name: Install `kernel-devel` `kernel-core` packages on Redhat like systems
   ansible.builtin.package:
-    name: "kernel-devel-{{ ansible_kernel }}"
+    name: "{{ item }}"
     state: present
+  loop:
+    - "kernel-devel-{{ ansible_kernel }}"
+    - "kernel-core-{{ ansible_kernel }}"
   when:
     - client_build_kernel_modules is defined
     - client_build_kernel_modules

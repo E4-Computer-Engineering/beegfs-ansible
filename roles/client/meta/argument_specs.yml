@@ -34,6 +34,14 @@ argument_specs:
           - Needed to build the client kernel modules
           - If the kernel* is filtered out from package manager, it breaks the Ansible module
         default: true
+      client_dkms_install:
+        type: bool
+        description:
+          - Install the client kernel modules using DKMS
+          - Enabling this option will add the EPEL repo on RHEL like systems
+          - Enabling this option will install the package `beegfs-client-dkms` instead of `beegfs-client`
+          - For more information https://doc.beegfs.io/latest/advanced_topics/client_dkms.html
+        default: false
       client_clusters:
         type: list
         elements: dict
