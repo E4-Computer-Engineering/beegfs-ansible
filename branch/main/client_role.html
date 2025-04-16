@@ -319,6 +319,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_dkms_install"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-dkms-install"><strong>client_dkms_install</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_dkms_install" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Install the client kernel modules using DKMS</p>
+<p>Enabling this option will add the EPEL repo on RHEL like systems</p>
+<p>Enabling this option will install the package `beegfs-client-dkms` instead of `beegfs-client`</p>
+<p>For more information <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/client_dkms.html">https://doc.beegfs.io/latest/advanced_topics/client_dkms.html</a></p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_enable_beeond"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-enable-beeond"><strong>client_enable_beeond</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_enable_beeond" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -330,7 +345,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_install_kernel_dev"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-install-kernel-dev"><strong>client_install_kernel_dev</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_install_kernel_dev" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -344,7 +359,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_ofed_libs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-ofed-libs-path"><strong>client_ofed_libs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_ofed_libs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -352,7 +367,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Needed by the client to build with RDMA support</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-start-services"><strong>client_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
