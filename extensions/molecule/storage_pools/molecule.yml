@@ -6,12 +6,12 @@ dependency:
     role-file: molecule/openstack/requirements.yml
 driver:
   port: 22
-  ssh_identity_file: ~/.ssh/e4github
+  ssh_identity_file: ~/.ssh/med-deployer-dev
 platforms:
   - name: beestore-01
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
     meta:
       cloud_user: almalinux
     availability_zone: nova
@@ -30,7 +30,7 @@ platforms:
   - name: beestore-02
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
     meta:
       cloud_user: almalinux
     availability_zone: nova
@@ -47,7 +47,7 @@ platforms:
   - name: beeclient-01
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
-    key_name: dobbi
+    key_name: med-deployer
     meta:
       cloud_user: almalinux
     availability_zone: nova
