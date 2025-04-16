@@ -3,6 +3,11 @@
   ansible.builtin.set_fact:
     multi_mode: "{{ client_clusters | length > 1 }}"
   tags:
+    - client
+    - client_prechecks
+    - client_install
+    - client_configure
+    - client_run
     - prechecks
 
 - name: Check if Mellanox OFED is installed
@@ -11,6 +16,8 @@
   changed_when: false
   failed_when: false
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 - name: Check OFED library path
@@ -19,6 +26,8 @@
   register: stat_ofed_libs
   when: _ofed_installed.rc == 0
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 - name: Assert that the `client_ofed_libs_path` variable is defined and exists if custom ofed are installed
@@ -29,6 +38,8 @@
     fail_msg: "Directory {{ client_ofed_libs_path }} is not existing in the system"
   when: (_ofed_installed.rc == 0)
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 # https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
@@ -42,6 +53,8 @@
     - client_nvfs_libs_path
     - client_nvfs_libs_path | length > 0
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 # https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
@@ -55,6 +68,8 @@
     - client_nvidia_libs_path
     - client_nvidia_libs_path | length > 0
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 # https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
@@ -70,6 +85,8 @@
     - client_nvidia_libs_path
     - client_nvidia_libs_path | length > 0
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 # https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
@@ -84,6 +101,8 @@
     - client_nvfs_libs_path | length > 0
   loop: "{{ stat_nvidia_fs.results }}"
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 # https://doc.beegfs.io/latest/advanced_topics/gds_support.html#clients
@@ -98,6 +117,8 @@
     - client_nvidia_libs_path | length > 0
   loop: "{{ stat_nvidia_libs.results }}"
   tags:
+    - client
+    - client_prechecks
     - prechecks
 
 - name: Create client_check fact
@@ -118,6 +139,8 @@
       | map(attribute='conn_client_port_udp') | list) | unique | length }},
       }
   tags:
+    - client
+    - client_prechecks
     - prechecks
   when:
     - multi_mode
@@ -126,7 +149,6 @@
   ansible.builtin.debug:
     var: client_check
   tags:
-    - prechecks
     - debug
     - never
   when:
@@ -140,6 +162,8 @@
     success_msg: "The client settings are correctly defined"
     fail_msg: "The client settings are not correctly defined"
   tags:
+    - client
+    - client_prechecks
     - prechecks
   when:
     - multi_mode

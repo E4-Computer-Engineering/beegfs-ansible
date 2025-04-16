@@ -9,6 +9,8 @@
   when:
     - not client_dkms_install
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs helperd configuration file
@@ -26,6 +28,8 @@
   notify:
     - Restart beegfs helperd service
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs client configuration file
@@ -44,6 +48,8 @@
   notify:
     - Restart beegfs client service
   tags:
+    - client
+    - client_configure
     - configure
 
 
@@ -60,6 +66,8 @@
     - Restart beegfs client service
     - Restart beegfs helperd service
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Disable and mask canonical Beegfs client services
@@ -72,6 +80,8 @@
     - beegfs-client.service
   when: multi_mode
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Create Beegfs per cluster configuration directories
@@ -86,6 +96,8 @@
     label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d"
   when: multi_mode
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs helperd configuration files for multimode deployment
@@ -102,6 +114,8 @@
   notify:
     - Restart beegfs helperd@ services
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs mounts configuration file for multimode deployment
@@ -121,6 +135,8 @@
   notify:
     - Restart beegfs client@ services
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs client configuration files for multimode deployment
@@ -138,6 +154,8 @@
   notify:
     - Restart beegfs client@ services
   tags:
+    - client
+    - client_configure
     - configure
 
 - name: Ensure Beegfs modules configuration file
@@ -152,6 +170,8 @@
   notify:
     - Load beegfs module
   tags:
+    - client
+    - client_configure
     - configure
 
 # As per Beegfs DKMS documentation this file needs to exists before installing the beegfs-client-dkms
@@ -159,8 +179,11 @@
   when:
     - client_dkms_install
   tags:
+    - client
+    - client_configure
     - configure
     - install
+    - client_install
   block:
     - name: Ensure Beegfs client build DKMS configuration file
       ansible.builtin.template:
@@ -188,6 +211,8 @@
     - client_dkms_install
   tags:
     - configure
+    - client
+    - client_configure
 
 - name: Enable and start per cluster Beegfs helperd services for multimode deployment
   ansible.builtin.systemd:
@@ -202,6 +227,8 @@
     - client_dkms_install
   tags:
     - configure
+    - client
+    - client_configure
 
 - name: Mount Beegfs DKMS client filesystem
   ansible.posix.mount:
@@ -215,6 +242,8 @@
     - not multi_mode
   tags:
     - configure
+    - client
+    - client_configure
 
 - name: Mount Beegfs DKMS client filesystem for multimode deployment
   ansible.posix.mount:
@@ -235,3 +264,5 @@
     - multi_mode
   tags:
     - configure
+    - client
+    - client_configure

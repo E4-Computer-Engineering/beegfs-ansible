@@ -5,6 +5,10 @@
       - '!all'
       - network
       - virtual
+  tags:
+    - system
+    - system_configure
+    - configure
 
 - name: Copy connection authentication file
   ansible.builtin.copy:
@@ -15,6 +19,8 @@
     mode: "0400"
   when: system_deploy_auth_file
   tags:
+    - system
+    - system_configure
     - configure
 
 - name: Ensure Beegfs nodes addresses presents in /etc/hosts file
@@ -30,6 +36,8 @@
     - not ansible_facts['virtualization_type'] == 'docker'
   loop: "{{ groups.all }}"
   tags:
+    - system
+    - system_configure
     - configure
 
 - name: Check SELinux config file is present
@@ -37,6 +45,8 @@
     path: /etc/selinux/config
   register: _system_selinux_conf_file
   tags:
+    - system
+    - system_configure
     - configure
 
 - name: Ensure SELinux state
@@ -49,4 +59,6 @@
     - _system_selinux_conf_file.stat.exists
   notify: Reboot node
   tags:
+    - system
+    - system_configure
     - configure

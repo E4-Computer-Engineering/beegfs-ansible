@@ -16,4 +16,6 @@
   when:
     - storaged_start_services
   tags:
+    - storaged
+    - storaged_run
     - run

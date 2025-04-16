@@ -8,6 +8,8 @@
     - not multi_mode
     - client_start_services
   tags:
+    - client
+    - client_run
     - run
 
 - name: Enable and start per cluster Beegfs client service
@@ -20,6 +22,8 @@
     - client_start_services
     - not client_dkms_install
   tags:
+    - client
+    - client_run
     - run
 
 - name: Enable and start per cluster Beegfs helperd services for multimode deployment
@@ -34,6 +38,8 @@
     - multi_mode
     - client_start_services
   tags:
+    - client
+    - client_run
     - run
 
 - name: Enable and start per cluster Beegfs client services for multimode deployment
@@ -49,4 +55,6 @@
     - client_start_services
     - not client_dkms_install
   tags:
+    - client
+    - client_run
     - run

@@ -21,6 +21,7 @@
       {% endfor %}
       ]
   tags:
+    - cluster
     - storage_pools
 
 - name: Populate storagepools data fact
@@ -48,12 +49,14 @@
       {{ storagepools_data }}
   when: storagepools_list | length > 0
   tags:
+    - cluster
     - storage_pools
 
 - name: Ensure the defined storage pools
   when: storagepools_data is defined
   notify: Pause for 30 seconds to propagate definitions
   tags:
+    - cluster
     - storage_pools
   block:
 

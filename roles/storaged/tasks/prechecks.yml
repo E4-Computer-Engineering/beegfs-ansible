@@ -4,7 +4,6 @@
     msg: |
       {{ (storaged_server_targets | selectattr('target_id', 'defined') | map(attribute='target_id') | list) }}
   tags:
-    - prechecks
     - debug
     - never
 
@@ -14,7 +13,6 @@
       {{ (storaged_server_targets | selectattr('sys_mgmtd_host', 'defined') |
        map(attribute='sys_mgmtd_host') | list) }}
   tags:
-    - prechecks
     - debug
     - never
 
@@ -34,13 +32,14 @@
       }
   when: storaged_server_targets | length > 0
   tags:
+    - storaged
+    - storaged_prechecks
     - prechecks
 
 - name: Display storage_check fact
   ansible.builtin.debug:
     var: storage_check
   tags:
-    - prechecks
     - debug
     - never
 
@@ -53,4 +52,6 @@
     fail_msg: "There storaged_server_targets are correctly defined"
   when: storaged_server_targets | length > 0
   tags:
+    - storaged
+    - storaged_prechecks
     - prechecks

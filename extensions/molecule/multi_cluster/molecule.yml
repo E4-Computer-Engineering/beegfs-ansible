@@ -12,9 +12,9 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -31,9 +31,9 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -48,9 +48,9 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -67,9 +67,9 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs
@@ -84,9 +84,9 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.4
     flavor: m1.medium
     key_name: med-deployer
+    volumes: []
     meta:
       cloud_user: almalinux
-    availability_zone: nova
     security_groups:
       - ssh_icmp
       - beegfs

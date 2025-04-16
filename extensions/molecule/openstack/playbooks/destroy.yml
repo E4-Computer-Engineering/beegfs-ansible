@@ -14,6 +14,12 @@
       register: server_delete
       loop: "{{ molecule_yml.platforms }}"
 
+    - name: Delete instance volumes
+      openstack.cloud.volume:
+        name: "{{ item.1 }}"
+        state: absent
+      loop: "{{ molecule_yml.platforms | subelements('volumes') }}"
+
     - name: Populate instance config
       ansible.builtin.set_fact:
         instance_conf: {}

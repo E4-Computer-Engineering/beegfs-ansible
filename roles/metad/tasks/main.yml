@@ -16,4 +16,6 @@
   when:
     - metad_start_services
   tags:
+    - metad
+    - metad_run
     - run

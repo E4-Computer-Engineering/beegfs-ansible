@@ -2,6 +2,7 @@
 - name: Populate service facts
   ansible.builtin.service_facts:
   tags:
+    - cluster
     - dir_layout
 
 - name: Create filesystem mount point directories
@@ -15,6 +16,7 @@
   when:
     - item.1.fs_path is defined
   tags:
+    - cluster
     - dir_layout
 
 - name: Ensure Beegfs hook script file
@@ -32,6 +34,7 @@
   notify:
     - Restart beegfs client service
   tags:
+    - cluster
     - dir_layout
 
 - name: Ensure Beegfs client service file for custom mounts
@@ -46,6 +49,7 @@
   notify:
     - Restart beegfs client service
   tags:
+    - cluster
     - dir_layout
 
 - name: Create Beegfs user mount point directories for single cluster deployment
@@ -62,6 +66,7 @@
     - not multi_mode
   run_once: true
   tags:
+    - cluster
     - dir_layout
 
 - name: Create Beegfs user mount point directories for multimode deployment
@@ -78,6 +83,7 @@
     - multi_mode
   run_once: true
   tags:
+    - cluster
     - dir_layout
 
 - name: Ensure Beegfs hook script file for multi mode deployment
@@ -97,6 +103,7 @@
   notify:
     - Restart beegfs client@ services
   tags:
+    - cluster
     - dir_layout
 
 - name: Ensure Beegfs client service file for custom mounts and multi mode deployment
@@ -111,6 +118,7 @@
   notify:
     - Restart beegfs client@ services
   tags:
+    - cluster
     - dir_layout
 
 - name: Ensure the new directory structure
@@ -140,6 +148,7 @@
       /mnt/beegfs/{{ item.1.beegfs_path }}
   run_once: true
   tags:
+    - cluster
     - dir_layout
 
 - name: Execute setpattern command for multi cluster deployment
@@ -166,4 +175,5 @@
       /mnt/beegfs/{{ item.0.sys_mgmtd_host }}/{{ item.1.beegfs_path }}
   run_once: true
   tags:
+    - cluster
     - dir_layout
