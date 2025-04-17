@@ -7,12 +7,16 @@ connAuthFile                 = /etc/beegfs/connauthfile
 connDisableAuthentication    = false
 connBacklogTCP               = 128
 connFallbackExpirationSecs   = 900
+{% if settings.conn_interfaces | length > 0 %}
+connInterfacesFile           = /etc/beegfs/inst{{ settings.target_id }}.d/meta_interfaces
+{% else %}
 connInterfacesFile           =
+{% endif %}
 connMaxInternodeNum          = 32
 connMetaPortTCP              = {{ "8%02d5" |format(settings.target_id | int) | default(metad_conn_metad_port_tcp) }}
 connMetaPortUDP              = {{ "8%02d5" |format(settings.target_id | int) | default(metad_conn_metad_port_udp) }}
-connMgmtdPortTCP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(metad_conn_mgmtd_port_tcp) }}
-connMgmtdPortUDP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(metad_conn_mgmtd_port_udp) }}
+connMgmtdPortTCP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(metad_conn_mgmtd_port_tcp) }}
+connMgmtdPortUDP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(metad_conn_mgmtd_port_udp) }}
 connPortShift                = 0
 connNetFilterFile            =
 connUseRDMA                  = true
@@ -31,7 +35,7 @@ storeClientXAttrs            = {{ settings.store_client_x_attrs | default(metad_
 storeClientACLs              = {{ settings.store_client_acls | default(metad_store_client_acls) }}
 storeUseExtendedAttribs      = true
 sysTargetAttachmentFile      =
-sysTargetOfflineTimeoutSecs  = 180
+sysTargetOfflineTimeoutSecs  = {{ settings.sys_target_offline_timeout_secs | default(metad_sys_target_offline_timeout_secs) }}
 sysAllowUserSetPattern       = false
 tuneBindToNumaZone           = {{ settings.tune_bind_to_numa_zone | default(metad_tune_bind_to_numa_zone) }}
 tuneNumStreamListeners       = 1

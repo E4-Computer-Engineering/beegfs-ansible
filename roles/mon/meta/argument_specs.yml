@@ -104,3 +104,9 @@ argument_specs:
           - The token used to connect to the Influxdb v2 instance
           - This option is used and documented in the file /etc/beegfs/beegfs-mon.auth
         default: ""
+      mon_conn_interfaces:
+        type: list
+        description:
+          - The list of interfaces to use by the daemon
+          - The interfaces will be written to the file specified in `mgmtd_conn_interfaces_file`
+        default: []

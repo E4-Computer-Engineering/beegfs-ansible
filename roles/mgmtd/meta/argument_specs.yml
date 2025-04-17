@@ -38,6 +38,12 @@ argument_specs:
           - The UDP port at which the management service is responding at
           - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
         default: "8008"
+      mgmtd_conn_interfaces:
+        type: list
+        description:
+          - The list of interfaces to use by the daemon
+          - The interfaces will be written to the file specified in `mgmtd_conn_interfaces_file`
+        default: []
       mgmtd_log_type:
         type: str
         description:
@@ -52,3 +58,9 @@ argument_specs:
           - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
         default: "false"
         choices: ["false", "true"]
+      mgmtd_sys_target_offline_timeout_secs:
+        type: str
+        description:
+          - The timeout in seconds for the system target to be "Offline"
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: "180"

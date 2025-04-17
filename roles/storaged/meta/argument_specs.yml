@@ -71,6 +71,12 @@ argument_specs:
               - The UDP port at which the management service is responding at
               - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
             default: "8008"
+          conn_interfaces:
+            type: list
+            description:
+              - The list of interfaces to use by the daemon
+              - This list will be used in the `conn_interfaces_file`
+            default: []
           log_type:
             type: str
             description:

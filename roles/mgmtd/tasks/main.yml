@@ -11,6 +11,20 @@
     - mgmtd_configure
     - configure
 
+- name: Ensure interfaces list file is present
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/mgmtd_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  when:
+    - mgmtd_conn_interfaces | length > 0
+  tags:
+    - mgmtd
+    - mgmtd_configure
+    - configure
+
 - name: Ensure Beegfs management configuration file
   ansible.builtin.template:
     src: "beegfs-mgmtd.conf.j2"

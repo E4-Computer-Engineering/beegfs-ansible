@@ -154,11 +154,6 @@ provisioner:
           - sys_mgmtd_host: localhost
             cluster_storage_nodes: ["beealma95-01"]
             cluster_meta_nodes: ["beealma95-01"]
-      beeubuntu2204-01:
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beeubuntu2204-01"]
-            cluster_meta_nodes: ["beeubuntu2204-01"]
       beealma810-02:
         client_dkms_install: true
         client_clusters:
@@ -172,22 +167,52 @@ provisioner:
           - sys_mgmtd_host: localhost
             cluster_storage_nodes: ["beealma95-01"]
             cluster_meta_nodes: ["beealma95-01"]
-      beeubuntu2204-02:
-        client_dkms_install: true
+      beeubuntu2204-01:
+        mgmtd_conn_interfaces: ["ens3"]
+        mon_conn_interfaces: ["ens3"]
+        metad_server_targets:
+          - target_id: 1
+            conn_interfaces: ["ens3"]
+            sys_mgmtd_host: localhost
+        storaged_server_targets:
+          - target_id: 1
+            conn_interfaces: ["ens3"]
+            sys_mgmtd_host: localhost
         client_clusters:
           - sys_mgmtd_host: localhost
+            cluster_storage_nodes: ["beeubuntu2204-01"]
+            cluster_meta_nodes: ["beeubuntu2204-01"]
+      beeubuntu2204-02:
+        client_dkms_install: true
+        mgmtd_conn_interfaces: ["ens3"]
+        mon_conn_interfaces: ["ens3"]
+        metad_server_targets:
+          - target_id: 1
+            conn_interfaces: ["ens3"]
+            sys_mgmtd_host: localhost
+        storaged_server_targets:
+          - target_id: 1
+            conn_interfaces: ["ens3"]
+            sys_mgmtd_host: localhost
+        client_clusters:
+          - sys_mgmtd_host: localhost
+            conn_interfaces: ["ens3"]
             cluster_storage_nodes: ["beeubuntu2204-01"]
             cluster_meta_nodes: ["beeubuntu2204-01"]
     group_vars:
       all:
         system_beegfs_version: 7.4.6
+        mgmtd_conn_interfaces: ["eth0"]
+        mon_conn_interfaces: ["eth0"]
       metadata:
         metad_server_targets:
           - target_id: 1
+            conn_interfaces: ["eth0"]
             sys_mgmtd_host: localhost
       storage:
         storaged_server_targets:
           - target_id: 1
+            conn_interfaces: ["eth0"]
             sys_mgmtd_host: localhost
 verifier:
   name: ansible

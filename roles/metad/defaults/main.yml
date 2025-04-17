@@ -16,5 +16,7 @@ metad_log_type: syslog
 metad_quota_enable_enforcement: "false"
 metad_store_client_x_attrs: "false"
 metad_store_client_acls: "false"
+metad_sys_target_offline_timeout_secs: "180"
+metad_conn_interfaces: []
 
 metad_mirrorgroup_id: ""

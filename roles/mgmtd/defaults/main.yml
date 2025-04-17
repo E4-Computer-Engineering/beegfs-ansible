@@ -8,3 +8,5 @@ mgmtd_conn_mgmtd_port_tcp: "8008"
 mgmtd_conn_mgmtd_port_udp: "8008"
 mgmtd_log_type: syslog
 mgmtd_quota_enable_enforcement: "false"
+mgmtd_sys_target_offline_timeout_secs: "180"
+mgmtd_conn_interfaces: []

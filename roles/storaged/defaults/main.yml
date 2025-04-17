@@ -17,6 +17,7 @@ storaged_tune_file_read_size: 1024k
 storaged_tune_file_write_size: 1024k
 storaged_tune_num_workers: "12"
 storaged_quota_enable_enforcement: "false"
+storaged_conn_interfaces: []
 
 storaged_storagepool_id: "1"
 storaged_mirrorgroup_id: ""

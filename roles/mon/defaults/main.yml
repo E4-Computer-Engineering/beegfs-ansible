@@ -13,6 +13,7 @@ mon_db_retention_duration: 1d
 mon_db_type: influxdb
 mon_db_hostname: localhost
 mon_db_host_port: "9122"
+mon_conn_interfaces: []
 
 # /etc/beegfs/beegfs-mon.auth
 mon_influxdbv1_username: ""

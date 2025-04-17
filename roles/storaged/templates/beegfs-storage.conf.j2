@@ -6,10 +6,14 @@ storeFsUUID                  =
 connAuthFile                 = /etc/beegfs/connauthfile
 connDisableAuthentication    = false
 connBacklogTCP               = 128
+{% if settings.conn_interfaces | length > 0 %}
+connInterfacesFile           = /etc/beegfs/inst{{ settings.target_id }}.d/storage_interfaces
+{% else %}
 connInterfacesFile           =
+{% endif %}
 connMaxInternodeNum          = 12
-connMgmtdPortTCP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(storaged_conn_mgmtd_port_tcp) }}
-connMgmtdPortUDP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(storaged_conn_mgmtd_port_udp) }}
+connMgmtdPortTCP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(storaged_conn_mgmtd_port_tcp) }}
+connMgmtdPortUDP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(storaged_conn_mgmtd_port_udp) }}
 connStoragePortTCP           = {{ "8%02d3" |format(settings.target_id | int) | default(storaged_conn_storage_port_tcp) }}
 connStoragePortUDP           = {{ "8%02d3" |format(settings.target_id | int) | default(storaged_conn_storage_port_udp) }}
 connPortShift                = 0

@@ -1,4 +1,18 @@
 ---
+- name: Ensure interfaces list file is present
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/mon_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  when:
+    - mon_conn_interfaces | length > 0
+  tags:
+    - mon
+    - mon_configure
+    - configure
+
 - name: Ensure Beegfs monitoring configuration file
   ansible.builtin.template:
     src: "{{ item }}.j2"

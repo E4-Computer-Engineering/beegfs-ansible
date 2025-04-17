@@ -17,6 +17,7 @@ client_conn_client_port_udp: "8004"
 client_conn_helperd_port_tcp: "8006"
 client_conn_mgmtd_port_tcp: "8008"
 client_conn_mgmtd_port_udp: "8008"
+client_conn_interfaces: []
 client_conn_rdma_buf_num: "70"
 client_conn_rdma_buf_size: "8192"
 client_tune_file_cache_buf_size: "1048576"
