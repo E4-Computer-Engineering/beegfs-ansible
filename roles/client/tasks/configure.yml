@@ -32,6 +32,27 @@
     - client_configure
     - configure
 
+- name: Ensure interfaces list file is present
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/client_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  vars:
+    settings: "{{ item }}"
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "{{ settings.conn_interfaces | default(client_conn_interfaces) }}"
+  when:
+    - not multi_mode
+    - settings.conn_interfaces is defined
+    - settings.conn_interfaces | length > 0
+  tags:
+    - client
+    - client_configure
+    - configure
+
 - name: Ensure Beegfs client configuration file
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
@@ -43,8 +64,7 @@
   loop: "{{ client_clusters }}"
   loop_control:
     label: "{{ item.sys_mgmtd_host }}"
-  when:
-    - not multi_mode
+  when: not multi_mode
   notify:
     - Restart beegfs client service
   tags:
@@ -134,6 +154,27 @@
   # WARNING: at the moment i can't think of a way to restart only the changed cluster service
   notify:
     - Restart beegfs client@ services
+  tags:
+    - client
+    - client_configure
+    - configure
+
+- name: Ensure interfaces list file is present for multimode deployment
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/{{ settings.sys_mgmtd_host | replace('-', '') }}.d/client_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  vars:
+    settings: "{{ item }}"
+  loop: "{{ client_clusters }}"
+  loop_control:
+    label: "{{ settings.conn_interfaces | default(client_conn_interfaces) }}"
+  when:
+    - multi_mode
+    - settings.conn_interfaces is defined
+    - settings.conn_interfaces | length > 0
   tags:
     - client
     - client_configure

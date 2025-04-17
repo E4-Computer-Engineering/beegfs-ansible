@@ -76,6 +76,12 @@ argument_specs:
               - The UDP port at which the management service is responding at
               - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
             default: "8008"
+          conn_interfaces:
+            type: list
+            description:
+              - The list of interfaces to use by the daemon
+              - This list will be used in the `conn_interfaces_file`
+            default: []
           log_type:
             type: str
             description:
@@ -104,6 +110,12 @@ argument_specs:
               - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
             default: "false"
             choices: ["false", "true"]
+          sys_target_offline_timeout_secs:
+            type: str
+            description:
+              - The timeout in seconds for the metadata target to be considered "Offline"
+              - This option is used and documented in the file /etc/beegfs/beegfs-meta.conf
+            default: "180"
           mirrorgroup_id:
             type: str
             description:

@@ -17,14 +17,18 @@ statsRequestIntervalSecs     = 5
 httpTimeoutMSecs             = 1000
 nodelistRequestIntervalSecs  = 30
 curlCheckSSLCertificates     = true
-connMgmtdPortTCP              = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(mon_conn_mgmtd_port_tcp) }}
-connMgmtdPortUDP              = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(mon_conn_mgmtd_port_udp) }}
+connMgmtdPortTCP             = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(mon_conn_mgmtd_port_tcp) }}
+connMgmtdPortUDP             = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(mon_conn_mgmtd_port_udp) }}
 connPortShift                = 0
 connAuthFile                 = /etc/beegfs/connauthfile
 connDisableAuthentication    = false
 connFallbackExpirationSecs   = 900
 connMaxInternodeNum          = 3
-connInterfacesFile           =
+{% if mon_conn_interfaces | length > 0 %}
+connInterfacesFile           = /etc/beegfs/mon_interfaces
+{% else %}
+connInterfacesFile            =
+{% endif %}
 connNetFilterFile            =
 connTcpOnlyFilterFile        =
 logType                      = {{ mon_log_type }}

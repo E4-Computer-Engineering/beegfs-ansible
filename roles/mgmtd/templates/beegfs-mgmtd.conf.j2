@@ -6,7 +6,11 @@ sysAllowNewTargets                     = true
 connAuthFile                           = /etc/beegfs/connauthfile
 connDisableAuthentication              = false
 connBacklogTCP                         = 128
+{% if mgmtd_conn_interfaces | length > 0 %}
+connInterfacesFile                     = /etc/beegfs/mgmtd_interfaces
+{% else %}
 connInterfacesFile                     =
+{% endif %}
 connMgmtdPortTCP                       = {{ mgmtd_conn_mgmtd_port_tcp }}
 connMgmtdPortUDP                       = {{ mgmtd_conn_mgmtd_port_udp }}
 connNetFilterFile                      =
@@ -25,7 +29,7 @@ quotaQueryType                         = system
 quotaQueryWithSystemUsersGroups        = false
 quotaUpdateIntervalMin                 = 10
 runDaemonized                          = true
-sysTargetOfflineTimeoutSecs            = 180
+sysTargetOfflineTimeoutSecs            = {{ mgmtd_sys_target_offline_timeout_secs }}
 tuneClientAutoRemoveMins               = 30
 tuneNumWorkers                         = 4
 tuneMetaDynamicPools                   = true
