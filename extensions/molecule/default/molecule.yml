@@ -12,7 +12,7 @@ platforms:
     image: AlmaLinux-8-GenericCloud-8.10
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs1, storagefs1]
+    volumes: [metafs1, storagefs1, metafs7, storagefs7]
     meta:
       cloud_user: almalinux
     security_groups:
@@ -32,7 +32,7 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.5
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs2, storagefs2]
+    volumes: [metafs2, storagefs2, metafs8, storagefs8]
     meta:
       cloud_user: almalinux
     security_groups:
@@ -72,7 +72,7 @@ platforms:
     image: AlmaLinux-8-GenericCloud-8.10
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs4, storagefs4]
+    volumes: [metafs4, storagefs4, metafs9, storagefs9]
     meta:
       cloud_user: almalinux
     security_groups:
@@ -92,7 +92,7 @@ platforms:
     image: AlmaLinux-9-GenericCloud-9.5
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs5, storagefs5]
+    volumes: [metafs5, storagefs5, metafs10, storagefs10]
     meta:
       cloud_user: almalinux
     security_groups:
@@ -172,10 +172,12 @@ provisioner:
         mon_conn_interfaces: ["ens3"]
         metad_server_targets:
           - target_id: 1
+            device: "vdb"
             conn_interfaces: ["ens3"]
             sys_mgmtd_host: localhost
         storaged_server_targets:
           - target_id: 1
+            device: "vdc"
             conn_interfaces: ["ens3"]
             sys_mgmtd_host: localhost
         client_clusters:
@@ -188,10 +190,12 @@ provisioner:
         mon_conn_interfaces: ["ens3"]
         metad_server_targets:
           - target_id: 1
+            device: "vdb"
             conn_interfaces: ["ens3"]
             sys_mgmtd_host: localhost
         storaged_server_targets:
           - target_id: 1
+            device: "vdc"
             conn_interfaces: ["ens3"]
             sys_mgmtd_host: localhost
         client_clusters:
@@ -207,11 +211,21 @@ provisioner:
       metadata:
         metad_server_targets:
           - target_id: 1
+            device: "vdb"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: localhost
+          - target_id: 2
+            device: "vdc"
             conn_interfaces: ["eth0"]
             sys_mgmtd_host: localhost
       storage:
         storaged_server_targets:
           - target_id: 1
+            device: "vdd"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: localhost
+          - target_id: 2
+            device: "vde"
             conn_interfaces: ["eth0"]
             sys_mgmtd_host: localhost
 verifier:
