@@ -8,5 +8,5 @@ antsibull-docs>=2.11.0
 molecule>=24.6.0
 pre-commit==4.2.0
 shellcheck-py==0.10.0.1
-openstacksdk==4.1.0
+openstacksdk==4.5.0
 python-openstackclient==7.2.1
