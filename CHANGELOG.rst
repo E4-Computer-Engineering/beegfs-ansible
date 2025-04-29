@@ -4,6 +4,19 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v1.1.0
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-04-29
+| This is a new release of the ``e4_computer_engineering.beegfs`` collection
+| This release includes the following changes:
+| - Add full filesystem integration for metadata and storage targets
+| - targetoffline parametrized and interfacefile for daemons
+| - beegfs client dkms install
+
 v1.0.4
 ======
 

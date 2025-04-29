@@ -111,3 +111,21 @@ releases:
     fragments:
     - release.yml
     release_date: '2025-04-15'
+  1.1.0:
+    changes:
+      release_summary: '| Release Date: 2025-04-29
+
+        | This is a new release of the ``e4_computer_engineering.beegfs`` collection
+
+        | This release includes the following changes:
+
+        | - Add full filesystem integration for metadata and storage targets
+
+        | - targetoffline parametrized and interfacefile for daemons
+
+        | - beegfs client dkms install
+
+        '
+    fragments:
+    - fragment.yml
+    release_date: '2025-04-29'
