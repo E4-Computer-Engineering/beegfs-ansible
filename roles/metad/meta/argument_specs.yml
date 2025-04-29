@@ -26,6 +26,12 @@ argument_specs:
               - The ID is used to create the target directory mountpoint `/data/beegfs_meta/t<target_id>`
               - The ID is used to setup the metada mirror relationship
             default: "1"
+          device:
+            type: str
+            description:
+              - "Name of the device that will mount the beegfs meta partition"
+              - "Note that /dev/ must be omitted because it is already present in the path of the device"
+            required: true
           sys_mgmtd_host:
             type: str
             description:
