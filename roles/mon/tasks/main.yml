@@ -1,19 +1,26 @@
 ---
-- name: Ensure interfaces list file is present
-  ansible.builtin.template:
-    src: conn_interfaces_file.j2
-    dest: "/etc/beegfs/mon_interfaces"
-    owner: root
-    group: root
-    mode: "0640"
-  when:
-    - mon_conn_interfaces | length > 0
+- name: System prerequisites
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: system.yml
   tags:
-    - mon
-    - mon_configure
-    - configure
+    - mon_install
+
+- name: Install
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: install.yml
+  vars:
+    _common_beegfs_version: "{{ mon_beegfs_version }}"
+    _common_packages: "{{ mon_packages[mon_beegfs_version | split('.') | first] }}"
+    _common_repo_url: "{{ mon_repo_url }}"
+    _common_start_services: "{{ mon_start_services }}"
+    _common_conn_interfaces: "{{ mon_conn_interfaces }}"
+  tags:
+    - mon_install
 
 - name: Ensure Beegfs monitoring configuration file
+  become: true
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/beegfs/{{ item }}"
@@ -27,18 +34,28 @@
   notify:
     - Restart beegfs mon service
   tags:
-    - mon
     - mon_configure
-    - configure
+
+- name: Configure
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: configure.yml
+  vars:
+    _common_auth_file_path: "{{ mon_auth_file_path }}"
+    _common_start_services: "{{ mon_start_services }}"
+    _common_deploy_auth_file: "{{ mon_deploy_auth_file }}"
+    _common_conn_interfaces: "{{ mon_conn_interfaces }}"
+  tags:
+    - mon_configure
 
 - name: Enable and start Beegfs mon service
+  become: true
   ansible.builtin.systemd:
     name: "beegfs-mon"
     enabled: true
     state: started
   when:
     - mon_start_services
+    - not ansible_check_mode
   tags:
-    - mon
     - mon_run
-    - run

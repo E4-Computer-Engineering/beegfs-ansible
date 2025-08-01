@@ -2,11 +2,44 @@
 - name: Execute prechecks
   ansible.builtin.import_tasks: prechecks.yml
 
+- name: System prerequisites
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: system.yml
+  tags:
+    - client_install
+    - client_configure
+
 - name: Execute install
   ansible.builtin.import_tasks: install.yml
+  tags:
+    - client_install
+
+- name: Configure
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: configure.yml
+  vars:
+    _common_auth_file_path: "{{ client_auth_file_path }}"
+    _common_start_services: "{{ client_start_services }}"
+    _common_deploy_auth_file: "{{ client_deploy_auth_file }}"
+    _common_conn_interfaces: "{{ client_conn_interfaces }}"
+  tags:
+    - client_configure
 
 - name: Execute configure
   ansible.builtin.import_tasks: configure.yml
+  tags:
+    - client_configure
 
 - name: Execute run
   ansible.builtin.import_tasks: run.yml
+  tags:
+    - client_run
+
+- name: Execute dir layout
+  ansible.builtin.import_tasks: dir_layout.yml
+  when:
+    - client_clusters | subelements('client_dir_paths', skip_missing=True) | length > 0
+  tags:
+    - client_configure

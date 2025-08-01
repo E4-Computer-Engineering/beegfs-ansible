@@ -1,6 +1,7 @@
 ---
 metad_start_services: true
 metad_server_targets: []
+metad_auth_file_path: "{{ role_path }}/files/conn.auth"
 
 # Filesystem specs
 metad_filesystem_type: "ext4"

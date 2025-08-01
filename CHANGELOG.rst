@@ -4,6 +4,20 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v2.0.0
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-08-20
+| This release supports Beegfs v8 and removes support for components setup like storage-pools, stripe patterns and buddy-mirror.
+
+New Roles
+---------
+
+- e4_computer_engineering.beegfs._common - Beegfs roles common tasks.
+
 v1.1.0
 ======
 

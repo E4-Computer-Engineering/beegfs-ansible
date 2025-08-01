@@ -1,5 +1,27 @@
 ---
+- name: System prerequisites
+  ansible.builtin.include_role:
+    # name: e4_computer_engineering.beegfs._common
+    name: _common
+    tasks_from: system.yml
+  tags:
+    - mgmtd_install
+
+- name: Install
+  ansible.builtin.include_role:
+    # name: e4_computer_engineering.beegfs._common
+    name: _common
+    tasks_from: install.yml
+  vars:
+    _common_beegfs_version: "{{ mgmtd_beegfs_version }}"
+    _common_packages: "{{ mgmtd_packages[mgmtd_beegfs_version | split('.') | first] }}"
+    _common_repo_url: "{{ mgmtd_repo_url }}"
+    _common_start_services: "{{ mgmtd_start_services }}"
+  tags:
+    - mgmtd_install
+
 - name: Create Beegfs mgmtd data directories
+  become: true
   ansible.builtin.file:
     path: "{{ mgmtd_store_mgmtd_directory }}"
     state: directory
@@ -7,66 +29,53 @@
     owner: root
     group: root
   tags:
-    - mgmtd
     - mgmtd_configure
-    - configure
 
-- name: Ensure interfaces list file is present
-  ansible.builtin.template:
-    src: conn_interfaces_file.j2
-    dest: "/etc/beegfs/mgmtd_interfaces"
-    owner: root
-    group: root
-    mode: "0640"
-  when:
-    - mgmtd_conn_interfaces | length > 0
-  tags:
-    - mgmtd
-    - mgmtd_configure
-    - configure
-
-- name: Ensure Beegfs management configuration file
-  ansible.builtin.template:
-    src: "beegfs-mgmtd.conf.j2"
-    dest: "/etc/beegfs/beegfs-mgmtd.conf"
-    backup: true
-    mode: "0640"
-    owner: root
-    group: root
-  notify:
-    - Restart beegfs mgmtd service
-  tags:
-    - mgmtd
-    - mgmtd_configure
-    - configure
-
-- name: Check if management data folder is empty before proceeding
+- name: Check if management data folder is empty
+  become: true
   ansible.builtin.find:
     paths: "{{ mgmtd_store_mgmtd_directory }}"
     excludes: "lost+found"
-  register: mgmtd_target_dir_content
+  register: __mgmtd_target_dir_content
   tags:
-    - configure
-
-- name: Execute management setup command for single cluster deployment
-  ansible.builtin.command: |
-    /opt/beegfs/sbin/beegfs-setup-mgmtd -C -p {{ mgmtd_store_mgmtd_directory }} -S {{ mgmtd_string_id }}
-  changed_when: false
-  when:
-    - mgmtd_target_dir_content.matched == 0
-  tags:
-    - mgmtd
     - mgmtd_configure
-    - configure
+
+- name: Execute Beegfs v7 tasks
+  ansible.builtin.include_tasks: v7.yml
+  when:
+    - mgmtd_beegfs_version is version('8', '<')
+  tags:
+    - mgmtd_configure
+
+- name: Execute Beegfs v8 tasks
+  ansible.builtin.include_tasks: v8.yml
+  when:
+    - mgmtd_beegfs_version is version('8', '>=')
+  tags:
+    - mgmtd_configure
+
+- name: Configure
+  ansible.builtin.include_role:
+    # name: e4_computer_engineering.beegfs._common
+    name: _common
+    tasks_from: configure.yml
+  vars:
+    _common_auth_file_path: "{{ mgmtd_auth_file_path }}"
+    _common_start_services: "{{ mgmtd_start_services }}"
+    _common_deploy_auth_file: "{{ mgmtd_deploy_auth_file }}"
+    _common_conn_interfaces: "{{ mgmtd_conn_interfaces }}"
+  tags:
+    - mgmtd_configure
 
 - name: Enable and start per cluster Beegfs mgmtd service
+  become: true
   ansible.builtin.systemd:
+    daemon_reload: true
     name: "beegfs-mgmtd"
     enabled: true
     state: started
   when:
     - mgmtd_start_services
+    - not ansible_check_mode
   tags:
-    - mgmtd
     - mgmtd_run
-    - run

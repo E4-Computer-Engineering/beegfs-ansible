@@ -3,7 +3,7 @@ Beegfs Client Ansible Role
 
 This role can be used to deploy Beegfs client(s), `beegfs-client` to nodes: each targeted node is meant to be part of one or more Beegfs clusters but each `beegfs-client` instance can belong to only one cluster.
 
-It is compatible with the Beegfs versions specified in the role `system_beegfs_version` variable choices and RedHat and Rocky 8.X and Ubuntu Jammy LTS.
+It is compatible with the Beegfs versions specified in the role `client_beegfs_version` variable choices and RedHat, Almalinux and Rocky 8.X 9.X and Ubuntu Jammy LTS.
 
 Requirements
 ------------

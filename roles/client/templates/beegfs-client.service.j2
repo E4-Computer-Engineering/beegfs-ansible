@@ -1,0 +1,41 @@
+[Unit]
+Description=Start BeeGFS Client
+Requires=network-online.target
+# We disable the wants service, because it spams the log files
+#Wants=local-fs.target time-sync.target beegfs-helperd.service beegfs-mgmtd.service \
+#beegfs-meta.service beegfs-storage.service openib.service openibd.service rdma.service \
+#opensmd.service opensm.service nss-lookup.target nss-user-lookup.target slapd.service \
+#autofs.service ypbind.service nscd.service nslcd.service sshd.service
+{% if multi_mode %}
+After=network-online.target local-fs.target time-sync.target beegfs-helperd@.service \
+{% else %}
+After=network-online.target local-fs.target time-sync.target beegfs-helperd.service \
+{% endif %}
+beegfs-mgmtd.service beegfs-meta.service beegfs-storage.service openib.service openibd.service \
+rdma.service opensmd.service opensm.service nss-lookup.target nss-user-lookup.target \
+slapd.service autofs.service ypbind.service nscd.service nslcd.service sshd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+{% set mount_hook="/etc/beegfs/beegfs-client-mount-hook.sh" %}
+{% set start_command="beegfs-client start" %}
+{% set stop_command="beegfs-client stop" %}
+{% if multi_mode %}
+{% set mount_hook="/etc/beegfs/%I.d/beegfs-client-mount-hook.sh" %}
+{% set start_command="beegfs-client start %I" %}
+{% set stop_command="beegfs-client stop %I" %}
+{% endif %}
+
+Environment=MOUNT_HOOK={{ mount_hook }}
+{% if client_beegfs_version | split('.') | first | int == 7 %}
+ExecStart=/etc/init.d/{{ start_command }}
+ExecStop=/etc/init.d/{{ stop_command }}
+{% else %}
+ExecStart=/opt/beegfs/sbin/{{ start_command }}
+ExecStop=/opt/beegfs/sbin/{{ stop_command }}
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

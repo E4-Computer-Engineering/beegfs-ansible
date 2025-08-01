@@ -1,4 +1,0 @@
----
-- name: Pause for 30 seconds to propagate definitions
-  ansible.builtin.pause:
-    seconds: 30

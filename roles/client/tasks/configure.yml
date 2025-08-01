@@ -1,5 +1,25 @@
 ---
+- name: TLS
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: tls.yml
+  vars:
+    # Warning AT the moment we do not support multimode for beegfs tool
+    _common_sys_mgmtd_host: "{{ item.sys_mgmtd_host }}"
+    _common_tls_tmp_dir: "{{ client_tls_tmp_dir }}"
+    _common_tls_key_file: "{{ client_tls_key_file }}"
+    _common_tls_cert_file: "{{ client_tls_cert_file }}"
+  loop: "{{ client_clusters }}"
+  when:
+    - client_enable_tls | bool
+    - client_beegfs_version | split('.') | first | int == 8
+  tags:
+    - client
+    - client_configure
+    - configure
+
 - name: Ensure Beegfs autobuild configuration file
+  become: true
   ansible.builtin.template:
     src: "beegfs-client-autobuild.conf.j2"
     dest: "/etc/beegfs/beegfs-client-autobuild.conf"
@@ -14,6 +34,7 @@
     - configure
 
 - name: Ensure Beegfs helperd configuration file
+  become: true
   ansible.builtin.template:
     src: "beegfs-helperd.conf.j2"
     dest: "/etc/beegfs/beegfs-helperd.conf"
@@ -24,7 +45,9 @@
   loop: "{{ client_clusters }}"
   loop_control:
     label: "{{ item.sys_mgmtd_host }}"
-  when: not multi_mode
+  when:
+    - not multi_mode
+    - client_beegfs_version | split('.') | first | int == 7
   notify:
     - Restart beegfs helperd service
   tags:
@@ -32,28 +55,8 @@
     - client_configure
     - configure
 
-- name: Ensure interfaces list file is present
-  ansible.builtin.template:
-    src: conn_interfaces_file.j2
-    dest: "/etc/beegfs/client_interfaces"
-    owner: root
-    group: root
-    mode: "0640"
-  vars:
-    settings: "{{ item }}"
-  loop: "{{ client_clusters }}"
-  loop_control:
-    label: "{{ settings.conn_interfaces | default(client_conn_interfaces) }}"
-  when:
-    - not multi_mode
-    - settings.conn_interfaces is defined
-    - settings.conn_interfaces | length > 0
-  tags:
-    - client
-    - client_configure
-    - configure
-
 - name: Ensure Beegfs client configuration file
+  become: true
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
     dest: "/etc/beegfs/beegfs-client.conf"
@@ -72,8 +75,8 @@
     - client_configure
     - configure
 
-
 - name: Ensure Beegfs service environment variables file
+  become: true
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/default/{{ item }}"
@@ -91,6 +94,7 @@
     - configure
 
 - name: Disable and mask canonical Beegfs client services
+  become: true
   ansible.builtin.systemd:
     name: "{{ item }}"
     enabled: false
@@ -105,6 +109,7 @@
     - configure
 
 - name: Create Beegfs per cluster configuration directories
+  become: true
   ansible.builtin.file:
     path: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d"
     state: directory
@@ -121,6 +126,7 @@
     - configure
 
 - name: Ensure Beegfs helperd configuration files for multimode deployment
+  become: true
   ansible.builtin.template:
     src: "beegfs-helperd.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-helperd.conf"
@@ -130,7 +136,9 @@
   loop: "{{ client_clusters }}"
   loop_control:
     label: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-helperd.conf"
-  when: multi_mode
+  when:
+    - multi_mode
+    - client_beegfs_version | split('.') | first | int == 7
   notify:
     - Restart beegfs helperd@ services
   tags:
@@ -139,6 +147,7 @@
     - configure
 
 - name: Ensure Beegfs mounts configuration file for multimode deployment
+  become: true
   ansible.builtin.template:
     src: "beegfs-mounts.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-mounts.conf"
@@ -160,6 +169,7 @@
     - configure
 
 - name: Ensure interfaces list file is present for multimode deployment
+  become: true
   ansible.builtin.template:
     src: conn_interfaces_file.j2
     dest: "/etc/beegfs/{{ settings.sys_mgmtd_host | replace('-', '') }}.d/client_interfaces"
@@ -181,6 +191,7 @@
     - configure
 
 - name: Ensure Beegfs client configuration files for multimode deployment
+  become: true
   ansible.builtin.template:
     src: "beegfs-client.conf.j2"
     dest: "/etc/beegfs/{{ item.sys_mgmtd_host | replace('-', '') }}.d/beegfs-client.conf"
@@ -200,6 +211,7 @@
     - configure
 
 - name: Ensure Beegfs modules configuration file
+  become: true
   ansible.builtin.copy:
     dest: "/etc/modules-load.d/beegfs-client-dkms.conf"
     content: beegfs
@@ -217,6 +229,7 @@
 
 # As per Beegfs DKMS documentation this file needs to exists before installing the beegfs-client-dkms
 - name: Ensure The Beegfs client DKMS build
+  become: true
   when:
     - client_dkms_install
   tags:
@@ -243,6 +256,7 @@
       until: _package_inst is success
 
 - name: Enable and start per cluster Beegfs helperd service
+  become: true
   ansible.builtin.systemd:
     name: "beegfs-helperd"
     enabled: true
@@ -250,12 +264,14 @@
   when:
     - not multi_mode
     - client_dkms_install
+    - client_beegfs_version | split('.') | first | int == 7
   tags:
     - configure
     - client
     - client_configure
 
 - name: Enable and start per cluster Beegfs helperd services for multimode deployment
+  become: true
   ansible.builtin.systemd:
     name: "beegfs-helperd@{{ item.sys_mgmtd_host | replace('-', '') }}"
     enabled: true
@@ -266,12 +282,14 @@
   when:
     - multi_mode
     - client_dkms_install
+    - client_beegfs_version | split('.') | first | int == 7
   tags:
     - configure
     - client
     - client_configure
 
 - name: Mount Beegfs DKMS client filesystem
+  become: true
   ansible.posix.mount:
     src: beegfs_nodev
     path: /mnt/beegfs
@@ -287,6 +305,7 @@
     - client_configure
 
 - name: Mount Beegfs DKMS client filesystem for multimode deployment
+  become: true
   ansible.posix.mount:
     src: beegfs_nodev
     path: /mnt/beegfs

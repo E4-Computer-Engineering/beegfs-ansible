@@ -2,10 +2,37 @@
 - name: Execute prechecks
   ansible.builtin.import_tasks: prechecks.yml
 
+- name: System prerequisites
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: system.yml
+  tags:
+    - metad_install
+
+- name: Install
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: install.yml
+  vars:
+    _common_beegfs_version: "{{ metad_beegfs_version }}"
+    _common_packages: "{{ metad_packages[metad_beegfs_version | split('.') | first] }}"
+    _common_repo_url: "{{ metad_repo_url }}"
+    _common_start_services: "{{ metad_start_services }}"
+  tags:
+    - metad_install
+
+- name: Execute filesystem
+  ansible.builtin.import_tasks: filesystem.yml
+  tags:
+    - metad_configure
+
 - name: Execute configure
   ansible.builtin.import_tasks: configure.yml
+  tags:
+    - metad_configure
 
 - name: Enable and start per cluster Beegfs metadata services
+  become: true
   ansible.builtin.systemd:
     name: "beegfs-meta@inst{{ item.target_id }}"
     enabled: true
@@ -15,6 +42,7 @@
     label: "beegfs-meta@inst{{ item.target_id }}"
   when:
     - metad_start_services
+    - not ansible_check_mode
   tags:
     - metad
     - metad_run

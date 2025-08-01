@@ -3,7 +3,7 @@ Beegfs Management Ansible Role
 
 This role can be used to deploy Beegfs Management service, `beegfs-mgmtd` to nodes: each targeted node is meant to be part of one Beegfs cluster only.
 
-It is compatible with the Beegfs versions specified in the role `system_beegfs_version` variable choices and RedHat and Rocky 8.X and Ubuntu Jammy LTS.
+It is compatible with the Beegfs versions specified in the role `mgmtd_beegfs_version` variable choices and RedHat, Almalinux and Rocky 8.X 9.X and Ubuntu Jammy LTS.
 
 Requirements
 ------------

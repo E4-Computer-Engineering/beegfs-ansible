@@ -9,6 +9,11 @@ argument_specs:
       - Davide Obbi
     version_added: "1.0.0"
     options:
+      metad_beegfs_version:
+        type: str
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
+        required: true
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
       metad_start_services:
         type: bool
         description: Start the `beegfs-meta.service` or `beegfs-meta@.service`
@@ -24,7 +29,6 @@ argument_specs:
               - The ID to assign to the metadata target object
               - Albeit not required by Beegfs, the ID needs to be unique in the cluster
               - The ID is used to create the target directory mountpoint `/data/beegfs_meta/t<target_id>`
-              - The ID is used to setup the metada mirror relationship
             default: "1"
           device:
             type: str

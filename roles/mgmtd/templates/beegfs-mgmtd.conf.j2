@@ -3,11 +3,11 @@ storeMgmtdDirectory                    = {{ mgmtd_store_mgmtd_directory }}
 storeAllowFirstRunInit                 = false
 sysAllowNewServers                     = true
 sysAllowNewTargets                     = true
-connAuthFile                           = /etc/beegfs/connauthfile
+connAuthFile                           = /etc/beegfs/conn.auth
 connDisableAuthentication              = false
 connBacklogTCP                         = 128
 {% if mgmtd_conn_interfaces | length > 0 %}
-connInterfacesFile                     = /etc/beegfs/mgmtd_interfaces
+connInterfacesFile                     = /etc/beegfs/{{ ansible_role_name | regex_replace(ansible_collection_name ~ '.', '') }}_interfaces
 {% else %}
 connInterfacesFile                     =
 {% endif %}

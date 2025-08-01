@@ -1,11 +1,10 @@
 ---
 namespace: e4_computer_engineering
 name: beegfs
-version: 1.1.0
+version: 2.0.0
 readme: README.md
 authors:
   - Davide Obbi <davide.obbi@e4company.com>
-  - Federico Ferrari <federico.ferrari@e4company.com>
   - Giovanni Marrucci <giovanni.marrucci@e4company.com>
   - Francesco Minarini <francesco.minarini@e4company.com>
 description: Collection to deploy Beegfs cluster components

@@ -1,3 +1,5 @@
 ---
 # vars file for mgmt
-mgmtd_packages: ["beegfs-mgmtd"]
+mgmtd_packages:
+  '7': ['beegfs-mgmtd']
+  '8': ['beegfs-mgmtd', 'libbeegfs-license']
