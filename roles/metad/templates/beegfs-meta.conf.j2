@@ -3,20 +3,25 @@ sysMgmtdHost                 = {{ settings.sys_mgmtd_host | default(metad_sys_mg
 storeMetaDirectory           = /data/beegfs/beegfs_meta/t{{ settings.target_id | default(metad_target_id) }}/dir
 storeAllowFirstRunInit       = false
 storeFsUUID                  =
-connAuthFile                 = /etc/beegfs/connauthfile
+connAuthFile                 = /etc/beegfs/conn.auth
 connDisableAuthentication    = false
 connBacklogTCP               = 128
 connFallbackExpirationSecs   = 900
 {% if settings.conn_interfaces | length > 0 %}
-connInterfacesFile           = /etc/beegfs/inst{{ settings.target_id }}.d/meta_interfaces
+connInterfacesFile           = /etc/beegfs/inst{{ settings.target_id }}.d/metad_interfaces
 {% else %}
 connInterfacesFile           =
 {% endif %}
 connMaxInternodeNum          = 32
+{% if metad_beegfs_version | split('.') | first | int == 7 %}
 connMetaPortTCP              = {{ "8%02d5" |format(settings.target_id | int) | default(metad_conn_metad_port_tcp) }}
 connMetaPortUDP              = {{ "8%02d5" |format(settings.target_id | int) | default(metad_conn_metad_port_udp) }}
-connMgmtdPortTCP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(metad_conn_mgmtd_port_tcp) }}
-connMgmtdPortUDP             = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(metad_conn_mgmtd_port_udp) }}
+connMgmtdPortTCP             = {{ hostvars[settings.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(metad_conn_mgmtd_port_tcp) }}
+connMgmtdPortUDP             = {{ hostvars[settings.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(metad_conn_mgmtd_port_udp) }}
+{% else %}
+connMetaPort                 = {{ "8%02d5" |format(settings.target_id | int) | default(metad_conn_metad_port_tcp) }}
+connMgmtdPort                = {{ hostvars[settings.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(metad_conn_mgmtd_port_tcp) }}
+{% endif %}
 connPortShift                = 0
 connNetFilterFile            =
 connUseRDMA                  = true

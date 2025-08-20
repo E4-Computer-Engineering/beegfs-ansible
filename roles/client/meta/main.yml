@@ -13,8 +13,3 @@ galaxy_info:
   galaxy_tags:
     - beegfs
     - storage
-
-dependencies:
-  - role: system
-    vars:
-      system_packages: "{{ client_packages }}"

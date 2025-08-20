@@ -1,7 +1,10 @@
 ---
 - name: Restart beegfs mgmtd service
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-mgmtd"
     state: restarted
-  when: mgmtd_start_services
+  when:
+    - mgmtd_start_services
+    - not ansible_check_mode

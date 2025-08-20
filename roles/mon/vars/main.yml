@@ -1,3 +1,5 @@
 ---
 # vars file for mon
-mon_packages: ["beegfs-mon"]
+mon_packages:
+  '7': ["beegfs-mon"]
+  '8': ["beegfs-mon"]

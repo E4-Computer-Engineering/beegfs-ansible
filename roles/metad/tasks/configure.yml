@@ -1,209 +1,41 @@
 ---
-- name: Collect facts for mounted devices for metad_mounts
-  ansible.builtin.setup:
-    gather_subset:
-      - '!all'
-      - hardware
+- name: Configure
+  ansible.builtin.include_role:
+    # name: e4_computer_engineering.beegfs._common
+    name: _common
+    tasks_from: configure.yml
+  vars:
+    _common_service_name: "meta"
+    _common_server_targets: "{{ metad_server_targets }}"
+    _common_auth_file_path: "{{ metad_auth_file_path }}"
+    _common_start_services: "{{ metad_start_services }}"
+    _common_deploy_auth_file: "{{ metad_deploy_auth_file }}"
+    _common_conn_interfaces: "{{ metad_conn_interfaces }}"
   tags:
-    - configure
-
-- name: Disable and mask canonical Beegfs metadata service
-  ansible.builtin.systemd:
-    name: beegfs-meta.service
-    enabled: false
-    masked: true
-  tags:
-    - metad
     - metad_configure
-    - configure
 
-- name: Create Beegfs per metadata server configuration directories
-  ansible.builtin.file:
-    path: "/etc/beegfs/inst{{ item.target_id }}.d"
-    state: directory
-    mode: "0755"
+- name: Ensure Beegfs metadata configuration files
+  become: true
+  ansible.builtin.template:
+    src: "beegfs-meta.conf.j2"
+    dest: "/etc/beegfs/inst{{ settings.target_id }}.d/beegfs-meta.conf"
+    mode: "0640"
     owner: root
     group: root
+  vars:
+    settings: "{{ item }}"
   loop: "{{ metad_server_targets }}"
   loop_control:
-    label: "/etc/beegfs/inst{{ item.target_id }}.d"
+    label: "/etc/beegfs/inst{{ settings.target_id }}.d/beegfs-meta.conf"
+  notify:
+    - Restart beegfs meta@ services
   tags:
     - metad
     - metad_configure
     - configure
 
-- name: Set important variables for each meta target
-  ansible.builtin.set_fact:
-    metad_mounts: |-
-      [
-      {% for tgt in metad_server_targets %}
-        {% set target_directory = '/data/beegfs/beegfs_meta/t' + (tgt.target_id | string) %}
-        {% set target_options = metad_filesystem_options %}
-        {% set mounted = ansible_mounts | selectattr('mount', '==', target_directory) | length > 0 %}
-        {
-          "device_name": "{{ tgt.device }}",
-          "mount_point": "{{ target_directory }}",
-          "device_mounted": {{ mounted }},
-          "fs_options": "{{ target_options | regex_replace(' ', '') }}"
-        }{% if not loop.last %},{% endif %}
-      {% endfor %}
-      ]
-  tags:
-    - metad
-    - metad_configure
-    - configure
-
-- name: Display generated meta mounts
-  ansible.builtin.debug:
-    var: item
-  loop: "{{ metad_mounts }}"
-  tags:
-    - debug
-    - never
-
-- name: Purge filesystems
-  when: metad_filesystem_purge
-  tags:
-    - metad
-    - metad_configure
-    - configure
-  block:
-
-    - name: Stop beegfs meta@ services
-      ansible.builtin.systemd_service:
-        name: "beegfs-meta@inst{{ item.target_id }}"
-        state: stopped
-      loop: "{{ metad_server_targets }}"
-      loop_control:
-        label: "beegfs-meta@inst{{ item.target_id }}"
-      tags:
-        - purge
-
-    - name: Unmount Beegfs meta targets
-      ansible.posix.mount:
-        path: "/data/beegfs/beegfs_meta/t{{ target.target_id }}"
-        state: absent
-      vars:
-        target: "{{ item }}"
-      loop: "{{ metad_server_targets }}"
-      loop_control:
-        label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
-      register: result
-      retries: 3
-      delay: 5
-      until: result.failed == false
-      tags:
-        - purge
-
-    - name: Remove Beegfs metadata directories
-      ansible.builtin.file:
-        path: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
-        state: absent
-      loop: "{{ metad_server_targets }}"
-      loop_control:
-        label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
-      tags:
-        - purge
-
-    - name: Clean all meta targets using e2fsck
-      ansible.builtin.command:
-        e2fsck -f /dev/{{ target.device }} -y
-      vars:
-        target: "{{ item }}"
-      loop: "{{ metad_server_targets }}"
-      loop_control:
-        label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
-      changed_when: false
-      tags:
-        - purge
-
-- name: Display purge status
-  ansible.builtin.debug:
-    var: metad_filesystem_purge
-  tags:
-    - debug
-    - never
-
-- name: Create filesystem on each meta targets
-  community.general.filesystem:
-    fstype: "{{ metad_filesystem_type }}"
-    dev: "/dev/{{ target.device_name }}"
-    force: "{{ metad_filesystem_purge }}"
-    opts: >
-      -i {{ metad_filesystem_bytes_per_inode }} -I {{ metad_filesystem_inode_size }}
-      -J size={{ metad_filesystem_journal_size }} -O {{ metad_filesystem_features }}
-  vars:
-    target: "{{ item }}"
-  when: not target.device_mounted
-  loop: "{{ metad_mounts }}"
-  loop_control:
-    label: "{{ target.mount_point }}"
-  tags:
-    - storaged
-    - storaged_configure
-    - configure
-
-- name: Collect mounted devices for fs UUIDs
-  ansible.builtin.setup:
-    gather_subset:
-      - '!all'
-      - hardware
-  tags:
-    - configure
-
-- name: Tune2fs all meta targets
-  ansible.builtin.command: |
-      tune2fs -o user_xattr /dev/{{ target.device_name }} \
-      -U {{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}
-  vars:
-    target: "{{ item }}"
-  loop: "{{ metad_mounts }}"
-  changed_when: false
-  when: not target.device_mounted
-  tags:
-    - configure
-
-- name: Display device UUIDs
-  ansible.builtin.debug:
-    msg: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
-  loop: "{{ metad_mounts }}"
-  tags:
-    - debug
-    - never
-
-- name: Mount Beegfs meta targets
-  ansible.posix.mount:
-    path: "{{ target.mount_point }}"
-    src: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
-    fstype: "{{ metad_filesystem_type }}"
-    opts: "{{ target.fs_options }}"
-    state: mounted
-  vars:
-    target: "{{ item }}"
-  loop: "{{ metad_mounts }}"
-  loop_control:
-    label: "{{ target.mount_point }}"
-  tags:
-    - metad
-    - metad_configure
-    - configure
-
-- name: Create Beegfs metadata directories
-  ansible.builtin.file:
-    path: "/data/beegfs/beegfs_meta/t{{ item.target_id }}/dir"
-    state: directory
-    mode: "0755"
-    owner: root
-    group: root
-  loop: "{{ metad_server_targets }}"
-  loop_control:
-    label: "/data/beegfs/beegfs_meta/t{{ item.target_id }}"
-  tags:
-    - metad
-    - metad_configure
-    - configure
-
-- name: Check if metadata data folder/s are empty before proceeding
+- name: Check if storage data folder/s are empty before proceeding
+  become: true
   ansible.builtin.find:
     paths: "/data/beegfs/beegfs_meta/t{{ item.target_id }}/dir"
     excludes: "lost+found"
@@ -216,46 +48,8 @@
     - metad_configure
     - configure
 
-- name: Ensure interfaces list file is present
-  ansible.builtin.template:
-    src: conn_interfaces_file.j2
-    dest: "/etc/beegfs/inst{{ settings.target_id }}.d/meta_interfaces"
-    owner: root
-    group: root
-    mode: "0640"
-  vars:
-    settings: "{{ item }}"
-  loop: "{{ metad_server_targets }}"
-  loop_control:
-    label: "{{ settings.conn_interfaces | default(metad_conn_interfaces) }}"
-  when:
-    - settings.conn_interfaces is defined
-    - settings.conn_interfaces | length > 0
-  tags:
-    - metad
-    - metad_configure
-    - configure
-
-- name: Ensure Beegfs metadata configuration files
-  ansible.builtin.template:
-    src: "beegfs-meta.conf.j2"
-    dest: "/etc/beegfs/inst{{ item.target_id }}.d/beegfs-meta.conf"
-    mode: "0640"
-    owner: root
-    group: root
-  vars:
-    settings: "{{ item }}"
-  loop: "{{ metad_server_targets }}"
-  loop_control:
-    label: "/etc/beegfs/inst{{ item.target_id }}.d/beegfs-meta.conf"
-  notify:
-    - Restart beegfs meta@ services
-  tags:
-    - metad
-    - metad_configure
-    - configure
-
 - name: Execute metadata setup command
+  become: true
   ansible.builtin.command: |
       /opt/beegfs/sbin/beegfs-setup-meta -C -u \
       -c /etc/beegfs/inst{{ item.item.target_id }}.d/beegfs-meta.conf \

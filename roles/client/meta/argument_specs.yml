@@ -9,11 +9,17 @@ argument_specs:
       - Davide Obbi
     version_added: 1.0.0
     options:
+      client_beegfs_version:
+        type: str
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
+        required: true
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
       client_start_services:
         type: bool
         description:
           - Start the `beegfs-client|neegfs-helperd.service` or `beegfs-client|beegfs-helperd@.service`
-        default: false
+          - If set to false, it won't be possible to create directories in the Beegfs mountpoint
+        default: true
       client_enable_beeond:
         type: bool
         description: install Beegfs Beeond packages on the node
@@ -27,6 +33,12 @@ argument_specs:
         type: bool
         description: Build the client kernel modules
         default: true
+      client_auth_file_path:
+        default: /etc/beegfs/conn.auth
+        type: str
+        description:
+          - The path to the authentication file used by the client
+          - The file is used to authenticate the client with the management service
       client_install_kernel_dev:
         type: bool
         description:
@@ -61,12 +73,6 @@ argument_specs:
               - The list of the hosts that will run the metadata services and hold the meta targets
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: []
-          cluster_dir_paths:
-            type: list
-            elements: str
-            description:
-              - The list of the paths that will be mounted on the client
-              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
           sys_mgmtd_host:
             type: str
             description:
@@ -146,3 +152,18 @@ argument_specs:
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "false"
             choices: ["false", "true"]
+          client_dir_paths:
+            type: list
+            elements: dict
+            description: The list of directory paths relative to the Beegfs mountpoint with custom striping rules
+            options:
+              beegfs_path:
+                type: str
+                description:
+                  - The path relative to the Beegfs mountpoint where the directory should exist
+                  - You need the `client_start_services` option set to true to create directories
+                required: true
+              fs_path:
+                type: str
+                description: The path relative to the root filesystem where the directory should be bind mounted
+                required: false

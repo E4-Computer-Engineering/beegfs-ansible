@@ -4,7 +4,7 @@ Beegfs Monitoring Ansible Role
 This role can be used to deploy Beegfs Monitoring service, `beegfs-mon` to nodes: each targeted node is meant to be part of one Beegfs cluster only.
 The current implementation works only with Influxdb and InfluxdbV2 DB types.
 
-It is compatible with the Beegfs versions specified in the role `system_beegfs_version` variable choices and RedHat and Rocky 8.X and Ubuntu Jammy LTS.
+It is compatible with the Beegfs versions specified in the role `mon_beegfs_version` variable choices and RedHat, Almalinux and Rocky 8.X 9.X and Ubuntu Jammy LTS.
 
 Requirements
 ------------

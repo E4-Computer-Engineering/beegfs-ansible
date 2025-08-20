@@ -1,6 +1,7 @@
 ---
 mon_start_services: false
 mon_ship_to_influxdb_exporter: false
+mon_auth_file_path: "{{ role_path }}/files/conn.auth"
 
 # /etc/beegfs/beegfs-mon.conf
 mon_sys_mgmtd_host: localhost

@@ -1,6 +1,0 @@
----
-# defaults file for system
-system_repo_gpg_keys: "https://www.beegfs.io/release/beegfs_{{ system_beegfs_version }}/gpg/GPG-KEY-beegfs"
-system_deploy_auth_file: true
-system_auth_file_path: "{{ role_path }}/files/connauthfile"
-system_selinux_state: disabled

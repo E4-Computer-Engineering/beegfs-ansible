@@ -1,7 +1,10 @@
 ---
 # vars.yml file
-client_packages: "{{ ['beegfs-helperd', 'beegfs-utils'] if client_dkms_install else
+client_packages:
+  '7': "{{ ['beegfs-helperd', 'beegfs-utils'] if client_dkms_install else
                   ['beegfs-client', 'beegfs-helperd', 'beegfs-utils'] }}"
+  '8': "{{ ['beegfs-tools', 'beegfs-utils'] if client_dkms_install else
+      ['beegfs-client', 'beegfs-tools', 'beegfs-utils'] }}"
 
 _client_nvidia_fs_path: /usr/src/nvidia-fs-
 _client_nvidia_path: /usr/src/nvidia-

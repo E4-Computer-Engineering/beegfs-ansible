@@ -9,6 +9,11 @@ argument_specs:
       - Davide Obbi
     version_added: "1.0.0"
     options:
+      mgmtd_beegfs_version:
+        type: str
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
+        required: true
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
       mgmtd_string_id:
         type: str
         description:
@@ -24,19 +29,19 @@ argument_specs:
         type: str
         description:
           - The filesystem path where the management service will write its data
-          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
-        default: /data/beegfs/beegfs_mgmtd
+          - This option is documented in /etc/beegfs/beegfs-mgmt.conf or /etc/beegfs/beegfs-mgmtd.toml
+        default: /var/lib/beegfs/
       mgmtd_conn_mgmtd_port_tcp:
         type: str
         description:
           - The TCP port at which the management service is responding at
-          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+          - This option is documented in /etc/beegfs/beegfs-mgmt.conf or /etc/beegfs/beegfs-mgmtd.toml
         default: "8008"
       mgmtd_conn_mgmtd_port_udp:
         type: str
         description:
           - The UDP port at which the management service is responding at
-          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+          - This option is documented in /etc/beegfs/beegfs-mgmt.conf or /etc/beegfs/beegfs-mgmtd.toml
         default: "8008"
       mgmtd_conn_interfaces:
         type: list
@@ -44,6 +49,13 @@ argument_specs:
           - The list of interfaces to use by the daemon
           - The interfaces will be written to the file specified in `mgmtd_conn_interfaces_file`
         default: []
+      mgmtd_deploy_auth_file:
+        type: bool
+        description:
+          - Deploy the connection auth file.
+          - See `system_auth_file_path` for specifying the location of the auth file to deploy.
+          - WARNING do not use the authfile provided in this role
+        default: true
       mgmtd_log_type:
         type: str
         description:

@@ -9,6 +9,11 @@ argument_specs:
       - Davide Obbi
     version_added: "1.0.0"
     options:
+      storaged_beegfs_version:
+        type: str
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
+        required: true
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
       storaged_start_services:
         type: bool
         description: Start the `beegfs-storage.service` or `beegfs-storage@.service`

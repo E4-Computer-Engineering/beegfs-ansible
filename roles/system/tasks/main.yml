@@ -1,9 +1,0 @@
----
-- name: Execute prechecks
-  ansible.builtin.import_tasks: prechecks.yml
-
-- name: Execute install
-  ansible.builtin.import_tasks: install.yml
-
-- name: Execute configure
-  ansible.builtin.import_tasks: configure.yml

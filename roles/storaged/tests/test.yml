@@ -1,6 +1,0 @@
----
-- name: Test storaged role
-  hosts: localhost
-  remote_user: root
-  roles:
-    - storaged

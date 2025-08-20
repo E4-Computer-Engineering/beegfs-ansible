@@ -1,5 +1,6 @@
 ---
 - name: Restart beegfs helperd service
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-helperd"
@@ -7,10 +8,12 @@
   when:
     - client_start_services
     - not multi_mode
+    - client_beegfs_version | split('.') | first | int == 7
   tags:
     - restart_services
 
 - name: Restart beegfs client service
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-client"
@@ -19,10 +22,12 @@
     - client_start_services
     - not multi_mode
     - not client_dkms_install
+    - not ansible_check_mode
   tags:
     - restart_services
 
 - name: Restart beegfs helperd@ services
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-helperd@{{ item.sys_mgmtd_host | replace('-', '') }}"
@@ -31,10 +36,13 @@
   when:
     - client_start_services
     - multi_mode
+    - client_beegfs_version | split('.') | first | int == 7
+    - not ansible_check_mode
   tags:
     - restart_services
 
 - name: Restart beegfs client@ services
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-client@{{ item.sys_mgmtd_host | replace('-', '') }}"
@@ -44,13 +52,16 @@
     - client_start_services
     - multi_mode
     - not client_dkms_install
+    - not ansible_check_mode
   tags:
     - restart_services
 
 - name: Load beegfs module
+  become: true
   ansible.builtin.command: modprobe beegfs
   changed_when: false
   when:
     - client_dkms_install
+    - not ansible_check_mode
   tags:
     - restart_services

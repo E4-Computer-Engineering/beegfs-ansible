@@ -1,0 +1,131 @@
+---
+- name: "Validate invocation of _common role"
+  ansible.builtin.assert:
+    that:
+      - "ansible_parent_role_names is defined"
+      - "ansible_parent_role_names | default() | length > 0"
+    fail_msg: "Error: The '_common' role is a internal role and cannot be invoked directly."
+  tags:
+    - always
+
+- name: Gather distribution related facts
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+
+- name: Load OS specific variables
+  ansible.builtin.include_vars:
+    file: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+
+- name: Add Rocky vault devel repository for correct kernel-devel package if not on latest OS release
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+  when:
+    - ansible_distribution == 'Rocky'
+  block:
+    - name: Check if the repo exists upstream
+      ansible.builtin.uri:
+        url: "http://dl.rockylinux.org/vault/rocky/{{ ansible_distribution_version }}/devel/x86_64/os/"
+        method: HEAD
+      register: __common_rocky_vault_test
+      failed_when: __common_rocky_vault_test.status is undefined or __common_rocky_vault_test.status <= 0
+
+    - name: Add the repo
+      become: true
+      ansible.builtin.yum_repository:
+        name: vault-devel
+        description: "Rocky Linux {{ ansible_distribution_version }} - Vault Devel"
+        baseurl: "http://dl.rockylinux.org/vault/rocky/{{ ansible_distribution_version }}/devel/x86_64/os/"
+        gpgcheck: true
+        gpgkey: "///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial"
+      when:
+        - __common_rocky_vault_test.status == 200
+
+- name: Add Almalinux vault devel repository for correct kernel-devel package if not on latest OS release
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+  when:
+    - ansible_distribution == 'AlmaLinux'
+  block:
+    - name: Check if the Almalinux vault repo exists
+      ansible.builtin.uri:
+        url: "http://repo.almalinux.org/vault/{{ ansible_distribution_version }}/AppStream/x86_64/os/"
+        method: HEAD
+      register: __common_alma_vault_test
+      failed_when: __common_alma_vault_test.status is undefined or __common_alma_vault_test.status <= 0
+
+    - name: Add Almalinux vault AppStream repository for correct kernel-devel package if not on latest OS release
+      become: true
+      ansible.builtin.yum_repository:
+        name: vault-devel
+        description: "AlmaLinux {{ ansible_distribution_version }} - Vault AppStream"
+        baseurl: "http://repo.almalinux.org/vault/{{ ansible_distribution_version }}/AppStream/x86_64/os/"
+        gpgcheck: true
+        gpgkey: "///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-{{ ansible_distribution_version }}"
+      when:
+        - __common_alma_vault_test.status == 200
+
+- name: Add Beegfs YUM Repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: beegfs
+    description: "BeeGFS {{ _common_beegfs_version }}"
+    baseurl: "{{ _common_repo_url | default(__common_upstream_repo_url) }}"
+    gpgcheck: true
+    gpgkey: "{{ __common_repo_gpg_keys }}"
+  when:
+    - (ansible_distribution == 'RedHat') or (ansible_distribution == 'Rocky')
+      or (ansible_distribution == 'AlmaLinux')
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+
+- name: Add Beegfs APT repository
+  become: true
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"
+  when:
+    - ansible_distribution == 'Ubuntu'
+  block:
+    - name: Add repository signing key
+      ansible.builtin.get_url:
+        url: "{{ __common_repo_gpg_keys }}"
+        dest: /etc/apt/trusted.gpg.d/beegfs.asc
+        mode: "0644"
+        owner: root
+        group: root
+
+    - name: Add repository to sources list
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/trusted.gpg.d/beegfs.asc]  \
+              {{ _common_repo_url | default(__common_upstream_repo_url) }}"
+        filename: beegfs
+
+- name: Install System packages "{{ _common_packages }}"
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ _common_packages }}"
+  register: __common_package_inst
+  retries: 3
+  until: __common_package_inst is success
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - install
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_install"

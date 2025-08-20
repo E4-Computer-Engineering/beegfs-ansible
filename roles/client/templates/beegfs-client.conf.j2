@@ -1,11 +1,16 @@
 ### {{ ansible_managed }} ###
 sysMgmtdHost                  = {{ item.sys_mgmtd_host | default(client_sys_mgmtd_host) }}
-connAuthFile                  = /etc/beegfs/connauthfile
+connAuthFile                  = /etc/beegfs/conn.auth
 connDisableAuthentication     = false
+{% if client_beegfs_version | split('.') | first | int == 7 %}
 connClientPortUDP             = {{ item.conn_client_port_udp | default(client_conn_client_port_udp) }}
 connHelperdPortTCP            = {{ item.conn_helperd_port_tcp | default(client_conn_helperd_port_tcp) }}
 connMgmtdPortTCP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(client_conn_mgmtd_port_tcp) }}
 connMgmtdPortUDP              = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(client_conn_mgmtd_port_udp) }}
+{% else %}
+connClientPort                = {{ item.conn_client_port_udp | default(client_conn_client_port_udp) }}
+connMgmtdPort                 = {{ hostvars[item.sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(client_conn_mgmtd_port_tcp) }}
+{% endif %}
 connPortShift                 = 0
 connCommRetrySecs             = 600
 connFallbackExpirationSecs    = 900
@@ -30,11 +35,14 @@ connRDMABufNum                = {{ item.conn_rdma_buf_num | default(client_conn_
 connRDMABufSize               = {{ item.conn_rdma_buf_size | default(client_conn_rdma_buf_size) }}
 tuneFileCacheBufSize          = {{ item.tune_file_cache_buf_size | default(client_tune_file_cache_buf_size) }}
 connRDMATypeOfService         = 0
+connRDMAFragmentSize          = page
 connTcpOnlyFilterFile         =
 logClientID                   = false
+{% if client_beegfs_version | split('.') | first | int == 7 %}
 logHelperdIP                  =
-logLevel                      = 3
 logType                       = helperd
+{% endif %}
+logLevel                      = 3
 quotaEnabled                  = {{ item.quota_enabled | default(client_quota_enabled) }}
 sysCreateHardlinksAsSymlinks  = false
 sysMountSanityCheckMS         = 11000

@@ -10,17 +10,30 @@ This Ansible collection aims to deploy Beegfs cluster components in the followin
 * multi node cluster: the Beegfs services are running on different nodes
 * multiple clusters in single or multi node: a single Beegfs client node can be part of two or more Beegfs clusters in single or multi node
 
-This collection takes care of deployng the following [Beegfs features](https://doc.beegfs.io/latest/architecture/overview.html):
+This collection is compatible with the Beegfs versions 7.4.X and 8.X
 
-* Storage pools
-* Buddy Mirroring
-* Striping rules and custom mountpoints
-* Beeond
-* Monitoring service
+Collection documentation is available at the [Beegfs Ansible Collection Documentation](https://e4-computer-engineering.github.io/beegfs-ansible/branch/main/).
 
-This collection is compatible with the Beegfs versions allowed by the variable [system_beegfs_version](roles/system/meta/argument_specs.yml) of the system role.
+This Beegfs Ansible collection aims to execute the tedious and repetitive tasks to be executed for the configuration of the different Beegfs components ensuring the final setup is consistent across the whole cluster:
 
-Collection documentation is available [here](https://e4-computer-engineering.github.io/beegfs-ansible/branch/main/).
+* all nodes:
+  * deploy beegfs authentication file
+  * disable SeLinux
+  * populate `/etc/hosts`
+  * install correct packages
+  * deploy interfaces files
+  * deploy configuration files
+* storage and metadata:
+  * create and tune filesystem on block devices
+* management:
+  * generate and deploy TLS certificates
+* client:
+  * generate and deploy TLS certificates
+  * add vault repositories (Rocky and Alma)
+  * install kernel-devel or kernel-headers packages for `beegfs-client` rebuild
+  * support for DKMS installation
+  * install beeond package if needed
+  * create bind mounts
 
 ## Components
 
@@ -34,6 +47,10 @@ Collection documentation is available [here](https://e4-computer-engineering.git
 
 To deploy a whole cluster with, the [site playbook](playbooks/site.yml) should be used, this will esnure the correct ordering and timing for all the Beegfs components.
 
-In the [extensions directory](extensions/molecule/) it is possible to see examples of inventories and variables, such as: the `default` molecule scenario (deploy two single node Beegfs clusters), `buddy_mirror`...
+In the [extensions directory](extensions/molecule/) it is possible to see examples of inventories and variables, such as:
 
->WARNING: By default the collection will deploy a cluster authentication file `/etc/beegfs/connauthfile` that is already present in the [system role](roles/system/files/connauthfile). You should create your own.
+* the `default` molecule scenario that deploys Beegfs v8
+* the `v7` molecule scenario that deploys Beegfs v7
+
+>WARNING: By default the collection will deploy a cluster authentication file `/etc/beegfs/connauthfile` that is already present in the [_common role](roles/_common/files/connauthfile). You should create your own.
+> WARNING: By default the collection will generate and deploy TLS certificates from the Ansible controller. If you don't want this to happen you need to have the certificate files already present in the Ansible controller node `_common_tls_tmp_dir/_common_tls_cert_file`.

@@ -1,7 +1,10 @@
 ---
 - name: Restart beegfs mon service
+  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: "beegfs-mon"
     state: restarted
-  when: mon_start_services
+  when:
+    - mon_start_services
+    - not ansible_check_mode

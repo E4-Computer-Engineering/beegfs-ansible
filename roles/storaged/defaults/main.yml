@@ -1,6 +1,7 @@
 ---
 storaged_start_services: true
 storaged_server_targets: []
+storaged_auth_file_path: "{{ role_path }}/files/conn.auth"
 
 # Filesystem specs
 storaged_filesystem_type: "xfs"

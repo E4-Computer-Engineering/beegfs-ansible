@@ -2,101 +2,36 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: molecule/openstack/requirements.yml
-    role-file: molecule/openstack/requirements.yml
+    requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/molecule/openstack/requirements.yml
+    role-file: ${MOLECULE_PROJECT_DIRECTORY}/molecule/openstack/requirements.yml
 driver:
   port: 22
   ssh_identity_file: ~/.ssh/med-deployer-dev
 platforms:
-  - name: beealma810-01
-    image: AlmaLinux-8-GenericCloud-8.10
-    flavor: m1.medium
-    key_name: med-deployer
-    volumes: [metafs1, storagefs1, metafs7, storagefs7]
-    meta:
-      cloud_user: almalinux
-    security_groups:
-      - ssh_icmp
-      - beegfs
-    nics:
-      - net-name: private_tech_dev
-    external_network: external_1632
-    validate_certs: false
-    groups:
-      - storage
-      - management
-      - metadata
-      - monitoring
-      - clients
-  - name: beealma95-01
+  - name: mgmt-alma95-01
     image: AlmaLinux-9-GenericCloud-9.5
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs2, storagefs2, metafs8, storagefs8]
+    volumes: []
     meta:
       cloud_user: almalinux
     security_groups:
-      - ssh_icmp
       - beegfs
     nics:
       - net-name: private_tech_dev
     external_network: external_1632
     validate_certs: false
     groups:
-      - storage
       - management
-      - metadata
       - monitoring
-      - clients
-  - name: beeubuntu2204-01
-    image: Ubuntu-jammy-22.04
-    flavor: m1.medium
-    key_name: med-deployer
-    volumes: [metafs3, storagefs3]
-    meta:
-      cloud_user: ubuntu
-    security_groups:
-      - ssh_icmp
-      - beegfs
-    nics:
-      - net-name: private_tech_dev
-    external_network: external_1632
-    validate_certs: false
-    groups:
-      - storage
-      - management
-      - metadata
-      - monitoring
-      - clients
-  - name: beealma810-02
-    image: AlmaLinux-8-GenericCloud-8.10
-    flavor: m1.medium
-    key_name: med-deployer
-    volumes: [metafs4, storagefs4, metafs9, storagefs9]
-    meta:
-      cloud_user: almalinux
-    security_groups:
-      - ssh_icmp
-      - beegfs
-    nics:
-      - net-name: private_tech_dev
-    external_network: external_1632
-    validate_certs: false
-    groups:
-      - storage
-      - management
-      - metadata
-      - monitoring
-      - clients
-  - name: beealma95-02
+  - name: stor-alma95-01
     image: AlmaLinux-9-GenericCloud-9.5
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs5, storagefs5, metafs10, storagefs10]
+    volumes: [metafs1, storagefs1, metafs3, storagefs3]
     meta:
       cloud_user: almalinux
     security_groups:
-      - ssh_icmp
       - beegfs
     nics:
       - net-name: private_tech_dev
@@ -104,129 +39,156 @@ platforms:
     validate_certs: false
     groups:
       - storage
-      - management
       - metadata
-      - monitoring
+  - name: stor-alma95-02
+    image: AlmaLinux-9-GenericCloud-9.5
+    flavor: m1.medium
+    key_name: med-deployer
+    volumes: [metafs2, storagefs2, metafs4, storagefs4]
+    meta:
+      cloud_user: almalinux
+    security_groups:
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - storage
+      - metadata
+  - name: cnode-alma95-01
+    image: AlmaLinux-9-GenericCloud-9.5
+    flavor: m1.medium
+    key_name: med-deployer
+    volumes: []
+    meta:
+      cloud_user: almalinux
+    security_groups:
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
       - clients
-  - name: beeubuntu2204-02
+  - name: cnode-rocky94-02
+    image: Rocky-9-GenericCloud-Base.9.4.x86_64
+    flavor: m1.medium
+    key_name: med-deployer
+    volumes: []
+    meta:
+      cloud_user: rocky
+    security_groups:
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - clients
+  - name: cnode-alma95-03
+    image: AlmaLinux-9-GenericCloud-9.5
+    flavor: m1.medium
+    key_name: med-deployer
+    volumes: []
+    meta:
+      cloud_user: almalinux
+    security_groups:
+      - beegfs
+    nics:
+      - net-name: private_tech_dev
+    external_network: external_1632
+    validate_certs: false
+    groups:
+      - clients
+  - name: cnode-ubuntu22-04
     image: Ubuntu-jammy-22.04
     flavor: m1.medium
     key_name: med-deployer
-    volumes: [metafs6, storagefs6]
+    volumes: []
     meta:
       cloud_user: ubuntu
     security_groups:
-      - ssh_icmp
       - beegfs
     nics:
       - net-name: private_tech_dev
     external_network: external_1632
     validate_certs: false
     groups:
-      - storage
-      - management
-      - metadata
-      - monitoring
       - clients
 provisioner:
   name: ansible
   # needed otherwise molecule does not find it
   env:
-    ANSIBLE_ROLES_PATH: ../../../roles/
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/../roles/
   config_options:
     defaults:
       interpreter_python: auto_silent
       callback_whitelist: profile_tasks, timer, yaml
   playbooks:
-    create: ../openstack/playbooks/create.yml
-    destroy: ../openstack/playbooks/destroy.yml
-    converge: ../openstack/playbooks/converge.yml
+    create: ${MOLECULE_PROJECT_DIRECTORY}/molecule/openstack/playbooks/create.yml
+    destroy: ${MOLECULE_PROJECT_DIRECTORY}/molecule/openstack/playbooks/destroy.yml
+    converge: ${MOLECULE_PROJECT_DIRECTORY}/molecule/openstack/playbooks/converge.yml
   inventory:
     host_vars:
-      beealma810-01:
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beealma810-01"]
-            cluster_meta_nodes: ["beealma810-01"]
-      beealma95-01:
-        mgmtd_string_id: localhost
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beealma95-01"]
-            cluster_meta_nodes: ["beealma95-01"]
-      beealma810-02:
-        client_dkms_install: true
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beealma810-01"]
-            cluster_meta_nodes: ["beealma810-01"]
-      beealma95-02:
-        client_dkms_install: true
-        mgmtd_string_id: localhost
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beealma95-01"]
-            cluster_meta_nodes: ["beealma95-01"]
-      beeubuntu2204-01:
-        mgmtd_conn_interfaces: ["ens3"]
-        mon_conn_interfaces: ["ens3"]
-        metad_server_targets:
-          - target_id: 1
-            device: "vdb"
-            conn_interfaces: ["ens3"]
-            sys_mgmtd_host: localhost
-        storaged_server_targets:
-          - target_id: 1
-            device: "vdc"
-            conn_interfaces: ["ens3"]
-            sys_mgmtd_host: localhost
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            cluster_storage_nodes: ["beeubuntu2204-01"]
-            cluster_meta_nodes: ["beeubuntu2204-01"]
-      beeubuntu2204-02:
-        client_dkms_install: true
-        mgmtd_conn_interfaces: ["ens3"]
-        mon_conn_interfaces: ["ens3"]
-        metad_server_targets:
-          - target_id: 1
-            device: "vdb"
-            conn_interfaces: ["ens3"]
-            sys_mgmtd_host: localhost
-        storaged_server_targets:
-          - target_id: 1
-            device: "vdc"
-            conn_interfaces: ["ens3"]
-            sys_mgmtd_host: localhost
-        client_clusters:
-          - sys_mgmtd_host: localhost
-            conn_interfaces: ["ens3"]
-            cluster_storage_nodes: ["beeubuntu2204-01"]
-            cluster_meta_nodes: ["beeubuntu2204-01"]
-    group_vars:
-      all:
-        system_beegfs_version: 7.4.6
+      mgmt-alma95-01:
+        mgmtd_beegfs_version: 8.1.0
+        mon_beegfs_version: 8.1.0
         mgmtd_conn_interfaces: ["eth0"]
         mon_conn_interfaces: ["eth0"]
-      metadata:
+      stor-alma95-01:
         metad_server_targets:
           - target_id: 1
             device: "vdb"
             conn_interfaces: ["eth0"]
-            sys_mgmtd_host: localhost
-          - target_id: 2
+            sys_mgmtd_host: mgmt-alma95-01
+          - target_id: 3
             device: "vdc"
             conn_interfaces: ["eth0"]
-            sys_mgmtd_host: localhost
-      storage:
+            sys_mgmtd_host: mgmt-alma95-01
         storaged_server_targets:
           - target_id: 1
             device: "vdd"
             conn_interfaces: ["eth0"]
-            sys_mgmtd_host: localhost
-          - target_id: 2
+            sys_mgmtd_host: mgmt-alma95-01
+          - target_id: 3
             device: "vde"
             conn_interfaces: ["eth0"]
-            sys_mgmtd_host: localhost
+            sys_mgmtd_host: mgmt-alma95-01
+      stor-alma95-02:
+        metad_server_targets:
+          - target_id: 2
+            device: "vdb"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-alma95-01
+          - target_id: 4
+            device: "vdc"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-alma95-01
+        storaged_server_targets:
+          - target_id: 2
+            device: "vdd"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-alma95-01
+          - target_id: 4
+            device: "vde"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-alma95-01
+      cnode-alma95-03:
+        client_dkms_install: true
+    group_vars:
+      metadata:
+        metad_beegfs_version: 8.1.0
+      storage:
+        storaged_beegfs_version: 8.1.0
+      clients:
+        client_beegfs_version: 8.1.0
+        client_clusters:
+          - sys_mgmtd_host: mgmt-alma95-01
+            client_dir_paths:
+              - beegfs_path: home
+                fs_path: /usr/home
+              - beegfs_path: data/bulk
+                fs_path: /bulk
 verifier:
   name: ansible

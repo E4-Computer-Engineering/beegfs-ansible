@@ -1,0 +1,107 @@
+---
+- name: "Validate invocation of _common role"
+  ansible.builtin.assert:
+    that:
+      - "ansible_parent_role_names is defined"
+      - "ansible_parent_role_names | default() | length > 0"
+    fail_msg: "Error: The '_common' role is a internal role and cannot be invoked directly."
+  tags:
+    - always
+
+- name: Set parent role name
+  ansible.builtin.set_fact:
+    _common_parent_role_name: "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+  tags:
+    - always
+
+# This is necessary byt the DKMS install
+- name: Ensure Beegfs root directory
+  become: true
+  ansible.builtin.file:
+    path: "/etc/beegfs"
+    state: directory
+    mode: "0750"
+    owner: root
+    group: root
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Disable and mask canonical Beegfs services
+  become: true
+  ansible.builtin.systemd:
+    name: beegfs-{{ _common_service_name }}.service
+    enabled: false
+    masked: true
+  when:
+    - _common_parent_role_name == 'storaged' or
+      _common_parent_role_name == 'metad'
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Create Beegfs per server configuration directories
+  become: true
+  ansible.builtin.file:
+    path: "/etc/beegfs/inst{{ item.target_id }}.d"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ _common_server_targets }}"
+  loop_control:
+    label: "/etc/beegfs/inst{{ item.target_id }}.d"
+  when:
+    - _common_parent_role_name == 'storaged' or
+      _common_parent_role_name == 'metad'
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Ensure the Beegfs connection authentication file
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+  block:
+    - name: Check authentication file locally present
+      become: false
+      ansible.builtin.stat:
+        path: "{{ _common_auth_file_path }}"
+      delegate_to: localhost
+      register: __common_auth_file_path_result
+
+    - name: Assert that the authentication file is locally existing
+      ansible.builtin.assert:
+        that:
+          - __common_auth_file_path_result.stat.exists
+        success_msg: "File {{ _common_auth_file_path }} exists locally"
+        fail_msg: "File {{ _common_auth_file_path }} does not exists locally"
+
+    - name: Copy connection authentication file
+      become: true
+      ansible.builtin.copy:
+        src: "{{ _common_auth_file_path }}"
+        dest: /etc/beegfs/conn.auth
+        owner: root
+        group: root
+        mode: "0400"
+
+- name: Ensure interfaces list file is present
+  become: true
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: /etc/beegfs/inst{{ item.target_id | default('0') }}.d/{{ _common_parent_role_name }}_interfaces
+    owner: root
+    group: root
+    mode: "0640"
+  loop: "{{ _common_server_targets }}"
+  when:
+    - not _common_parent_role_name == 'mgmtd'
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"

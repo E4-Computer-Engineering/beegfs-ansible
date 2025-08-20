@@ -1,8 +1,7 @@
 ---
 - name: Configure Beegfs Monitoring
-  become: true
   gather_facts: false
-  hosts: '{{ mon_nodes |default("all") }}'
+  hosts: '{{ mon_nodes |default("monitoring") }}'
   tasks:
     - name: Import Beegfs mon role
       ansible.builtin.import_role:

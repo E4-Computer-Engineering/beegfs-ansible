@@ -1,0 +1,3 @@
+{% for interface in item.conn_interfaces |default(_common_conn_interfaces) %}
+{{ interface }}
+{% endfor %}

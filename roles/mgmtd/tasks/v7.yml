@@ -1,0 +1,52 @@
+---
+- name: Ensure management configuration file
+  become: true
+  ansible.builtin.template:
+    src: "beegfs-mgmtd.conf.j2"
+    dest: "/etc/beegfs/beegfs-mgmtd.conf"
+    backup: true
+    mode: "0640"
+    owner: root
+    group: root
+  notify:
+    - Restart beegfs mgmtd service
+  tags:
+    - mgmtd
+    - mgmtd_configure
+    - configure
+
+- name: Ensure interfaces list file is present
+  become: true
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: /etc/beegfs/mgmtd_interfaces
+    owner: root
+    group: root
+    mode: "0640"
+  tags:
+    - mgmtd
+    - mgmtd_configure
+    - configure
+
+- name: Check if management dir is empty before proceeding
+  become: true
+  ansible.builtin.find:
+    paths: "{{ mgmtd_store_mgmtd_directory }}"
+    excludes: "lost+found"
+  register: _mgmtd_target_dir_content
+  tags:
+    - mgmtd
+    - mgmtd_configure
+    - configure
+
+- name: Execute management setup command
+  become: true
+  ansible.builtin.command: |
+    /opt/beegfs/sbin/beegfs-setup-mgmtd -C -p {{ mgmtd_store_mgmtd_directory }} -S {{ mgmtd_string_id }}
+  changed_when: false
+  when:
+    - _mgmtd_target_dir_content.matched == 0
+  tags:
+    - mgmtd
+    - mgmtd_configure
+    - configure

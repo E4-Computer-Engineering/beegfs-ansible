@@ -1,0 +1,43 @@
+#!/bin/bash -eu
+# shellcheck disable=all
+# BeeGFS client mount hook script
+
+action="${1}"
+mountpoint="${2}"
+
+
+if [ ! -d "${mountpoint}" ]
+then
+   echo "${0}: Mount point does not exist: ${mountpoint}"
+   exit 1
+fi
+
+case "${action}" in
+
+   pre-mount)
+      ;;
+
+   post-mount)
+   {% for dir_path in item.client_dir_paths %}
+      {% if dir_path.get("fs_path") %}
+        mount -o bind "${mountpoint}/{{ dir_path.beegfs_path }}" "{{ dir_path.fs_path }}"
+      {% endif %}
+   {% endfor %}
+      ;;
+
+   pre-unmount)
+   {% for dir_path in item.client_dir_paths %}
+      {% if dir_path.get("fs_path") %}
+        umount "{{ dir_path.fs_path }}"
+      {% endif %}
+   {% endfor %}
+      ;;
+
+   post-unmount)
+      ;;
+
+   *)
+      echo "${0}: Unrecognized option supplied to client mount hook: ${action}"
+      exit 1
+      ;;
+esac

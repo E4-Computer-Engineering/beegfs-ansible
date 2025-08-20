@@ -1,5 +1,20 @@
 ---
+- name: Install
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: install.yml
+  vars:
+    _common_beegfs_version: "{{ client_beegfs_version }}"
+    _common_packages: "{{ client_packages[client_beegfs_version | split('.') | first] }}"
+    _common_repo_url: "{{ client_repo_url }}"
+    _common_start_services: "{{ client_start_services }}"
+  tags:
+    - client
+    - client_install
+    - install
+
 - name: Add EPEL9 Repository required by Beegfs DKMS install for Rocky and Almalinux
+  become: true
   ansible.builtin.shell: dnf config-manager --set-enabled crb \
                          && dnf install -y \
                          https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
@@ -14,6 +29,7 @@
     - install
 
 - name: Add EPEL9 Repository required by Beegfs DKMS install for RHEL
+  become: true
   ansible.builtin.shell: subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms \
                           && dnf install -y \
                           https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
@@ -28,6 +44,7 @@
     - install
 
 - name: Add EPEL8 Repository required by Beegfs DKMS install for Rocky and Almalinux
+  become: true
   ansible.builtin.shell: dnf config-manager --set-enabled powertools \
                          && dnf install -y \
                          https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
@@ -42,6 +59,7 @@
     - install
 
 - name: Add EPEL8 Repository required by Beegfs DKMS install for RHEL
+  become: true
   ansible.builtin.shell: subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms \
                          && dnf install -y \
                          https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
@@ -56,6 +74,7 @@
     - install
 
 - name: Install Beegfs Beeond package
+  become: true
   ansible.builtin.package:
     name: "beeond"
     state: present
@@ -68,6 +87,7 @@
     - install
 
 - name: Install `kernel-devel` `kernel-core` packages on Redhat like systems
+  become: true
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
@@ -87,6 +107,7 @@
     - install
 
 - name: Install `kernel-headers` package on Ubuntu
+  become: true
   ansible.builtin.package:
     name: "linux-headers-{{ ansible_kernel }}"
     state: present

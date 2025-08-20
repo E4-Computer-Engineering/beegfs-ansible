@@ -17,15 +17,19 @@ statsRequestIntervalSecs     = 5
 httpTimeoutMSecs             = 1000
 nodelistRequestIntervalSecs  = 30
 curlCheckSSLCertificates     = true
+{% if mon_beegfs_version | split('.') | first | int == 7 %}
 connMgmtdPortTCP             = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(mon_conn_mgmtd_port_tcp) }}
 connMgmtdPortUDP             = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_udp"] | default(mon_conn_mgmtd_port_udp) }}
+{% else %}
+connMgmtdPort             = {{ hostvars[mon_sys_mgmtd_host]["mgmtd_conn_mgmtd_port_tcp"] | default(mon_conn_mgmtd_port_tcp) }}
+{% endif %}
 connPortShift                = 0
-connAuthFile                 = /etc/beegfs/connauthfile
+connAuthFile                 = /etc/beegfs/conn.auth
 connDisableAuthentication    = false
 connFallbackExpirationSecs   = 900
 connMaxInternodeNum          = 3
 {% if mon_conn_interfaces | length > 0 %}
-connInterfacesFile           = /etc/beegfs/mon_interfaces
+connInterfacesFile           = /etc/beegfs/{{ ansible_role_name | regex_replace(ansible_collection_name ~ '.', '') }}_interfaces
 {% else %}
 connInterfacesFile            =
 {% endif %}

@@ -13,9 +13,3 @@
 
 - name: Include site playbook
   ansible.builtin.import_playbook: ../../../../playbooks/site.yml
-  vars:
-    client_nodes: clients
-    mgmt_nodes: management
-    meta_nodes: metadata
-    storage_nodes: storage
-    mon_nodes: monitoring

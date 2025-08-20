@@ -1,0 +1,68 @@
+---
+- name: "Validate invocation of _common role"
+  ansible.builtin.assert:
+    that:
+      - "ansible_parent_role_names is defined"
+      - "ansible_parent_role_names | default() | length > 0"
+    fail_msg: "Error: The '_common' role is a internal role and cannot be invoked directly."
+  tags:
+    - always
+
+- name: Set parent role name
+  ansible.builtin.set_fact:
+    _common_parent_role_name: "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+  tags:
+    - always
+
+- name: Collect virtualization and network facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - network
+      - virtual
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Ensure Beegfs nodes addresses presents in /etc/hosts file
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }}  {{ item }}"
+    state: present
+  when:
+    - hostvars[item].ansible_host is defined
+    # /etc/hosts is not writable inside docker containers
+    - not ansible_facts['virtualization_type'] == 'container'
+    - not ansible_facts['virtualization_type'] == 'docker'
+  loop: "{{ groups.all }}"
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Check SELinux config file is present
+  ansible.builtin.stat:
+    path: /etc/selinux/config
+  register: __common_selinux_conf_file
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
+
+- name: Ensure SELinux state
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/selinux/config
+    regexp: '^SELINUX=(enforcing|disabled|permissive)$'
+    line: "SELINUX={{ __common_selinux_state }}"
+    state: present
+  when:
+    - __common_selinux_conf_file.stat.exists
+  notify: Reboot node
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - configure
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"

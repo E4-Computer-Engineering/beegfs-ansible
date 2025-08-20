@@ -2,10 +2,37 @@
 - name: Execute prechecks
   ansible.builtin.import_tasks: prechecks.yml
 
+- name: System prerequisites
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: system.yml
+  tags:
+    - storaged_install
+
+- name: Install
+  ansible.builtin.include_role:
+    name: _common
+    tasks_from: install.yml
+  vars:
+    _common_beegfs_version: "{{ storaged_beegfs_version }}"
+    _common_packages: "{{ storaged_packages[storaged_beegfs_version | split('.') | first] }}"
+    _common_repo_url: "{{ storaged_repo_url }}"
+    _common_start_services: "{{ storaged_start_services }}"
+  tags:
+    - storaged_install
+
+- name: Execute filesystem
+  ansible.builtin.import_tasks: filesystem.yml
+  tags:
+    - storaged_configure
+
 - name: Execute configure
   ansible.builtin.import_tasks: configure.yml
+  tags:
+    - storaged_configure
 
 - name: Enable and start per cluster Beegfs storage services
+  become: true
   ansible.builtin.systemd:
     name: "beegfs-storage@inst{{ item.target_id }}"
     enabled: true
@@ -15,7 +42,6 @@
     label: "beegfs-storage@inst{{ item.target_id }}"
   when:
     - storaged_start_services
+    - not ansible_check_mode
   tags:
-    - storaged
     - storaged_run
-    - run
