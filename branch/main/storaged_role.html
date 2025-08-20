@@ -4,7 +4,7 @@
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="2.18.0" name="antsibull-docs" />
+<meta content="2.21.0" name="antsibull-docs" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services &mdash; e4_computer_engineering.beegfs Collection  documentation</title>
@@ -22,7 +22,6 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="e4_computer_engineering.beegfs.system role – Configure Beegfs base system" href="system_role.html" />
     <link rel="prev" title="e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services" href="mon_role.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
 
 
@@ -74,8 +73,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
   
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="_common_role.html">e4_computer_engineering.beegfs._common role – Beegfs roles common tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_role.html">e4_computer_engineering.beegfs.client role – Deploy Beegfs client services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cluster_role.html">e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="metad_role.html">e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mgmtd_role.html">e4_computer_engineering.beegfs.mgmtd role – Configure Beegfs Management services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mon_role.html">e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services</a></li>
@@ -91,7 +90,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="system_role.html">e4_computer_engineering.beegfs.system role – Configure Beegfs base system</a></li>
 </ul>
 <!-- extra nav elements for Ansible beyond RTD Sphinx Theme -->
 
@@ -124,7 +122,7 @@
 <h1>e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services<a class="headerlink" href="#e4-computer-engineering-beegfs-storaged-role-configure-beegfs-storage-services" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 1.1.0).</p>
+<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 2.0.0).</p>
 <p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
 <p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">e4_computer_engineering.beegfs</span></code>.</p>
@@ -160,13 +158,30 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-beegfs-version"><strong>storaged_beegfs_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Beegfs version that will be used <a class="reference external" href="https://doc.beegfs.io/latest/release_notes.html">https://doc.beegfs.io/latest/release_notes.html</a></p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.2&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.3&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets"><strong>storaged_server_targets</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The list of storage targets and their parameters for each storage server</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-interfaces"><strong>conn_interfaces</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -175,7 +190,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-mgmtd-port-tcp"><strong>conn_mgmtd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -184,7 +199,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-mgmtd-port-udp"><strong>conn_mgmtd_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -193,7 +208,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_rdma_buf_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-rdma-buf-num"><strong>conn_rdma_buf_num</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_rdma_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -203,7 +218,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_rdma_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-rdma-buf-size"><strong>conn_rdma_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -213,7 +228,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_storage_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-storage-port-tcp"><strong>conn_storage_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_storage_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -222,7 +237,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8013&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_storage_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-storage-port-udp"><strong>conn_storage_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_storage_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -231,7 +246,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8013&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/device"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-device"><strong>device</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -239,7 +254,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Note that /dev/ must be omitted because it is already present in the path of the device</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/log_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-log-type"><strong>log_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/log_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -252,7 +267,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/mirrorgroup_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-mirrorgroup-id"><strong>mirrorgroup_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/mirrorgroup_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -263,7 +278,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/quota_enable_enforcement"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-quota-enable-enforcement"><strong>quota_enable_enforcement</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/quota_enable_enforcement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -276,7 +291,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/storagepool_desc"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-storagepool-desc"><strong>storagepool_desc</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/storagepool_desc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -285,7 +300,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/storagepool_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-storagepool-id"><strong>storagepool_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/storagepool_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -294,7 +309,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-sys-mgmtd-host"><strong>sys_mgmtd_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -303,7 +318,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;localhost&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/sys_target_offline_timeout_secs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-sys-target-offline-timeout-secs"><strong>sys_target_offline_timeout_secs</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/sys_target_offline_timeout_secs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -312,7 +327,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;180&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/target_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-target-id"><strong>target_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/target_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -324,7 +339,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_file_read_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-file-read-size"><strong>tune_file_read_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_file_read_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -333,7 +348,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_file_write_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-file-write-size"><strong>tune_file_write_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_file_write_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -342,7 +357,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_num_workers"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-num-workers"><strong>tune_num_workers</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_num_workers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -351,7 +366,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;12&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-start-services"><strong>storaged_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -390,7 +405,6 @@ To check whether it is installed, run <code class="code docutils literal notrans
 
 <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="mon_role.html" class="btn btn-neutral float-left" title="e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="system_role.html" class="btn btn-neutral float-right" title="e4_computer_engineering.beegfs.system role – Configure Beegfs base system" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

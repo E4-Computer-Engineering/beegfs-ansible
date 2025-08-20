@@ -4,7 +4,7 @@
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="2.18.0" name="antsibull-docs" />
+<meta content="2.21.0" name="antsibull-docs" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>e4_computer_engineering.beegfs.client role – Deploy Beegfs client services &mdash; e4_computer_engineering.beegfs Collection  documentation</title>
@@ -22,8 +22,8 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features" href="cluster_role.html" />
-    <link rel="prev" title="E4_Computer_Engineering.Beegfs" href="index.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
+    <link rel="next" title="e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services" href="metad_role.html" />
+    <link rel="prev" title="e4_computer_engineering.beegfs._common role – Beegfs roles common tasks" href="_common_role.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
 
 
 
@@ -74,6 +74,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
   
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="_common_role.html">e4_computer_engineering.beegfs._common role – Beegfs roles common tasks</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">e4_computer_engineering.beegfs.client role – Deploy Beegfs client services</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#entry-point-main-deploy-beegfs-client-services">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Deploy Beegfs client services</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
@@ -86,12 +87,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cluster_role.html">e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="metad_role.html">e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mgmtd_role.html">e4_computer_engineering.beegfs.mgmtd role – Configure Beegfs Management services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mon_role.html">e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="storaged_role.html">e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system_role.html">e4_computer_engineering.beegfs.system role – Configure Beegfs base system</a></li>
 </ul>
 <!-- extra nav elements for Ansible beyond RTD Sphinx Theme -->
 
@@ -124,7 +123,7 @@
 <h1>e4_computer_engineering.beegfs.client role – Deploy Beegfs client services<a class="headerlink" href="#e4-computer-engineering-beegfs-client-role-deploy-beegfs-client-services" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 1.1.0).</p>
+<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 2.0.0).</p>
 <p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
 <p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">e4_computer_engineering.beegfs</span></code>.</p>
@@ -160,6 +159,32 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-auth-file-path"><strong>client_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The path to the authentication file used by the client</p>
+<p>The file is used to authenticate the client with the management service</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;/etc/beegfs/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-beegfs-version"><strong>client_beegfs_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Beegfs version that will be used <a class="reference external" href="https://doc.beegfs.io/latest/release_notes.html">https://doc.beegfs.io/latest/release_notes.html</a></p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.2&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.3&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_build_kernel_modules"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-build-kernel-modules"><strong>client_build_kernel_modules</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_build_kernel_modules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -179,11 +204,25 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_dir_paths"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-dir-paths"><strong>cluster_dir_paths</strong></p>
-<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_dir_paths" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths"><strong>client_dir_paths</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the paths that will be mounted on the client</p>
-<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of directory paths relative to the Beegfs mountpoint with custom striping rules</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/beegfs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-beegfs-path"><strong>beegfs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/beegfs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the Beegfs mountpoint where the directory should exist</p>
+<p>You need the `client_start_services` option set to true to create directories</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/fs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-fs-path"><strong>fs_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/fs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the root filesystem where the directory should be bind mounted</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -381,10 +420,11 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-main--client_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Start the `beegfs-client|neegfs-helperd.service` or `beegfs-client|beegfs-helperd&#64;.service`</p>
+<p>If set to false, it won’t be possible to create directories in the Beegfs mountpoint</p>
 <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 <ul class="simple">
-<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -414,8 +454,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
           
 
 <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="E4_Computer_Engineering.Beegfs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cluster_role.html" class="btn btn-neutral float-right" title="e4_computer_engineering.beegfs.cluster role – Configure Beegfs cluster features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="_common_role.html" class="btn btn-neutral float-left" title="e4_computer_engineering.beegfs._common role – Beegfs roles common tasks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="metad_role.html" class="btn btn-neutral float-right" title="e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
