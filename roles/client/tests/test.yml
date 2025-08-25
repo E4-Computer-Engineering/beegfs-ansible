@@ -1,6 +1,0 @@
----
-- name: Test client role
-  hosts: localhost
-  remote_user: root
-  roles:
-    - client

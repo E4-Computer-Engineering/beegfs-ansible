@@ -11,8 +11,5 @@
 - name: Import mon playbook
   ansible.builtin.import_playbook: mon.yml
 
-- name: Import cluster playbook
-  ansible.builtin.import_playbook: cluster.yml
-
 - name: Import client playbook
   ansible.builtin.import_playbook: client.yml

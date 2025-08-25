@@ -1,0 +1,165 @@
+---
+- name: Collect facts for mounted devices for storaged_mounts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - hardware
+  tags:
+    - configure
+
+- name: Set storage target mount facts
+  ansible.builtin.set_fact:
+    storaged_mounts: |-
+      [
+      {% for tgt in storaged_server_targets %}
+        {% set target_directory = '/data/beegfs/beegfs_storage/t' + (tgt.target_id | string) %}
+        {% if tgt.quota_enable_enforcement | default(storaged_quota_enable_enforcement) | bool %}
+          {% set target_options = storaged_filesystem_options + storaged_filesystem_quota_options %}
+        {% else %}
+          {% set target_options = storaged_filesystem_options %}
+        {% endif %}
+        {% set mounted = ansible_mounts | selectattr('mount', '==', target_directory) | length > 0 %}
+        {
+          "device_name": "{{ tgt.device }}",
+          "mount_point": "{{ target_directory }}",
+          "device_mounted": {{ mounted }},
+          "fs_options": "{{ target_options | regex_replace(' ', '') }}"
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
+      ]
+  tags:
+    - storaged
+    - storaged_configure
+    - configure
+
+- name: Display generated storage mounts
+  ansible.builtin.debug:
+    var: item
+  loop: "{{ storaged_mounts }}"
+  tags:
+    - debug
+    - never
+
+- name: Purge filesystems
+  become: true
+  when: storaged_filesystem_purge
+  tags:
+    - storaged
+    - storaged_configure
+    - configure
+  block:
+
+    - name: Stop beegfs storage@ services
+      ansible.builtin.systemd_service:
+        name: "beegfs-storage@inst{{ item.target_id }}"
+        state: stopped
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "beegfs-storage@inst{{ item.target_id }}"
+      tags:
+        - purge
+
+    - name: Unmount Beegfs storage targets
+      ansible.posix.mount:
+        path: "/data/beegfs/beegfs_storage/t{{ target.target_id }}"
+        state: absent
+      vars:
+        target: "{{ item }}"
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+      register: result
+      retries: 3
+      delay: 5
+      until: result.failed == false
+      tags:
+        - purge
+
+    - name: Remove Beegfs storage directories
+      ansible.builtin.file:
+        path: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+        state: absent
+      loop: "{{ storaged_server_targets }}"
+      loop_control:
+        label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+      tags:
+        - purge
+
+- name: Display purge status
+  ansible.builtin.debug:
+    var: storaged_filesystem_purge
+  tags:
+    - debug
+    - never
+
+- name: Create filesystem on each storage target
+  become: true
+  community.general.filesystem:
+    # TODO these options should be per target and not global
+    fstype: "{{ storaged_filesystem_type }}"
+    dev: "/dev/{{ target.device_name }}"
+    force: "{{ storaged_filesystem_purge }}"
+    opts: >
+      -d su={{ storaged_filesystem_strip_unit }},sw={{ storaged_filesystem_strip_width }}
+      -l version={{ storaged_filesystem_log_version }},su={{ storaged_filesystem_log_unit }}
+      -isize={{ storaged_filesystem_inode_size }}
+  vars:
+    target: "{{ item }}"
+  when: not target.device_mounted
+  loop: "{{ storaged_mounts }}"
+  loop_control:
+    label: "{{ target.mount_point }}"
+  tags:
+    - storaged
+    - storaged_configure
+    - configure
+
+- name: Collect facts for devices UUIDs
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - hardware
+  tags:
+    - configure
+
+- name: Display device UUIDs
+  ansible.builtin.debug:
+    msg: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
+  loop: "{{ storaged_mounts }}"
+  tags:
+    - debug
+    - never
+
+- name: Mount Beegfs storage targets
+  become: true
+  ansible.posix.mount:
+    path: "{{ target.mount_point }}"
+    src: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
+    fstype: "{{ storaged_filesystem_type }}"
+    opts: "{{ target.fs_options }}"
+    state: mounted
+  vars:
+    target: "{{ item }}"
+  loop: "{{ storaged_mounts }}"
+  loop_control:
+    label: "{{ target.mount_point }}"
+  tags:
+    - storaged
+    - storaged_configure
+    - configure
+
+- name: Create Beegfs storage directories
+  become: true
+  ansible.builtin.file:
+    path: "/data/beegfs/beegfs_storage/t{{ item.target_id }}/dir"
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+  loop: "{{ storaged_server_targets }}"
+  loop_control:
+    label: "/data/beegfs/beegfs_storage/t{{ item.target_id }}"
+  tags:
+    - storaged
+    - storaged_configure
+    - configure

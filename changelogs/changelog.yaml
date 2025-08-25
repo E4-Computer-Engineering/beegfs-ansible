@@ -129,3 +129,19 @@ releases:
     fragments:
     - fragment.yml
     release_date: '2025-04-29'
+  2.0.0:
+    changes:
+      release_summary: '| Release Date: 2025-08-20
+
+        | This release supports Beegfs v8 and removes support for components setup like
+        storage-pools, stripe patterns and buddy-mirror.
+
+        '
+    fragments:
+    - release.yml
+    objects:
+      role:
+      - description: Beegfs roles common tasks.
+        name: _common
+        namespace: null
+    release_date: '2025-08-20'

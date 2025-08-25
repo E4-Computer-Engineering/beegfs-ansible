@@ -1,0 +1,5 @@
+---
+# handlers file for system
+- name: Reboot node
+  become: true
+  ansible.builtin.reboot:

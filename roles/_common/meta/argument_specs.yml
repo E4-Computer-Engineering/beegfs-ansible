@@ -1,0 +1,62 @@
+---
+argument_specs:
+
+  main:
+    short_description: Beegfs roles common tasks
+    description:
+      - Prepare the base system for running Beegfs services.
+      - Execute the common tasks for Beegfs roles.
+    author:
+      - Davide Obbi
+    version_added: "2.0.0"
+    options:
+      _common_sys_mgmtd_host:
+        type: str
+        description: The hostname of the Beegfs mgmt host.
+        required: true
+      _common_beegfs_version:
+        type: str
+        description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
+        required: true
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
+      _common_repo_url:
+        type: str
+        description: Custom Beegfs repository package repository, if not specified, upstream is used.
+      _common_packages:
+        type: list
+        description: List of packages to be installed classified by Beegfs major version.
+        required: true
+      _common_deploy_auth_file:
+        type: bool
+        description:
+          - Deploy the connection auth file.
+          - See `system_auth_file_path` for specifying the location of the auth file to deploy.
+          - WARNING do not use the authfile provided in this role
+        default: true
+      _common_auth_file_path:
+        type: str
+        description: The location on local filesystem to deploy the connection auth file from.
+        default: "{{ role_path }}/files/conn.auth"
+      _common_conn_interfaces:
+        type: list
+        description:
+          - The list of interfaces to use by the daemon
+          - The interfaces will be written to the file specified in `mgmtd_conn_interfaces_file`
+        required: true
+      _common_tls_tmp_dir:
+        default: "/tmp"
+        description: Temporary directory for TLS cert and key files to be created on localhost.
+      _common_tls_key_file:
+        default: "cert.key"
+        description: Name of the TLS key file to be created.
+      _common_tls_cert_file:
+        default: "cert.pem"
+        description: Name of the TLS certificate file to be created.
+      _common_start_services:
+        default: false
+        description: Whether to start the Beegfs services after installation.
+      _common_service_name:
+        description:
+          - "Name of the system service (systemd)"
+          - "Usually matches the role name"
+        default: "{{ __common_parent_role_short_name }}"

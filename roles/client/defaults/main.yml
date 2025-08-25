@@ -1,8 +1,15 @@
 ---
 client_start_services: true
 client_enable_beeond: false
+client_auth_file_path: "{{ role_path }}/files/conn.auth"
 client_clusters: []
 client_dkms_install: false
+client_dir_paths: []
+
+client_tls_tmp_dir: "/tmp"
+client_tls_key_file: "cert.key"
+client_tls_cert_file: "cert.pem"
+client_enable_tls: true
 
 # /etc/beegfs/beegfs-client-autobuild.conf
 client_ofed_libs_path:

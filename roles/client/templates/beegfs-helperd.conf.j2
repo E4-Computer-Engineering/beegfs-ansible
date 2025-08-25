@@ -1,5 +1,5 @@
 ### {{ ansible_managed }} ###
-connAuthFile       = /etc/beegfs/connauthfile
+connAuthFile       = /etc/beegfs/conn.auth
 connDisableAuthentication = false
 connHelperdPortTCP = {{ item.conn_helperd_port_tcp | default(client_conn_helperd_port_tcp) }}
 connPortShift      = 0

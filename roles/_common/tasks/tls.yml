@@ -1,0 +1,56 @@
+---
+- name: "Validate invocation of _common role"
+  ansible.builtin.assert:
+    that:
+      - "ansible_parent_role_names is defined"
+      - "ansible_parent_role_names | default() | length > 0"
+    fail_msg: "Error: The '_common' role is a internal role and cannot be invoked directly."
+  tags:
+    - always
+
+- name: General SSL certificate
+  become: false
+  run_once: true
+  delegate_to: localhost
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - tls
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_tls"
+  block:
+    - name: Ensure certificate config file is present for Beegsfs GRPC
+      ansible.builtin.template:
+        src: san.cnf.j2
+        dest: "{{ _common_tls_tmp_dir }}/san.cnf"
+        mode: "0640"
+
+    - name: Check for existing SSL certificate file
+      ansible.builtin.stat:
+        path: "{{ _common_tls_tmp_dir }}/{{ _common_tls_cert_file }}"
+      register: __common_cert_stat
+
+    - name: Generate SSL certificate for Beegfs GRPC
+      ansible.builtin.command:
+        cmd: >
+          openssl req -new -x509 -nodes -days 3650
+          -newkey rsa:2048
+          -keyout {{ _common_tls_tmp_dir }}/{{ _common_tls_key_file }}
+          -out {{ _common_tls_tmp_dir }}/{{ _common_tls_cert_file }}
+          -config {{ _common_tls_tmp_dir }}/san.cnf
+      when: not __common_cert_stat.stat.exists
+      changed_when: false
+
+- name: Propagate certificate files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ _common_tls_tmp_dir }}/{{ item }}"
+    dest: "/etc/beegfs/{{ item }}"
+    mode: "0640"
+    owner: root
+    group: root
+  loop:
+    - "{{ _common_tls_cert_file }}"
+    - "{{ _common_tls_key_file }}"
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - tls
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_tls"

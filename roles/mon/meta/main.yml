@@ -14,8 +14,3 @@ galaxy_info:
     - beegfs
     - storage
     - monitoring
-
-dependencies:
-  - role: system
-    vars:
-      system_packages: "{{ mon_packages }}"

@@ -1,8 +1,7 @@
 ---
 - name: Configure Beegfs Storage
-  become: true
   gather_facts: false
-  hosts: '{{ storage_nodes | default("all") }}'
+  hosts: '{{ storage_nodes | default("storage") }}'
   tasks:
     - name: Import Beegfs storaged role
       ansible.builtin.import_role:

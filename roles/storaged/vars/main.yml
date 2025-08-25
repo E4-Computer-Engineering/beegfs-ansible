@@ -1,3 +1,5 @@
 ---
 # vars file for storaged
-storaged_packages: ["beegfs-storage", "libbeegfs-ib"]
+storaged_packages:
+  '7': ["beegfs-storage", "libbeegfs-ib"]
+  '8': ["beegfs-storage", "libbeegfs-ib"]

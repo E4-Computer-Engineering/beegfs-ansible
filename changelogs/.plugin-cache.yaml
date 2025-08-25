@@ -1,12 +1,12 @@
 objects:
   role:
+    _common:
+      description: Beegfs roles common tasks
+      name: _common
+      version_added: 2.0.0
     client:
       description: Deploy Beegfs client services
       name: client
-      version_added: 1.0.0
-    cluster:
-      description: Configure Beegfs cluster features
-      name: cluster
       version_added: 1.0.0
     metad:
       description: Configure Beegfs Metadata services
@@ -24,10 +24,6 @@ objects:
       description: Configure Beegfs Storage services
       name: storaged
       version_added: 1.0.0
-    system:
-      description: Configure Beegfs base system
-      name: system
-      version_added: 1.0.0
 plugins:
   become: {}
   cache: {}
@@ -44,4 +40,4 @@ plugins:
   strategy: {}
   test: {}
   vars: {}
-version: 1.1.0
+version: 2.0.0

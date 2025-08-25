@@ -6,7 +6,7 @@ would contain module utils and modules respectively.
 
 Here is an example directory of the majority of plugins currently supported by Ansible:
 
-```text
+``` text
 └── plugins
     ├── action
     ├── become
@@ -28,4 +28,4 @@ Here is an example directory of the majority of plugins currently supported by A
     └── vars
 ```
 
-A full list of plugin types can be found at [Working With Plugins](https://docs.ansible.com/ansible-core/2.15/plugins/plugins.html).
+A full list of plugin types can be found at [Working With Plugins](https://docs.ansible.com/ansible-core/2.12/plugins/plugins.html).

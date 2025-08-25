@@ -1,7 +1,7 @@
 ---
 mgmtd_start_services: true
 
-# /etc/beegfs/beegfs-mgmt.conf
+# /etc/beegfs/beegfs-mgmt.conf /etc/beegfs/beegfs-mgmtd.toml
 mgmtd_string_id: "{{ inventory_hostname_short }}"
 mgmtd_store_mgmtd_directory: /data/beegfs/beegfs_mgmtd
 mgmtd_conn_mgmtd_port_tcp: "8008"
@@ -10,3 +10,10 @@ mgmtd_log_type: syslog
 mgmtd_quota_enable_enforcement: "false"
 mgmtd_sys_target_offline_timeout_secs: "180"
 mgmtd_conn_interfaces: []
+mgmtd_license_disable: "false"
+mgmtd_license_file_path: "{{ role_path }}/files/license.pem"
+mgmtd_tls_tmp_dir: "/tmp"
+mgmtd_tls_key_file: "cert.key"
+mgmtd_tls_cert_file: "cert.pem"
+mgmtd_enable_tls: true
+mgmtd_auth_file_path: "{{ role_path }}/files/conn.auth"

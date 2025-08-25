@@ -1,0 +1,27 @@
+[ req ]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca # The extensions to add to the self signed cert
+prompt             = no
+
+[ req_distinguished_name ]
+C                      = IT
+ST                     = EmiliaRomagna
+L                      = Scandiano
+O                      = E4company
+OU                     = TechFactory
+commonName             = {{ _common_sys_mgmtd_host }}
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ v3_ca ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1   = localhost
+DNS.2   = {{ _common_sys_mgmtd_host }}
+IP.1    = 127.0.0.1
+IP.2    = {{ hostvars[_common_sys_mgmtd_host].ansible_default_ipv4.address }}
+IP.3    = {{ hostvars[_common_sys_mgmtd_host].ansible_host }}
