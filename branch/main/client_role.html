@@ -123,7 +123,7 @@
 <h1>e4_computer_engineering.beegfs.client role – Deploy Beegfs client services<a class="headerlink" href="#e4-computer-engineering-beegfs-client-role-deploy-beegfs-client-services" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 2.0.0).</p>
+<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 2.1.0).</p>
 <p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
 <p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">e4_computer_engineering.beegfs</span></code>.</p>
@@ -219,31 +219,37 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/chunk_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-chunk-size"><strong>chunk_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/chunk_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>the chunk size set for the specific path relative to the beegfs mountpoint</p>
+<p>This parameter is documented here <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/striping.html">https://doc.beegfs.io/latest/advanced_topics/striping.html</a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/fs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-fs-path"><strong>fs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/fs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The path relative to the root filesystem where the directory should be bind mounted</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_meta_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-meta-nodes"><strong>cluster_meta_nodes</strong></p>
-<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_meta_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/pattern"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-pattern"><strong>pattern</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the hosts that will run the metadata services and hold the meta targets</p>
-<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
-<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>this parameter sets the pattern for the specific path</p>
+<p>this parameter is documented in <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/striping.html">https://doc.beegfs.io/latest/advanced_topics/striping.html</a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_tls_tmp_dir"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-tls-tmp-dir"><strong>client_tls_tmp_dir</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_tls_tmp_dir" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>path to the TLS certificate needed by Beegfs</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/cluster_storage_nodes"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-cluster-storage-nodes"><strong>cluster_storage_nodes</strong></p>
-<a class="ansibleOptionLink" href="#parameter-main--client_clusters/cluster_storage_nodes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of the hosts that will run the storage services and hold the storage targets</p>
-<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
-<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_client_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-client-port-udp"><strong>conn_client_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_client_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -252,7 +258,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8004&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_helperd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-helperd-port-tcp"><strong>conn_helperd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_helperd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -261,13 +267,22 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8006&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-interfaces"><strong>conn_interfaces</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of interfaces to use by the daemon</p>
 <p>The list is used in the `conn_interfaces_file`</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_max_internode_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-max-internode-num"><strong>conn_max_internode_num</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_max_internode_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The maximum number of internode connections</p>
+<p>this option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;12&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -303,6 +318,26 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer size allocated for communication</p>
+<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_rdma_meta_buf_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-rdma-meta-buf-num"><strong>conn_rdma_meta_buf_num</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_meta_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA meta buffer count allocated for the communication</p>
+<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_rdma_meta_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-rdma-meta-buf-size"><strong>conn_rdma_meta_buf_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_meta_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA meta buffer size allocated for communication</p>
 <p>conn_rdma_buf_num * conn_rdma_buf_size</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
