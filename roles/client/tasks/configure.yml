@@ -92,7 +92,24 @@
     - client
     - client_configure
     - configure
-
+- name: Ensure interfaces list file is present
+  become: true
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/client_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  loop: "{{ client_clusters }}"
+  vars:
+    settings: "{{ item }}"
+  when:
+    - settings.conn_interfaces is defined
+    - settings.conn_interfaces | length > 0
+  tags:
+    - client
+    - client_configure
+    - configure
 - name: Disable and mask canonical Beegfs client services
   become: true
   ansible.builtin.systemd:

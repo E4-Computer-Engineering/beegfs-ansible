@@ -1,16 +1,17 @@
 ### {{ ansible_managed }} ###
-{% if client_ofed_libs_path and client_ofed_libs_path | length > 0 %}
-{% if client_nvfs_libs_path and client_nvfs_libs_path | length > 0 and client_nvidia_libs_path and client_nvidia_libs_path | length >0 %}
+{% if client_ofed_libs_path is defined and client_ofed_libs_path | length > 0 %}
+{% if client_nvfs_libs_path is defined and client_nvfs_libs_path | length > 0 and client_nvidia_libs_path and client_nvidia_libs_path | length >0 %}
 buildArgs=-j8 OFED_INCLUDE_PATH={{ client_ofed_libs_path }} \
     NVFS_INCLUDE_PATH={{ client_nvfs_libs_path }} \
     NVIDIA_INCLUDE_PATH={{ client_nvidia_libs_path }}
 {% else %}
 buildArgs=-j8 OFED_INCLUDE_PATH={{ client_ofed_libs_path }}
 {% endif %}
+{% elif client_ofed_libs_path is defined and client_ofed_libs_path | length ==0 %}
+buildArgs=-j8
 {% else %}
 buildArgs=-j8 BEEGFS_NO_RDMA=1
 {% endif %}
-
 {% if client_build_kernel_modules %}
 buildEnabled=true
 {% else %}

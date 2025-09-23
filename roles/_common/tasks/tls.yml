@@ -39,7 +39,7 @@
       when: not __common_cert_stat.stat.exists
       changed_when: false
 
-- name: Propagate certificate files
+- name: Propagate certificate files on mgmt nodes
   become: true
   ansible.builtin.copy:
     src: "{{ _common_tls_tmp_dir }}/{{ item }}"
@@ -47,9 +47,26 @@
     mode: "0640"
     owner: root
     group: root
+  when:
+    - _common_parent_role_name == 'mgmtd'
   loop:
     - "{{ _common_tls_cert_file }}"
     - "{{ _common_tls_key_file }}"
+  tags:
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+    - tls
+    - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_tls"
+
+- name: Propagate certificate files on client nodes
+  become: true
+  ansible.builtin.copy:
+    src: "{{ _common_tls_tmp_dir }}/{{ _common_tls_cert_file }}"
+    dest: "/etc/beegfs/{{ _common_tls_cert_file }}"
+    mode: "0640"
+    owner: root
+    group: root
+  when:
+    - _common_parent_role_name == 'client'
   tags:
     - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
     - tls

@@ -24,7 +24,7 @@ connInterfacesFile            = /etc/beegfs/client_interfaces
 connInterfacesFile            =
 {% endif %}
 connRDMAInterfacesFile        =
-connMaxInternodeNum           = 12
+connMaxInternodeNum           = {{ item.conn_max_internode_num | default(client_conn_max_internode_num) }}
 connMaxConcurrentAttempts     = 0
 connNetFilterFile             =
 connUseRDMA                   = {{ item.conn_use_rdma | default(client_conn_use_rdma) }}
@@ -33,6 +33,9 @@ connTCPRcvBufSize             = 0
 connUDPRcvBufSize             = 0
 connRDMABufNum                = {{ item.conn_rdma_buf_num | default(client_conn_rdma_buf_num) }}
 connRDMABufSize               = {{ item.conn_rdma_buf_size | default(client_conn_rdma_buf_size) }}
+
+connRDMAMetaBufNum            = {{ item.conn_rdma_meta_buf_num | default(client_conn_rdma_meta_buf_num) }}
+connRDMAMetaBufSize           = {{ item.conn_rdma_meta_buf_size | default(client_conn_rdma_meta_buf_size) }}
 tuneFileCacheBufSize          = {{ item.tune_file_cache_buf_size | default(client_tune_file_cache_buf_size) }}
 connRDMATypeOfService         = 0
 connRDMAFragmentSize          = page

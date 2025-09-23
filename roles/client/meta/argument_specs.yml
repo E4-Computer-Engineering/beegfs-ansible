@@ -59,20 +59,6 @@ argument_specs:
         elements: dict
         description: The list of clusters and their parameters for each client instance
         options:
-          cluster_storage_nodes:
-            type: list
-            elements: str
-            description:
-              - The list of the hosts that will run the storage services and hold the storage targets
-              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
-            default: []
-          cluster_meta_nodes:
-            type: list
-            elements: str
-            description:
-              - The list of the hosts that will run the metadata services and hold the meta targets
-              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
-            default: []
           sys_mgmtd_host:
             type: str
             description:
@@ -124,6 +110,26 @@ argument_specs:
               - conn_rdma_buf_num * conn_rdma_buf_size
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "70"
+          conn_max_internode_num:
+            type: str
+            description:
+              - The maximum number of internode connections
+              - this option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "12"
+          conn_rdma_meta_buf_num:
+            type: str
+            description:
+              - The RDMA meta buffer count allocated for the communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "70"
+          conn_rdma_meta_buf_size:
+            type: str
+            description:
+              - The RDMA meta buffer size allocated for communication
+              - conn_rdma_buf_num * conn_rdma_buf_size
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "8192"
           tune_file_cache_buf_size:
             type: str
             description:
@@ -152,11 +158,26 @@ argument_specs:
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "false"
             choices: ["false", "true"]
+          client_tls_tmp_dir:
+            type: str
+            description:
+              - path to the TLS certificate needed by Beegfs
+            default: ""
           client_dir_paths:
             type: list
             elements: dict
             description: The list of directory paths relative to the Beegfs mountpoint with custom striping rules
             options:
+              chunk_size:
+                type: str
+                description:
+                  - the chunk size set for the specific path relative to the beegfs mountpoint
+                  - This parameter is documented here https://doc.beegfs.io/latest/advanced_topics/striping.html
+              pattern:
+                type: str
+                description:
+                  - this parameter sets the pattern for the specific path
+                  - this parameter is documented in https://doc.beegfs.io/latest/advanced_topics/striping.html
               beegfs_path:
                 type: str
                 description:

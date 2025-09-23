@@ -4,6 +4,15 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v2.1.0
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-09-23
+| Multiple fixes to the v2.0.0 version
+
 v2.0.0
 ======
 
