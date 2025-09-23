@@ -23,5 +23,9 @@ subjectAltName = @alt_names
 DNS.1   = localhost
 DNS.2   = {{ _common_sys_mgmtd_host }}
 IP.1    = 127.0.0.1
+{% if _common_sys_mgmtd_host in hostvars %}
 IP.2    = {{ hostvars[_common_sys_mgmtd_host].ansible_default_ipv4.address }}
 IP.3    = {{ hostvars[_common_sys_mgmtd_host].ansible_host }}
+{% else %}
+IP.2    = {{ _common_sys_mgmtd_host }}
+{% endif %}

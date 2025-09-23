@@ -101,6 +101,7 @@
   loop: "{{ _common_server_targets }}"
   when:
     - not _common_parent_role_name == 'mgmtd'
+    - not _common_parent_role_name == 'client'
   tags:
     - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
     - configure
