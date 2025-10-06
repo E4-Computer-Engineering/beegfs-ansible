@@ -1,6 +1,6 @@
 # Do not upgrade ansible because incompatible with rhel8.10
 ansible==8.7.0
-ansible-core==2.15.13
+ansible-core==2.19.3
 # Do not upgrade ansible-lint because incompatible with ansible-core 2.15.7
 ansible-lint==24.10.0
 antsibull-changelog==0.34.0
