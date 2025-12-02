@@ -29,6 +29,31 @@ argument_specs:
         description:
           - The filesystem path where the OFED kernel libraries are located
           - Needed by the client to build with RDMA support
+        default: ""
+      client_nvfs_libs_path:
+        type: str
+        description:
+          - The filesystem path where the NVFS kernel libraries are located
+          - Needed by the client to build with GPUDirect support
+        default: ""
+      client_nvidia_libs_path:
+        type: str
+        description:
+          - The filesystem path where the NVIDIA kernel libraries are located
+          - Needed by the client to build with GPUDirect support
+        default: ""
+      client_rdma_enabled:
+        type: bool
+        description:
+          - Enable RDMA support for the Beegfs client
+          - If set to true, the client will be built with RDMA support
+        default: true
+      client_gpu_direct:
+        type: bool
+        description:
+          - Enable GPUDirect support for the Beegfs client
+          - If set to true, the client will be built with GPUDirect support
+        default: false
       client_build_kernel_modules:
         type: bool
         description: Build the client kernel modules
@@ -89,6 +114,20 @@ argument_specs:
               - The UDP port at which the management service is responding at
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "8008"
+          conn_use_rdma:
+            type: str
+            description:
+              - Wheter to enable or not the RDMA support for the client communication
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "true"
+            choices: ["false", "true"]
+          conn_tcp_fallback_enabled:
+            type: str
+            description:
+              - Wheter to enable or not the TCP fallback support for the client communication
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "true"
+            choices: ["false", "true"]
           conn_interfaces:
             type: list
             elements: str

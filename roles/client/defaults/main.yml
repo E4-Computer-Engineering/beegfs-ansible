@@ -12,9 +12,11 @@ client_tls_cert_file: "cert.pem"
 client_enable_tls: true
 
 # /etc/beegfs/beegfs-client-autobuild.conf
-client_ofed_libs_path:
-client_nvfs_libs_path:
-client_nvidia_libs_path:
+client_ofed_libs_path: ""
+client_nvfs_libs_path: ""
+client_nvidia_libs_path: ""
+client_rdma_enabled: true
+client_gpu_direct: false
 client_build_kernel_modules: true
 client_install_kernel_dev: true
 
