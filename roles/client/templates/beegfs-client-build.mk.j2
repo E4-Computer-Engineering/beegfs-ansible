@@ -2,7 +2,7 @@
 {% if client_rdma_enabled %}
 {% if client_ofed_libs_path | length > 0 %}{# Custom OFED path provided #}
 OFED_INCLUDE_PATH={{ client_ofed_libs_path }}
-{% if client_gpu_direct and client_nvfs_libs_path | length > 0 and client_nvidia_libs_path | length > 0 %}{# GPUDirect #}
+{% if client_nvfs_libs_path | length > 0 and client_nvidia_libs_path | length > 0 %}{# GPUDirect #}
 NVFS_INCLUDE_PATH={{ client_nvfs_libs_path }}
 NVIDIA_INCLUDE_PATH={{ client_nvidia_libs_path }}
 {% endif %}

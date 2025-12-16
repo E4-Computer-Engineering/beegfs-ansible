@@ -39,7 +39,6 @@ Use NVIDIA Mellanox OFED drives and GPU Direct Storage for client build:
   gather_facts: false
   hosts: '{{ client_nodes |default("all") }}'
   vars:
-    client_gpu_direct: true
     client_ofed_libs_path: /usr/src/ofa_kernel/default/include
     client_nvfs_libs_path: /usr/src/nvidia-fs-2.13.5
     client_nvidia_libs_path: /usr/src/nvidia-520.61.05/nvidia
