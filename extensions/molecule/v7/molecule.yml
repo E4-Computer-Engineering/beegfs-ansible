@@ -177,12 +177,19 @@ provisioner:
       cnode-alma95-03:
         client_dkms_install: true
     group_vars:
+      management:
+        mgmtd_populate_etc_hosts: true
+      monitoring:
+        mon_populate_etc_hosts: true
       metadata:
         metad_beegfs_version: 7.4.6
+        metad_populate_etc_hosts: true
       storage:
         storaged_beegfs_version: 7.4.6
+        storaged_populate_etc_hosts: true
       clients:
         client_beegfs_version: 7.4.6
+        client_populate_etc_hosts: true
         client_clusters:
           - sys_mgmtd_host: mgmt-alma95-01
             client_dir_paths:

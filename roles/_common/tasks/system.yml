@@ -33,6 +33,7 @@
     line: "{{ hostvars[item].ansible_host }}  {{ item }}"
     state: present
   when:
+    - _common_populate_etc_hosts | bool
     - hostvars[item].ansible_host is defined
     # /etc/hosts is not writable inside docker containers
     - not ansible_facts['virtualization_type'] == 'container'

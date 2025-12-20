@@ -13,11 +13,85 @@ argument_specs:
         type: str
         description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2"]
+      storaged_populate_etc_hosts:
+        type: bool
+        description:
+          - Whether to populate /etc/hosts file with Beegfs cluster nodes addresses
+          - When enabled, all nodes in the inventory will be added to /etc/hosts
+          - This is useful when DNS is not available or for testing environments
+          - Not executed inside Docker/container environments
+        default: false
       storaged_start_services:
         type: bool
         description: Start the `beegfs-storage.service` or `beegfs-storage@.service`
         default: true
+      storaged_auth_file_path:
+        type: str
+        description:
+          - The location on local filesystem to deploy the connection auth file from
+        default: "{{ role_path }}/files/conn.auth"
+      storaged_filesystem_type:
+        type: str
+        description:
+          - The filesystem type to use for storage targets
+        default: "xfs"
+        choices: ["ext4", "xfs"]
+      storaged_filesystem_strip_unit:
+        type: str
+        description:
+          - XFS stripe unit size
+        default: "128k"
+      storaged_filesystem_strip_width:
+        type: int
+        description:
+          - XFS stripe width (number of data disks in RAID)
+        default: 8
+      storaged_filesystem_log_version:
+        type: int
+        description:
+          - XFS log version
+        default: 2
+      storaged_filesystem_log_bufs:
+        type: int
+        description:
+          - Number of XFS log buffers
+        default: 8
+      storaged_filesystem_log_unit:
+        type: str
+        description:
+          - XFS log buffer size
+        default: "128k"
+      storaged_filesystem_inode_size:
+        type: int
+        description:
+          - Inode size in bytes for the filesystem
+        default: 512
+      storaged_filesystem_alloc_size:
+        type: str
+        description:
+          - XFS allocation size for buffered I/O
+        default: "131072k"
+      storaged_filesystem_options:
+        type: str
+        description:
+          - Mount options for the storage filesystem
+        default: >-
+          defaults,noatime,nodiratime,seclabel,swalloc,attr2,largeio,inode64,nofail,
+          allocsize={{ storaged_filesystem_alloc_size }},
+          logbufs={{ storaged_filesystem_log_bufs }},
+          logbsize={{ storaged_filesystem_log_unit }}
+      storaged_filesystem_quota_options:
+        type: str
+        description:
+          - Additional mount options for quota support on XFS
+        default: ",uqnoenforce,gqnoenforce"
+      storaged_filesystem_purge:
+        type: bool
+        description:
+          - Whether to purge existing filesystem data before creating new filesystem
+          - WARNING - This will destroy all data on the device
+        default: false
       storaged_server_targets:
         type: list
         elements: dict
@@ -106,13 +180,13 @@ argument_specs:
             description:
               - The file read size from filesystem
               - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-            default: "1024"
+            default: "1024k"
           tune_file_write_size:
             type: str
             description:
               - The file write size on filesystem
               - This option is used and documented in the file /etc/beegfs/beegfs-storage.conf
-            default: "1024"
+            default: "1024k"
           tune_num_workers:
             type: str
             description:

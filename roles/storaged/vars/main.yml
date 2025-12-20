@@ -3,3 +3,5 @@
 storaged_packages:
   '7': ["beegfs-storage", "libbeegfs-ib"]
   '8': ["beegfs-storage", "libbeegfs-ib"]
+
+storaged_populate_etc_hosts: false

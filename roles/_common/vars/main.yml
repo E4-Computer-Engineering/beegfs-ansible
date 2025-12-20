@@ -6,6 +6,7 @@ _common_tls_cert_file: "cert.pem"
 _common_start_services: false
 _common_service_name: "{{ __common_parent_role_short_name }}"
 _common_server_targets: []
+_common_populate_etc_hosts: false
 
 __common_selinux_state: disabled
 __common_repo_gpg_keys: "https://www.beegfs.io/release/beegfs_{{ _common_beegfs_version }}/gpg/GPG-KEY-beegfs"

@@ -6,6 +6,8 @@
   ansible.builtin.include_role:
     name: _common
     tasks_from: system.yml
+  vars:
+    _common_populate_etc_hosts: "{{ metad_populate_etc_hosts }}"
   tags:
     - metad_install
 

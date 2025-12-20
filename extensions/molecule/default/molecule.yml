@@ -132,8 +132,8 @@ provisioner:
   inventory:
     host_vars:
       mgmt-alma95-01:
-        mgmtd_beegfs_version: 8.1.0
-        mon_beegfs_version: 8.1.0
+        mgmtd_beegfs_version: "8.1"
+        mon_beegfs_version: "8.1"
         mgmtd_conn_interfaces: ["eth0"]
         mon_conn_interfaces: ["eth0"]
       stor-alma95-01:
@@ -177,12 +177,19 @@ provisioner:
       cnode-alma95-03:
         client_dkms_install: true
     group_vars:
+      management:
+        mgmtd_populate_etc_hosts: true
+      monitoring:
+        mon_populate_etc_hosts: true
       metadata:
-        metad_beegfs_version: 8.1.0
+        metad_beegfs_version: "8.1"
+        metad_populate_etc_hosts: true
       storage:
-        storaged_beegfs_version: 8.1.0
+        storaged_beegfs_version: "8.1"
+        storaged_populate_etc_hosts: true
       clients:
-        client_beegfs_version: 8.1.0
+        client_beegfs_version: "8.1"
+        client_populate_etc_hosts: true
         client_clusters:
           - sys_mgmtd_host: mgmt-alma95-01
             client_dir_paths:

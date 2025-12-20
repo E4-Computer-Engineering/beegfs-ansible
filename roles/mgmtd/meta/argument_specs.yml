@@ -13,7 +13,15 @@ argument_specs:
         type: str
         description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2"]
+      mgmtd_populate_etc_hosts:
+        type: bool
+        description:
+          - Whether to populate /etc/hosts file with Beegfs cluster nodes addresses
+          - When enabled, all nodes in the inventory will be added to /etc/hosts
+          - This is useful when DNS is not available or for testing environments
+          - Not executed inside Docker/container environments
+        default: false
       mgmtd_string_id:
         type: str
         description:
@@ -24,7 +32,7 @@ argument_specs:
       mgmtd_start_services:
         type: bool
         description: Start the `beegfs-mgmtd.service`
-        default: false
+        default: true
       mgmtd_store_mgmtd_directory:
         type: str
         description:
@@ -76,3 +84,44 @@ argument_specs:
           - The timeout in seconds for the system target to be "Offline"
           - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
         default: "180"
+      mgmtd_license_disable:
+        type: str
+        description:
+          - Disable the license requirement for Beegfs Enterprise features
+          - This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf
+        default: "false"
+        choices: ["false", "true"]
+      mgmtd_license_file_path:
+        type: str
+        description:
+          - The location on local filesystem to deploy the license file from
+          - Only used when license is enabled
+        default: "{{ role_path }}/files/license.pem"
+      mgmtd_tls_tmp_dir:
+        type: str
+        description:
+          - Temporary directory for TLS cert and key files to be created on localhost
+        default: "/tmp"
+      mgmtd_tls_key_file:
+        type: str
+        description:
+          - Name of the TLS key file to be created
+        default: "cert.key"
+      mgmtd_tls_cert_file:
+        type: str
+        description:
+          - Name of the TLS certificate file to be created
+        default: "cert.pem"
+      mgmtd_enable_tls:
+        type: bool
+        description:
+          - Enable TLS support for gRPC communication in management service
+          - When enabled (true), TLS certificates will be generated and deployed, and tls-disable will be set to false in beegfs-mgmtd.toml
+          - When disabled (false), tls-disable will be set to true in beegfs-mgmtd.toml and certificate files will not be configured
+          - This setting controls the gRPC TLS configuration, not the BeeMsg protocol
+        default: true
+      mgmtd_auth_file_path:
+        type: str
+        description:
+          - The location on local filesystem to deploy the connection auth file from
+        default: "{{ role_path }}/files/conn.auth"

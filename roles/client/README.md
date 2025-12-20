@@ -1,39 +1,34 @@
-Beegfs Client Ansible Role
-=========
+# Beegfs Client Ansible Role
 
 This role can be used to deploy Beegfs client(s), `beegfs-client` to nodes: each targeted node is meant to be part of one or more Beegfs clusters but each `beegfs-client` instance can belong to only one cluster.
 
 It is compatible with the Beegfs versions specified in the role `client_beegfs_version` variable choices and RedHat, Almalinux and Rocky 8.X 9.X and Ubuntu Jammy LTS.
 
-Requirements
-------------
+## Requirements
 
->WARNING: If quota is required, remeber to set it up after the deployment with the command:
+> **WARNING**: If quota is required, remember to set it up after the deployment with the command:
 
-```shell
+```bash
 beegfs-fsck --enablequota
 ```
 
-Role Variables
---------------
+## Role Variables
 
 Check the [argument_specs file](meta/argument_specs.yml) or consult the wiki pages.
 
-The variables used in the Beegfs configuration files, are documented in such files as well. Since the role overwrite these files, the originals remain available on the target nodes as <file_name>.<ansible_backup_date>.
+The variables used in the Beegfs configuration files, are documented in such files as well. Since the role overwrite these files, the originals remain available on the target nodes as `<file_name>.<ansible_backup_date>`.
 
-Dependencies
-------------
+## Dependencies
 
 Check the `dependencies` list in the [meta definitions](meta/main.yml).
 
-Example Playbook
-----------------
+## Example Playbook
 
 Check the [playbooks](../../playbooks/) and [extensions](../../extensions/molecule/) directories for examples on how to execute the roles.
 
-Use NVIDIA Mellanox OFED drives and GPU Direct Storage for client build:
+### Use NVIDIA Mellanox OFED drives and GPU Direct Storage for client build
 
-``` yaml
+```yaml
 - name: Configure Beegfs Client
   become: true
   gather_facts: false
@@ -48,9 +43,9 @@ Use NVIDIA Mellanox OFED drives and GPU Direct Storage for client build:
         name: client
 ```
 
-Disable RDMA for client builds:
+### Disable RDMA for client builds
 
-``` yaml
+```yaml
 - name: Configure Beegfs Client
   become: true
   gather_facts: false
@@ -63,9 +58,9 @@ Disable RDMA for client builds:
         name: client
 ```
 
-Configure the client in multimode so it can access two different clusters with two different setups:
+### Configure the client in multimode so it can access two different clusters with two different setups
 
-``` yaml
+```yaml
 - name: Configure Beegfs Client
   become: true
   gather_facts: false
@@ -94,9 +89,9 @@ Configure the client in multimode so it can access two different clusters with t
         name: client
 ```
 
-Install Beegfs Beeond package:
+### Install Beegfs Beeond package
 
-``` yaml
+```yaml
 - name: Configure Beegfs Client
   become: true
   gather_facts: false
@@ -109,12 +104,10 @@ Install Beegfs Beeond package:
         name: client
 ```
 
-License
--------
+## License
 
-license Apache-2.0
+Apache-2.0
 
-Author Information
-------------------
+## Author Information
 
 <davide.obbi@e4company.com>

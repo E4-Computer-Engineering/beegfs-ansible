@@ -18,7 +18,7 @@ argument_specs:
         type: str
         description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2"]
       _common_repo_url:
         type: str
         description: Custom Beegfs repository package repository, if not specified, upstream is used.
@@ -56,7 +56,24 @@ argument_specs:
         default: false
         description: Whether to start the Beegfs services after installation.
       _common_service_name:
+        type: str
         description:
           - "Name of the system service (systemd)"
           - "Usually matches the role name"
         default: "{{ __common_parent_role_short_name }}"
+      _common_server_targets:
+        type: list
+        description:
+          - List of server targets (used internally by metadata and storage roles)
+          - This variable is populated from the parent role's server_targets variable
+        default: []
+      _common_populate_etc_hosts:
+        type: bool
+        description:
+          - Internal parameter - populated by the parent role's <role>_populate_etc_hosts variable
+          - Whether to populate /etc/hosts file with Beegfs cluster nodes addresses
+          - When enabled, all nodes in the inventory will be added to /etc/hosts
+          - This is useful when DNS is not available or for testing environments
+          - Not executed inside Docker/container environments
+          - Users should set <role>_populate_etc_hosts on the parent role instead of this variable
+        default: false

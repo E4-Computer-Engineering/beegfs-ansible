@@ -3,3 +3,5 @@
 metad_packages:
   '7': ["beegfs-meta", "libbeegfs-ib"]
   '8': ["beegfs-meta", "libbeegfs-ib"]
+
+metad_populate_etc_hosts: false

@@ -33,7 +33,9 @@ beemsg-port = {{ mgmtd_conn_mgmtd_port_tcp }}
 
 # Disables TLS for gRPC communication.
 # tls-disable = false
+tls-disable = {{ not mgmtd_enable_tls | bool | lower }}
 
+{% if mgmtd_enable_tls | bool %}
 # The PEM encoded .X509 certificate file that provides the identity of the gRPC server.
 # tls-cert-file = "/etc/beegfs/cert.pem"
 tls-cert-file = "/etc/beegfs/{{ mgmtd_tls_cert_file }}"
@@ -41,6 +43,7 @@ tls-cert-file = "/etc/beegfs/{{ mgmtd_tls_cert_file }}"
 # The private key file belonging to the above certificate.
 # tls-key-file = "/etc/beegfs/key.pem"
 tls-key-file = "/etc/beegfs/{{ mgmtd_tls_key_file }}"
+{% endif %}
 
 # Restricts network interfaces reported to other nodes for incoming BeeMsg communication.
 # The interfaces are reported in the given order. If not given, all suitable interfaces can be used.

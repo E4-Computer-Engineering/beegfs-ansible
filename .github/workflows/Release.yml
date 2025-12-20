@@ -1,0 +1,226 @@
+---
+name: Release and Documentation
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  validate-and-prepare:
+    name: Validate Version and Prepare Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.validate.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changelog generation
+          ref: main  # Checkout main branch, not the tag
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Make validation script executable
+        run: chmod +x .github/scripts/validate-version.sh
+
+      - name: Validate version tag
+        id: validate
+        run: |
+          VERSION=$(.github/scripts/validate-version.sh ${{ github.ref_name }})
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
+      - name: Update galaxy.yml version
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"  # Remove 'v' prefix
+          sed -i "s/^version:.*/version: ${VERSION}/" galaxy.yml
+          echo "Updated galaxy.yml to version ${VERSION}"
+          cat galaxy.yml
+
+      - name: Make changelog script executable
+        run: chmod +x .github/scripts/update-changelog.sh
+
+      - name: Update CHANGELOG.rst
+        run: |
+          .github/scripts/update-changelog.sh
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push version and changelog updates
+        run: |
+          git add galaxy.yml CHANGELOG.rst changelogs/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            # Commit the changes to main branch
+            git commit -m "chore: release version ${{ github.ref_name }}"
+            git push origin main
+          fi
+
+      - name: Checkout and update tag
+        run: |
+          # Checkout the latest commit (which includes our changes)
+          git checkout main
+          # Move the tag to point to this commit
+          git tag -f ${{ github.ref_name }}
+          git push -f origin ${{ github.ref_name }}
+
+      - name: Upload updated repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-repo
+          path: .
+          retention-days: 1
+
+  build-and-publish-collection:
+    name: Build and Publish to Ansible Galaxy
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate-and-prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download updated repository
+        uses: actions/download-artifact@v4
+        with:
+          name: updated-repo
+          path: .
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible-core
+
+      - name: Build collection
+        run: |
+          ansible-galaxy collection build
+
+      - name: Publish collection to Ansible Galaxy
+        run: |
+          ansible-galaxy collection publish \
+            --token "${{ secrets.GALAXY_TOKEN }}" \
+            e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
+
+      - name: Upload collection artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-tarball
+          path: e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
+          retention-days: 90
+
+  build-docs:
+    name: Build Ansible Docs
+    permissions:
+      contents: read
+    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-push.yml@main
+    with:
+      init-lenient: false
+      init-fail-on-error: true
+      collection-name: e4_computer_engineering.beegfs
+      squash-hierarchy: true
+      init-project: e4_computer_engineering.beegfs Collection
+      init-copyright: e4_computer_engineering.beegfs Contributors
+      init-title: e4_computer_engineering.beegfs Collection Documentation
+      init-html-short-title: e4_computer_engineering.beegfs Collection Docs
+
+  publish-docs:
+    name: Publish Ansible Docs
+    if: github.repository == 'E4-Computer-Engineering/beegfs-ansible'
+    needs: [build-docs]
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-gh-pages.yml@main
+    with:
+      artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
+      publish-gh-pages-branch: true
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create-github-release:
+    name: Create GitHub Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [validate-and-prepare, build-and-publish-collection]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download updated repository
+        uses: actions/download-artifact@v4
+        with:
+          name: updated-repo
+          path: .
+
+      - name: Download collection tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: collection-tarball
+          path: .
+
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="${{ needs.validate-and-prepare.outputs.version }}"
+          # Extract the changelog section for this version
+          if [ -f "CHANGELOG.rst" ]; then
+            # This is a simple extraction - you may need to adjust based on your changelog format
+            CHANGELOG=$(sed -n "/^v${VERSION}/,/^v[0-9]/p" CHANGELOG.rst | head -n -1)
+            echo "changelog<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGELOG" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "changelog=Release version ${VERSION}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## e4_computer_engineering.beegfs ${{ needs.validate-and-prepare.outputs.version }}
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ### Installation
+
+            ```bash
+            ansible-galaxy collection install e4_computer_engineering.beegfs:${{ needs.validate-and-prepare.outputs.version }}
+            ```
+
+            ### Documentation
+
+            - [Collection Documentation](https://e4-computer-engineering.github.io/beegfs-ansible/)
+            - [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
+
+          files: |
+            e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

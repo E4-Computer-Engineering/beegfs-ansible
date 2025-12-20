@@ -3,3 +3,5 @@
 mgmtd_packages:
   '7': ['beegfs-mgmtd']
   '8': ['beegfs-mgmtd', 'libbeegfs-license']
+
+mgmtd_populate_etc_hosts: false

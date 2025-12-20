@@ -13,11 +13,61 @@ argument_specs:
         type: str
         description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1.0"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2"]
+      metad_populate_etc_hosts:
+        type: bool
+        description:
+          - Whether to populate /etc/hosts file with Beegfs cluster nodes addresses
+          - When enabled, all nodes in the inventory will be added to /etc/hosts
+          - This is useful when DNS is not available or for testing environments
+          - Not executed inside Docker/container environments
+        default: false
       metad_start_services:
         type: bool
         description: Start the `beegfs-meta.service` or `beegfs-meta@.service`
         default: true
+      metad_auth_file_path:
+        type: str
+        description:
+          - The location on local filesystem to deploy the connection auth file from
+        default: "{{ role_path }}/files/conn.auth"
+      metad_filesystem_type:
+        type: str
+        description:
+          - The filesystem type to use for metadata targets
+        default: "ext4"
+        choices: ["ext4", "xfs"]
+      metad_filesystem_bytes_per_inode:
+        type: int
+        description:
+          - Bytes per inode ratio for ext4 filesystem
+        default: 2048
+      metad_filesystem_inode_size:
+        type: int
+        description:
+          - Inode size in bytes for the filesystem
+        default: 512
+      metad_filesystem_journal_size:
+        type: int
+        description:
+          - Journal size in MB for ext4 filesystem
+        default: 400
+      metad_filesystem_features:
+        type: str
+        description:
+          - Filesystem features to enable for ext4
+        default: "dir_index,large_dir,filetype"
+      metad_filesystem_options:
+        type: str
+        description:
+          - Mount options for the metadata filesystem
+        default: "defaults,noatime,nodiratime,nofail"
+      metad_filesystem_purge:
+        type: bool
+        description:
+          - Whether to purge existing filesystem data before creating new filesystem
+          - WARNING - This will destroy all data on the device
+        default: false
       metad_server_targets:
         type: list
         elements: dict

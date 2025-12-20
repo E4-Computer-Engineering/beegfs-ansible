@@ -1,12 +1,14 @@
 # Collections Plugins Directory
 
-This directory can be used to ship various plugins inside an Ansible collection. Each plugin is placed in a folder that
-is named after the type of plugin it is in. It can also include the `module_utils` and `modules` directory that
-would contain module utils and modules respectively.
+This directory can be used to ship various plugins inside an Ansible collection. Each plugin is placed in a folder that is named after the type of plugin it is in.
+
+It can also include the `module_utils` and `modules` directory that would contain module utils and modules respectively.
+
+## Plugin Directory Structure
 
 Here is an example directory of the majority of plugins currently supported by Ansible:
 
-``` text
+```text
 └── plugins
     ├── action
     ├── become
@@ -27,5 +29,7 @@ Here is an example directory of the majority of plugins currently supported by A
     ├── test
     └── vars
 ```
+
+## Further Reading
 
 A full list of plugin types can be found at [Working With Plugins](https://docs.ansible.com/ansible-core/2.12/plugins/plugins.html).

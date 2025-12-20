@@ -19,12 +19,12 @@ pip install -r requirements.txt
 pre-commit install -c .pre-commit-config.yaml
 ```
 
-After the first time it should pick up the virtual environment automatically by entering the directory and detencting the `.python-version` file.
-For Vscode make sure to "Set the Python Interpreter" to the Pyenv virtualenv from the command paletter `CTRL + SHIFT + P`
+After the first time it should pick up the virtual environment automatically by entering the directory and detecting the `.python-version` file.
+For VSCode make sure to "Set the Python Interpreter" to the Pyenv virtualenv from the command palette `CTRL + SHIFT + P`
 
 ## Workflow
 
-1. Create a new branch feature branch:
+1. Create a new feature branch:
 
     ```text
     git checkout main
@@ -33,7 +33,7 @@ For Vscode make sure to "Set the Python Interpreter" to the Pyenv virtualenv fro
     ```
 
 2. Make your changes and create the PR.
-3. Wait for the GitHub workflows to complete succesfully.
+3. Wait for the GitHub workflows to complete successfully.
 
 ## Creating a new role
 
@@ -57,39 +57,93 @@ WARNING: always use `git pull` with `--rebase` to avoid bad surprises.
 
 ## Commits
 
-Guidelines can be found [here](https://www.conventionalcommits.org/).
+Guidelines can be found in the [Conventional Commits specification](https://www.conventionalcommits.org/).
 
 ## Releases
 
-This project uses [antsibull-changelog](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs) to generate changelogs.
+This project uses [antsibull-changelog](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs) to generate changelogs and has an automated release process via GitHub Actions.
 
-As mentioned [here](https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.md):
+### Automated Release Process
 
-* The release version is taken from [galaxy file](galaxy.yml)
-* Create a [fragment](changelogs/fragments/) `.yml` file with the `release_summary`:
+Releases are automatically created when you push a version tag to the repository. The automation handles version bumping, changelog generation, and publishing to Ansible Galaxy.
 
-  ``` yml
-  release_summary: |
-     | Release Date: 2024-07-05
-     | This is the first proper release of the ``e4_computer_engineering.beegfs`` collection
-  ```
+#### Creating a Release
 
-* If creating new playbooks, create another [fragment](changelogs/fragments/) with the `add` keyword:
+1. **Create changelog fragments** for your changes in the [changelogs/fragments/](changelogs/fragments/) directory:
 
-  ``` yml
-  add object.playbook:
-  - name: site.yml
-    description: |
-      Execute all the playbooks in `playbooks/` directory in the correct order to deploy a Beegfs cluster.
-  - name: client.yml
-    description: |
-      Execute the Beegfs.client role.
-  ...
-  ```
+   Create a `release_summary` fragment (e.g., `2.2.0.yml`):
 
-* If creating a role be sure to include the `argument_specs.yml` file in the `meta` folder like the existing roles
+   ```yaml
+   release_summary: |
+      | Release Date: 2024-12-21
+      | Description of this release
+   ```
+
+   For new features, create additional fragments with appropriate keywords:
+
+   ```yaml
+   add object.playbook:
+   - name: site.yml
+     description: |
+       Execute all the playbooks in `playbooks/` directory in the correct order to deploy a Beegfs cluster.
+   ```
+
+   See [antsibull-changelog documentation](https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.md) for all available fragment types (`bugfixes`, `major_changes`, `minor_changes`, `breaking_changes`, etc.).
+
+2. **Push your changes** to the main branch:
+
+   ```bash
+   git add changelogs/fragments/*.yml
+   git commit -m "feat: add release fragments for version X.X.X"
+   git push origin main
+   ```
+
+3. **Create and push a version tag**:
+
+   ```bash
+   git tag v2.2.0
+   git push origin v2.2.0
+   ```
+
+   **Important**: The tag must:
+   - Start with `v` (e.g., `v2.2.0`)
+   - Follow semantic versioning format `X.X.X`
+   - Be higher than the current version in `galaxy.yml`
+
+4. **The automation will**:
+   - Validate the version tag format and ensure it's higher than the current version
+   - Update the `version` field in `galaxy.yml` to match the tag (without the `v` prefix)
+   - Generate and update `CHANGELOG.rst` using antsibull-changelog
+   - Commit these changes back to the main branch
+   - Build the Ansible collection tarball
+   - Publish the collection to [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
+   - Build and publish documentation to GitHub Pages
+   - Create a GitHub Release with the collection tarball attached
+
+5. **Monitor the release** by checking the [GitHub Actions workflow](../../actions/workflows/Release.yml)
+
+### Manual Changelog Generation (for testing)
+
+If you want to preview changelog changes locally before creating a release:
+
+```bash
+pip install antsibull-changelog
+antsibull-changelog release --version X.X.X
+```
+
+**Note**: When creating roles, be sure to include the `argument_specs.yml` file in the `meta` folder like the existing roles, as this is used for documentation generation.
+
+### Requirements
+
+The automated release process requires the following GitHub secret to be configured:
+
+- **GALAXY_TOKEN**: An Ansible Galaxy API token with permissions to publish the collection. This can be obtained from your [Ansible Galaxy profile](https://galaxy.ansible.com/me/preferences).
 
 ## Documentation
 
-Documentation is generated by the [DocsPush.yml GitHub action](.github/workflows/DocsPush.yml) that makes use of the [GitHub Docs Build project](https://github.com/ansible-community/github-docs-build) from the Ansible community.
-Finally, the documentation artifcat is pushed to the `gh-pages` branch that feeds the GitHub Pages.
+Documentation is automatically generated and published by the [Release.yml GitHub action](.github/workflows/Release.yml) in two scenarios:
+
+1. **On releases**: When a version tag (v*) is pushed, documentation is built and published as part of the release process
+2. **On main branch updates**: When changes are pushed to the main branch, documentation is automatically rebuilt and published
+
+The workflow uses the [GitHub Docs Build project](https://github.com/ansible-community/github-docs-build) from the Ansible community. The documentation artifact is pushed to the `gh-pages` branch that feeds the GitHub Pages site at <https://e4-computer-engineering.github.io/beegfs-ansible/>.

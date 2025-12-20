@@ -3,3 +3,5 @@
 mon_packages:
   '7': ["beegfs-mon"]
   '8': ["beegfs-mon"]
+
+mon_populate_etc_hosts: false

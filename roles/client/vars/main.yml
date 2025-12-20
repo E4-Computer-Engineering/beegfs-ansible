@@ -6,5 +6,6 @@ client_packages:
   '8': "{{ ['beegfs-tools', 'beegfs-utils'] if client_dkms_install else
       ['beegfs-client', 'beegfs-tools', 'beegfs-utils'] }}"
 
+client_populate_etc_hosts: false
 _client_nvidia_fs_path: /usr/src/nvidia-fs-
 _client_nvidia_path: /usr/src/nvidia-
