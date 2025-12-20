@@ -180,7 +180,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
@@ -222,7 +223,11 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/client_dir_paths/chunk_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-client-dir-paths-chunk-size"><strong>chunk_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/client_dir_paths/chunk_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>the chunk size set for the specific path relative to the beegfs mountpoint</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The chunk size (data block size) for the specific path relative to the beegfs mountpoint</p>
+<p>Common values are 512k, 1m (1Mi = 1048576 bytes), 2m, etc.</p>
+<p>IMPORTANT - Ensure RDMA buffers can accommodate this size (conn_rdma_buf_size × conn_rdma_buf_num &gt;= chunk_size)</p>
+<p>IMPORTANT - Set tune_file_cache_buf_size to a multiple of this chunk size</p>
+<p>For 1m chunks, use conn_rdma_buf_size=16384 conn_rdma_buf_num=70 tune_file_cache_buf_size=2097152</p>
 <p>This parameter is documented here <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/striping.html">https://doc.beegfs.io/latest/advanced_topics/striping.html</a></p>
 </div></td>
 </tr>
@@ -308,7 +313,10 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer count allocated for the communication</p>
-<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<p>Total RDMA capacity per connection is conn_rdma_buf_size × conn_rdma_buf_num</p>
+<p>IMPORTANT - When using custom chunk sizes, ensure conn_rdma_buf_size × conn_rdma_buf_num &gt;= chunk_size</p>
+<p>For 1Mi chunks (1048576 bytes), use at least 16384 × 70 = 1146880 bytes</p>
+<p>See <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/rdma_support.html#tuning">https://doc.beegfs.io/latest/advanced_topics/rdma_support.html#tuning</a></p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
 </div></td>
@@ -317,8 +325,11 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_rdma_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-rdma-buf-size"><strong>conn_rdma_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer size allocated for communication</p>
-<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer size in bytes allocated for communication</p>
+<p>Total RDMA capacity per connection is conn_rdma_buf_size × conn_rdma_buf_num</p>
+<p>IMPORTANT - When using custom chunk sizes, ensure conn_rdma_buf_size × conn_rdma_buf_num &gt;= chunk_size</p>
+<p>For 1Mi chunks (1048576 bytes), use at least 16384 × 70 = 1146880 bytes</p>
+<p>See <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/rdma_support.html#tuning">https://doc.beegfs.io/latest/advanced_topics/rdma_support.html#tuning</a></p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
 </div></td>
@@ -347,7 +358,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_tcp_fallback_enabled"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-tcp-fallback-enabled"><strong>conn_tcp_fallback_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_tcp_fallback_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Wheter to enable or not the TCP fallback support for the client communication</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Whether to enable or not the TCP fallback support for the client communication</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 <ul class="simple">
@@ -360,7 +371,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/conn_use_rdma"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-conn-use-rdma"><strong>conn_use_rdma</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/conn_use_rdma" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Wheter to enable or not the RDMA support for the client communication</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Whether to enable or not the RDMA support for the client communication</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 <ul class="simple">
@@ -421,8 +432,11 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--client_clusters/tune_file_cache_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-clusters-tune-file-cache-buf-size"><strong>tune_file_cache_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_clusters/tune_file_cache_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The cache buffer size on client side</p>
-<p>Must accomodate for conn_rdma_buf_num * conn_rdma_buf_size</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file cache buffer size in bytes on client side (used in buffered cache mode)</p>
+<p>IMPORTANT - Should be set to a multiple of the chunk size for optimal performance</p>
+<p>For 1Mi chunks (1048576 bytes), use 2097152 (2Mi) or 4194304 (4Mi)</p>
+<p>See <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/client_caching.html">https://doc.beegfs.io/latest/advanced_topics/client_caching.html</a></p>
+<p>See <a class="reference external" href="https://doc.beegfs.io/latest/advanced_topics/striping.html">https://doc.beegfs.io/latest/advanced_topics/striping.html</a></p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-client.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1048576&quot;</span></code></p>
 </div></td>
@@ -455,6 +469,19 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_enable_tls"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-enable-tls"><strong>client_enable_tls</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_enable_tls" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Enable TLS support for client service</p>
+<p>When enabled, TLS certificates will be generated and deployed</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_install_kernel_dev"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-install-kernel-dev"><strong>client_install_kernel_dev</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_install_kernel_dev" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -468,7 +495,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_nvfs_libs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-nvfs-libs-path"><strong>client_nvfs_libs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_nvfs_libs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -477,7 +504,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_nvidia_libs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-nvidia-libs-path"><strong>client_nvidia_libs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_nvidia_libs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -486,7 +513,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_ofed_libs_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-ofed-libs-path"><strong>client_ofed_libs_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_ofed_libs_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -495,7 +522,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_rdma_enabled"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-rdma-enabled"><strong>client_rdma_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_rdma_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -508,7 +535,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--client_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-start-services"><strong>client_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--client_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -519,6 +546,30 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
 <li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_tls_cert_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-tls-cert-file"><strong>client_tls_cert_file</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_tls_cert_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Name of the TLS certificate file to be created</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.pem&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_tls_key_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-tls-key-file"><strong>client_tls_key_file</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_tls_key_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Name of the TLS key file to be created</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.key&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--client_tls_tmp_dir"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-client-role-parameter-main-client-tls-tmp-dir"><strong>client_tls_tmp_dir</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--client_tls_tmp_dir" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Temporary directory for TLS cert and key files to be created on localhost</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;/tmp&quot;</span></code></p>
 </div></td>
 </tr>
 </tbody>

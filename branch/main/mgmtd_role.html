@@ -159,6 +159,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-auth-file-path"><strong>mgmtd_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the connection auth file from</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-beegfs-version"><strong>mgmtd_beegfs_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -171,11 +179,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-conn-interfaces"><strong>mgmtd_conn_interfaces</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -184,7 +193,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-conn-mgmtd-port-tcp"><strong>mgmtd_conn_mgmtd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -193,7 +202,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-conn-mgmtd-port-udp"><strong>mgmtd_conn_mgmtd_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -202,7 +211,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_deploy_auth_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-deploy-auth-file"><strong>mgmtd_deploy_auth_file</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_deploy_auth_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -214,6 +223,43 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
 <li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_enable_tls"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-enable-tls"><strong>mgmtd_enable_tls</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_enable_tls" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Enable TLS support for gRPC communication in management service</p>
+<p>When enabled (true), TLS certificates will be generated and deployed, and tls-disable will be set to false in beegfs-mgmtd.toml</p>
+<p>When disabled (false), tls-disable will be set to true in beegfs-mgmtd.toml and certificate files will not be configured</p>
+<p>This setting controls the gRPC TLS configuration, not the BeeMsg protocol</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_license_disable"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-license-disable"><strong>mgmtd_license_disable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_license_disable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Disable the license requirement for Beegfs Enterprise features</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;false&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_license_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-license-file-path"><strong>mgmtd_license_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_license_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the license file from</p>
+<p>Only used when license is enabled</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/license.pem&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -249,8 +295,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Start the `beegfs-mgmtd.service`</p>
 <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 <ul class="simple">
-<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -280,6 +326,30 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>The timeout in seconds for the system target to be “Offline”</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-mgmt.conf</p>
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;180&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_cert_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-cert-file"><strong>mgmtd_tls_cert_file</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_cert_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Name of the TLS certificate file to be created</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.pem&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_key_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-key-file"><strong>mgmtd_tls_key_file</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_key_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Name of the TLS key file to be created</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.key&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_tmp_dir"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-tmp-dir"><strong>mgmtd_tls_tmp_dir</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_tmp_dir" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Temporary directory for TLS cert and key files to be created on localhost</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;/tmp&quot;</span></code></p>
 </div></td>
 </tr>
 </tbody>

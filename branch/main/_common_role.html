@@ -180,7 +180,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
@@ -214,10 +215,34 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--_common_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-common-role-parameter-main-common-populate-etc-hosts"><strong>_common_populate_etc_hosts</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--_common_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
+<p>This is useful when DNS is not available or for testing environments</p>
+<p>Not executed inside Docker/container environments</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--_common_repo_url"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-common-role-parameter-main-common-repo-url"><strong>_common_repo_url</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--_common_repo_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Custom Beegfs repository package repository, if not specified, upstream is used.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--_common_server_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-common-role-parameter-main-common-server-targets"><strong>_common_server_targets</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--_common_server_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>List of server targets (used internally by metadata and storage roles)</p>
+<p>This variable is populated from the parent role’s server_targets variable</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">

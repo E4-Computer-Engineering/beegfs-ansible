@@ -159,6 +159,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mon_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-auth-file-path"><strong>mon_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mon_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the connection auth file from</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-beegfs-version"><strong>mon_beegfs_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -171,11 +179,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-conn-interfaces"><strong>mon_conn_interfaces</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -184,7 +193,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-conn-mgmtd-port-tcp"><strong>mon_conn_mgmtd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -193,7 +202,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-conn-mgmtd-port-udp"><strong>mon_conn_mgmtd_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -202,7 +211,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_bucket"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-bucket"><strong>mon_db_bucket</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_bucket" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -211,7 +220,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;beegfs_mon&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_database"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-database"><strong>mon_db_database</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_database" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -220,7 +229,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;beegfs_mon&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_host_port"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-host-port"><strong>mon_db_host_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_host_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -229,7 +238,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;9122&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_hostname"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-hostname"><strong>mon_db_hostname</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -238,7 +247,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;localhost&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_retention_duration"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-retention-duration"><strong>mon_db_retention_duration</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_retention_duration" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -247,7 +256,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1d&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_db_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-db-type"><strong>mon_db_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_db_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -261,7 +270,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;influxdbv2&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_influxdbv1_password"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-influxdbv1-password"><strong>mon_influxdbv1_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_influxdbv1_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -270,7 +279,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_influxdbv1_username"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-influxdbv1-username"><strong>mon_influxdbv1_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_influxdbv1_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -279,7 +288,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_influxdbv2_organization"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-influxdbv2-organization"><strong>mon_influxdbv2_organization</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_influxdbv2_organization" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -288,7 +297,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_influxdbv2_token"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-influxdbv2-token"><strong>mon_influxdbv2_token</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_influxdbv2_token" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -297,7 +306,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_log_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-log-type"><strong>mon_log_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_log_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -310,7 +319,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_ship_to_influxdb_exporter"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-ship-to-influxdb-exporter"><strong>mon_ship_to_influxdb_exporter</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_ship_to_influxdb_exporter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -322,7 +331,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-start-services"><strong>mon_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -334,7 +343,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-sys-mgmtd-host"><strong>mon_sys_mgmtd_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>

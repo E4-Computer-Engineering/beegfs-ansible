@@ -158,6 +158,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-auth-file-path"><strong>storaged_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the connection auth file from</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--storaged_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-beegfs-version"><strong>storaged_beegfs_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--storaged_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -170,7 +178,105 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_alloc_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-alloc-size"><strong>storaged_filesystem_alloc_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_alloc_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS allocation size for buffered I/O</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;131072k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_inode_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-inode-size"><strong>storaged_filesystem_inode_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_inode_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Inode size in bytes for the filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">512</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_bufs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-bufs"><strong>storaged_filesystem_log_bufs</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_bufs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Number of XFS log buffers</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">8</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_unit"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-unit"><strong>storaged_filesystem_log_unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS log buffer size</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;128k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-version"><strong>storaged_filesystem_log_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS log version</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">2</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_options"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-options"><strong>storaged_filesystem_options</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_options" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Mount options for the storage filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;defaults,noatime,nodiratime,seclabel,swalloc,attr2,largeio,inode64,nofail,</span> <span class="pre">allocsize={{</span> <span class="pre">storaged_filesystem_alloc_size</span> <span class="pre">}},</span> <span class="pre">logbufs={{</span> <span class="pre">storaged_filesystem_log_bufs</span> <span class="pre">}},</span> <span class="pre">logbsize={{</span> <span class="pre">storaged_filesystem_log_unit</span> <span class="pre">}}&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_purge"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-purge"><strong>storaged_filesystem_purge</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_purge" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to purge existing filesystem data before creating new filesystem</p>
+<p>WARNING - This will destroy all data on the device</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_quota_options"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-quota-options"><strong>storaged_filesystem_quota_options</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_quota_options" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Additional mount options for quota support on XFS</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;,uqnoenforce,gqnoenforce&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_strip_unit"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-strip-unit"><strong>storaged_filesystem_strip_unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_strip_unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS stripe unit size</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;128k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_strip_width"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-strip-width"><strong>storaged_filesystem_strip_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_strip_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS stripe width (number of data disks in RAID)</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">8</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-type"><strong>storaged_filesystem_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The filesystem type to use for storage targets</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;ext4&quot;</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;xfs&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -345,7 +451,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file read size from filesystem</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
-<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024&quot;</span></code></p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024k&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -354,7 +460,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file write size on filesystem</p>
 <p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
-<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024&quot;</span></code></p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024k&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">

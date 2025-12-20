@@ -159,6 +159,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-auth-file-path"><strong>metad_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the connection auth file from</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-beegfs-version"><strong>metad_beegfs_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -171,7 +179,73 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
 <li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
-<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1.0&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_bytes_per_inode"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-bytes-per-inode"><strong>metad_filesystem_bytes_per_inode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_bytes_per_inode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Bytes per inode ratio for ext4 filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">2048</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_features"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-features"><strong>metad_filesystem_features</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_features" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Filesystem features to enable for ext4</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;dir_index,large_dir,filetype&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_inode_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-inode-size"><strong>metad_filesystem_inode_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_inode_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Inode size in bytes for the filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">512</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_journal_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-journal-size"><strong>metad_filesystem_journal_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_journal_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Journal size in MB for ext4 filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">400</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_options"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-options"><strong>metad_filesystem_options</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_options" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Mount options for the metadata filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;defaults,noatime,nodiratime,nofail&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_purge"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-purge"><strong>metad_filesystem_purge</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_purge" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to purge existing filesystem data before creating new filesystem</p>
+<p>WARNING - This will destroy all data on the device</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_filesystem_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-filesystem-type"><strong>metad_filesystem_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_filesystem_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The filesystem type to use for metadata targets</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;ext4&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;xfs&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
