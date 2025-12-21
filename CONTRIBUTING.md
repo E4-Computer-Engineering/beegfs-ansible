@@ -112,8 +112,13 @@ Releases are automatically created when you push a version tag to the repository
 3. **Generate the CHANGELOG.rst** file:
 
    ```bash
-   pip install ansible-core antsibull-changelog
+   uv pip install ansible-core antsibull-changelog
    antsibull-changelog release
+   ```
+
+   Note: The project uses `uv` for fast package installation. If you don't have `uv` installed, you can install it with:
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
    This will:
@@ -164,7 +169,7 @@ Releases are automatically created when you push a version tag to the repository
 If you want to preview changelog changes locally before creating a release:
 
 ```bash
-pip install antsibull-changelog
+uv pip install ansible-core antsibull-changelog
 antsibull-changelog release --version X.X.X
 ```
 

@@ -27,10 +27,15 @@ jobs:
         with:
           fetch-depth: 0  # Full history for changelog generation
 
+      - name: Read Python version
+        id: python-version
+        run: echo "version=$(cat .python-version)" >> $GITHUB_OUTPUT
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+        run: uv python install ${{ steps.python-version.outputs.version }}
 
       - name: Extract and validate version
         id: extract_version
@@ -89,14 +94,19 @@ jobs:
           name: release-workspace
           path: .
 
+      - name: Read Python version
+        id: python-version
+        run: echo "version=$(cat .python-version)" >> $GITHUB_OUTPUT
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+        run: uv python install ${{ steps.python-version.outputs.version }}
 
       - name: Install Ansible
         run: |
-          pip install ansible-core
+          uv pip install --system ansible-core
 
       - name: Build collection
         run: |

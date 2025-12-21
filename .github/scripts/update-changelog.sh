@@ -2,15 +2,15 @@
 set -euo pipefail
 
 # Script to update CHANGELOG.rst using antsibull-changelog
-# This script assumes antsibull-changelog is installed
+# This script assumes uv is installed
 
 # Color codes for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo "Installing antsibull-changelog..."
-pip install antsibull-changelog
+echo "Installing dependencies with uv..."
+uv pip install --system ansible-core antsibull-changelog
 
 echo -e "${YELLOW}Generating changelog...${NC}"
 
