@@ -1,0 +1,33 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: metad-${MOLECULE_SCENARIO_NAME:-v8}
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-almalinux8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        # BeeGFS v8 with default configuration
+        metad_beegfs_version: "8.0.0"
+        metad_repo_url: "https://www.beegfs.io/release/beegfs_8.0.0"
+        metad_deploy_auth_file: false
+        metad_server_targets:
+          - target_id: 1
+            device: "/dev/vdb"
+            conn_interfaces: []
+            sys_mgmtd_host: localhost
+verifier:
+  name: testinfra
+  options:
+    # Add verbosity for better debugging
+    v: 1

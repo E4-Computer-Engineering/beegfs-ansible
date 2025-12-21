@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include beegfs-ansible.mgmtd role
+      ansible.builtin.include_role:
+        name: beegfs-ansible.mgmtd

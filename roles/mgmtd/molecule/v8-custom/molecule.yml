@@ -1,0 +1,33 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: mgmtd-${MOLECULE_SCENARIO_NAME:-v8-custom}
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-almalinux8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        # BeeGFS v8 with custom configuration
+        mgmtd_beegfs_version: "8.0.0"
+        mgmtd_repo_url: "https://www.beegfs.io/release/beegfs_8.0.0"
+        mgmtd_conn_mgmtd_port_tcp: "9008"
+        mgmtd_conn_mgmtd_port_udp: "9008"
+        mgmtd_conn_interfaces: ["eth0"]
+        mgmtd_deploy_auth_file: false
+        mgmtd_enable_tls: false
+        mgmtd_license_disable: "true"
+verifier:
+  name: testinfra
+  options:
+    # Add verbosity for better debugging
+    v: 1

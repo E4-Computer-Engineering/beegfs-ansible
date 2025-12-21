@@ -1,0 +1,321 @@
+---
+name: Molecule Tests
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  detect-changed-roles:
+    runs-on: ubuntu-latest
+    outputs:
+      roles: ${{ steps.detect.outputs.roles }}
+      test-all: ${{ steps.detect.outputs.test-all }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed roles
+        id: detect
+        run: |
+          # Get the list of changed files
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            # For workflow_dispatch, compare with main branch
+            BASE_SHA="origin/main"
+            HEAD_SHA="HEAD"
+          fi
+
+          # Get changed files in roles directory
+          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep '^roles/' || true)
+
+          echo "Changed files in roles/:"
+          echo "$CHANGED_FILES"
+
+          # Check if _common role was changed
+          if echo "$CHANGED_FILES" | grep -q '^roles/_common/'; then
+            echo "test-all=true" >> $GITHUB_OUTPUT
+            echo "roles=[\"metad\", \"mgmtd\", \"storaged\", \"mon\"]" >> $GITHUB_OUTPUT
+            echo "_common role changed, testing all server roles (client requires full cluster)"
+            exit 0
+          fi
+
+          # Extract unique role names from changed files (excluding _common and client)
+          # Client role requires full cluster and kernel modules, tested separately in OpenStack
+          ROLES=$(echo "$CHANGED_FILES" | \
+            grep '^roles/' | \
+            sed 's|^roles/||' | \
+            cut -d'/' -f1 | \
+            grep -v '^_common$' | \
+            grep -v '^client$' | \
+            sort -u)
+
+          if [ -z "$ROLES" ]; then
+            echo "test-all=false" >> $GITHUB_OUTPUT
+            echo "roles=[]" >> $GITHUB_OUTPUT
+            echo "No role changes detected"
+          else
+            echo "test-all=false" >> $GITHUB_OUTPUT
+            # Convert to JSON array format
+            ROLES_JSON=$(echo "$ROLES" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "roles=$ROLES_JSON" >> $GITHUB_OUTPUT
+            echo "Changed roles: $ROLES_JSON"
+          fi
+
+  molecule-test:
+    needs: detect-changed-roles
+    if: needs.detect-changed-roles.outputs.roles != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        role: ${{ fromJson(needs.detect-changed-roles.outputs.roles) }}
+        distro:
+          - ubuntu2204
+          - almalinux8
+          - almalinux9
+        include:
+          # mgmtd role has multiple scenarios for v7 and v8 testing
+          - role: mgmtd
+            scenario: default
+            distro: ubuntu2204
+          - role: mgmtd
+            scenario: default
+            distro: almalinux8
+          - role: mgmtd
+            scenario: default
+            distro: almalinux9
+          - role: mgmtd
+            scenario: v7-custom
+            distro: ubuntu2204
+          - role: mgmtd
+            scenario: v7-custom
+            distro: almalinux8
+          - role: mgmtd
+            scenario: v7-custom
+            distro: almalinux9
+          - role: mgmtd
+            scenario: v8
+            distro: ubuntu2204
+          - role: mgmtd
+            scenario: v8
+            distro: almalinux8
+          - role: mgmtd
+            scenario: v8
+            distro: almalinux9
+          - role: mgmtd
+            scenario: v8-custom
+            distro: ubuntu2204
+          - role: mgmtd
+            scenario: v8-custom
+            distro: almalinux8
+          - role: mgmtd
+            scenario: v8-custom
+            distro: almalinux9
+          # mon role has multiple scenarios for v7 and v8 testing
+          - role: mon
+            scenario: default
+            distro: ubuntu2204
+          - role: mon
+            scenario: default
+            distro: almalinux8
+          - role: mon
+            scenario: default
+            distro: almalinux9
+          - role: mon
+            scenario: v7-custom
+            distro: ubuntu2204
+          - role: mon
+            scenario: v7-custom
+            distro: almalinux8
+          - role: mon
+            scenario: v7-custom
+            distro: almalinux9
+          - role: mon
+            scenario: v8
+            distro: ubuntu2204
+          - role: mon
+            scenario: v8
+            distro: almalinux8
+          - role: mon
+            scenario: v8
+            distro: almalinux9
+          - role: mon
+            scenario: v8-custom
+            distro: ubuntu2204
+          - role: mon
+            scenario: v8-custom
+            distro: almalinux8
+          - role: mon
+            scenario: v8-custom
+            distro: almalinux9
+          # metad role has multiple scenarios for v7 and v8 testing
+          - role: metad
+            scenario: default
+            distro: ubuntu2204
+          - role: metad
+            scenario: default
+            distro: almalinux8
+          - role: metad
+            scenario: default
+            distro: almalinux9
+          - role: metad
+            scenario: v7-custom
+            distro: ubuntu2204
+          - role: metad
+            scenario: v7-custom
+            distro: almalinux8
+          - role: metad
+            scenario: v7-custom
+            distro: almalinux9
+          - role: metad
+            scenario: v7-multi
+            distro: ubuntu2204
+          - role: metad
+            scenario: v7-multi
+            distro: almalinux8
+          - role: metad
+            scenario: v7-multi
+            distro: almalinux9
+          - role: metad
+            scenario: v8
+            distro: ubuntu2204
+          - role: metad
+            scenario: v8
+            distro: almalinux8
+          - role: metad
+            scenario: v8
+            distro: almalinux9
+          - role: metad
+            scenario: v8-custom
+            distro: ubuntu2204
+          - role: metad
+            scenario: v8-custom
+            distro: almalinux8
+          - role: metad
+            scenario: v8-custom
+            distro: almalinux9
+          - role: metad
+            scenario: v8-multi
+            distro: ubuntu2204
+          - role: metad
+            scenario: v8-multi
+            distro: almalinux8
+          - role: metad
+            scenario: v8-multi
+            distro: almalinux9
+          # storaged role has multiple scenarios for v7 and v8 testing
+          - role: storaged
+            scenario: default
+            distro: ubuntu2204
+          - role: storaged
+            scenario: default
+            distro: almalinux8
+          - role: storaged
+            scenario: default
+            distro: almalinux9
+          - role: storaged
+            scenario: v7-custom
+            distro: ubuntu2204
+          - role: storaged
+            scenario: v7-custom
+            distro: almalinux8
+          - role: storaged
+            scenario: v7-custom
+            distro: almalinux9
+          - role: storaged
+            scenario: v7-multi
+            distro: ubuntu2204
+          - role: storaged
+            scenario: v7-multi
+            distro: almalinux8
+          - role: storaged
+            scenario: v7-multi
+            distro: almalinux9
+          - role: storaged
+            scenario: v8
+            distro: ubuntu2204
+          - role: storaged
+            scenario: v8
+            distro: almalinux8
+          - role: storaged
+            scenario: v8
+            distro: almalinux9
+          - role: storaged
+            scenario: v8-custom
+            distro: ubuntu2204
+          - role: storaged
+            scenario: v8-custom
+            distro: almalinux8
+          - role: storaged
+            scenario: v8-custom
+            distro: almalinux9
+          - role: storaged
+            scenario: v8-multi
+            distro: ubuntu2204
+          - role: storaged
+            scenario: v8-multi
+            distro: almalinux8
+          - role: storaged
+            scenario: v8-multi
+            distro: almalinux9
+
+    name: Molecule test - ${{ matrix.role }}/${{ matrix.scenario || 'default' }} on ${{ matrix.distro }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install molecule molecule-plugins[docker] docker testinfra pytest
+
+      - name: Run Molecule tests
+        run: |
+          cd roles/${{ matrix.role }}
+          if [ -n "${{ matrix.scenario }}" ]; then
+            molecule test -s ${{ matrix.scenario }}
+          else
+            molecule test
+          fi
+        env:
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+
+  molecule-test-status:
+    # This job aggregates the results of all molecule tests
+    # It's used as a required status check for PRs
+    runs-on: ubuntu-latest
+    needs: [detect-changed-roles, molecule-test]
+    if: always()
+    steps:
+      - name: Check molecule test results
+        run: |
+          if [ "${{ needs.detect-changed-roles.outputs.roles }}" = "[]" ]; then
+            echo "No roles to test - skipping"
+            exit 0
+          fi
+
+          if [ "${{ needs.molecule-test.result }}" = "success" ] || [ "${{ needs.molecule-test.result }}" = "skipped" ]; then
+            echo "All molecule tests passed"
+            exit 0
+          else
+            echo "Molecule tests failed"
+            exit 1
+          fi

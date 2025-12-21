@@ -1,0 +1,51 @@
+"""Testinfra tests for beegfs-ansible.mgmtd role with custom configuration."""
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
+import os
+import sys
+
+# Add the parent directory to path to import testinfra_helpers
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../../.."))
+
+from extensions.molecule.testinfra_helpers import get_target_hosts
+
+testinfra_hosts = get_target_hosts()
+
+# Custom configuration values
+MGMTD_TCP_PORT = "9008"
+MGMTD_UDP_PORT = "9008"
+MGMTD_INTERFACES = ["eth0"]
+
+
+def test_beegfs_mgmtd_service_running(host):
+    """Verify that BeeGFS management server service is running."""
+    service = host.service("beegfs-mgmtd")
+    assert service.is_running
+    assert service.is_enabled
+
+
+def test_beegfs_mgmtd_tcp_port_listening(host):
+    """Verify that BeeGFS management server is listening on custom TCP port."""
+    socket = host.socket(f"tcp://0.0.0.0:{MGMTD_TCP_PORT}")
+    assert socket.is_listening
+
+
+def test_beegfs_mgmtd_udp_port_listening(host):
+    """Verify that BeeGFS management server is listening on custom UDP port."""
+    socket = host.socket(f"udp://0.0.0.0:{MGMTD_UDP_PORT}")
+    assert socket.is_listening
+
+
+def test_beegfs_mgmtd_interface_binding(host):
+    """Verify that BeeGFS management server is bound to specified interfaces."""
+    # Check that the service is listening on the specified interface
+    for interface in MGMTD_INTERFACES:
+        # Get the IP address of the interface
+        cmd = host.run(f"ip -4 addr show {interface} | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){{3}}'")
+        if cmd.rc == 0 and cmd.stdout.strip():
+            ip_address = cmd.stdout.strip()
+            # Check if service is listening on this IP
+            tcp_socket = host.socket(f"tcp://{ip_address}:{MGMTD_TCP_PORT}")
+            assert tcp_socket.is_listening, f"Service not listening on {ip_address}:{MGMTD_TCP_PORT}"
