@@ -250,13 +250,28 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--metad_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-populate-etc-hosts"><strong>metad_populate_etc_hosts</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--metad_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
+<p>This is useful when DNS is not available or for testing environments</p>
+<p>Not executed inside Docker/container environments</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets"><strong>metad_server_targets</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The list of metadata targets and their parameters for each metadata server</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-interfaces"><strong>conn_interfaces</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -265,7 +280,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_metad_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-metad-port-tcp"><strong>conn_metad_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_metad_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -274,7 +289,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8015&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_metad_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-metad-port-udp"><strong>conn_metad_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_metad_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -283,7 +298,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8015&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-mgmtd-port-tcp"><strong>conn_mgmtd_port_tcp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -292,7 +307,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-mgmtd-port-udp"><strong>conn_mgmtd_port_udp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -301,7 +316,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_rdma_buf_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-rdma-buf-num"><strong>conn_rdma_buf_num</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_rdma_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -311,7 +326,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/conn_rdma_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-conn-rdma-buf-size"><strong>conn_rdma_buf_size</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -321,7 +336,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/device"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-device"><strong>device</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -329,7 +344,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Note that /dev/ must be omitted because it is already present in the path of the device</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/log_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-log-type"><strong>log_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/log_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -342,7 +357,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/mirrorgroup_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-mirrorgroup-id"><strong>mirrorgroup_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/mirrorgroup_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -353,7 +368,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/quota_enable_enforcement"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-quota-enable-enforcement"><strong>quota_enable_enforcement</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/quota_enable_enforcement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -366,7 +381,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/store_client_acls"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-store-client-acls"><strong>store_client_acls</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/store_client_acls" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -379,7 +394,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/store_client_x_attrs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-store-client-x-attrs"><strong>store_client_x_attrs</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/store_client_x_attrs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -392,7 +407,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-sys-mgmtd-host"><strong>sys_mgmtd_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -401,7 +416,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;localhost&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/sys_target_offline_timeout_secs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-sys-target-offline-timeout-secs"><strong>sys_target_offline_timeout_secs</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/sys_target_offline_timeout_secs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -410,7 +425,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;180&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/target_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-target-id"><strong>target_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/target_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -420,7 +435,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_server_targets/tune_bind_to_numa_zone"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-server-targets-tune-bind-to-numa-zone"><strong>tune_bind_to_numa_zone</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_server_targets/tune_bind_to_numa_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -429,7 +444,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--metad_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-metad-role-parameter-main-metad-start-services"><strong>metad_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--metad_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>

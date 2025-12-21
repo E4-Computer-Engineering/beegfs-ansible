@@ -276,6 +276,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mgmtd_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-populate-etc-hosts"><strong>mgmtd_populate_etc_hosts</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mgmtd_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
+<p>This is useful when DNS is not available or for testing environments</p>
+<p>Not executed inside Docker/container environments</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_quota_enable_enforcement"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-quota-enable-enforcement"><strong>mgmtd_quota_enable_enforcement</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_quota_enable_enforcement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -288,7 +303,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-start-services"><strong>mgmtd_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -300,7 +315,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_store_mgmtd_directory"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-store-mgmtd-directory"><strong>mgmtd_store_mgmtd_directory</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_store_mgmtd_directory" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -309,7 +324,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;/var/lib/beegfs/&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_string_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-string-id"><strong>mgmtd_string_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_string_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -319,7 +334,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">inventory_hostname_short</span> <span class="pre">}}&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_sys_target_offline_timeout_secs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-sys-target-offline-timeout-secs"><strong>mgmtd_sys_target_offline_timeout_secs</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_sys_target_offline_timeout_secs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -328,7 +343,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;180&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_cert_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-cert-file"><strong>mgmtd_tls_cert_file</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_cert_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -336,7 +351,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.pem&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_key_file"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-key-file"><strong>mgmtd_tls_key_file</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_key_file" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -344,7 +359,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;cert.key&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mgmtd_tls_tmp_dir"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mgmtd-role-parameter-main-mgmtd-tls-tmp-dir"><strong>mgmtd_tls_tmp_dir</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mgmtd_tls_tmp_dir" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>

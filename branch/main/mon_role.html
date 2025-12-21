@@ -320,6 +320,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--mon_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-populate-etc-hosts"><strong>mon_populate_etc_hosts</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--mon_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
+<p>This is useful when DNS is not available or for testing environments</p>
+<p>Not executed inside Docker/container environments</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_ship_to_influxdb_exporter"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-ship-to-influxdb-exporter"><strong>mon_ship_to_influxdb_exporter</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_ship_to_influxdb_exporter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -331,7 +346,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-start-services"><strong>mon_start_services</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -343,7 +358,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-main--mon_sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-mon-role-parameter-main-mon-sys-mgmtd-host"><strong>mon_sys_mgmtd_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--mon_sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>

@@ -218,10 +218,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-main--_common_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-common-role-parameter-main-common-populate-etc-hosts"><strong>_common_populate_etc_hosts</strong></p>
 <a class="ansibleOptionLink" href="#parameter-main--_common_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<td><div class="ansible-option-cell"><p>Internal parameter - populated by the parent role’s &lt;role&gt;_populate_etc_hosts variable</p>
+<p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
 <p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
 <p>This is useful when DNS is not available or for testing environments</p>
 <p>Not executed inside Docker/container environments</p>
+<p>Users should set &lt;role&gt;_populate_etc_hosts on the parent role instead of this variable</p>
 <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 <ul class="simple">
 <li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
