@@ -178,9 +178,8 @@ The automated release process requires the following GitHub secret to be configu
 
 ## Documentation
 
-Documentation is automatically generated and published by the [Release.yml GitHub action](.github/workflows/Release.yml) in two scenarios:
-
-1. **On releases**: When a version tag (v*) is pushed, documentation is built and published as part of the release process
-2. **On main branch updates**: When changes are pushed to the main branch, documentation is automatically rebuilt and published
+Documentation is automatically generated and published by the [Release.yml GitHub action](.github/workflows/Release.yml) when a version tag (v*) is pushed as part of the release process.
 
 The workflow uses the [GitHub Docs Build project](https://github.com/ansible-community/github-docs-build) from the Ansible community. The documentation artifact is pushed to the `gh-pages` branch that feeds the GitHub Pages site at <https://e4-computer-engineering.github.io/beegfs-ansible/>.
+
+**Note**: Documentation is only rebuilt on releases. If you need to update documentation outside of a release, you can manually trigger the workflow from the GitHub Actions tab.

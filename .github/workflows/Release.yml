@@ -1,5 +1,5 @@
 ---
-name: Release and Documentation
+name: Release
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -8,8 +8,6 @@ concurrency:
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
   # Allow manual trigger
@@ -18,7 +16,6 @@ on:
 jobs:
   validate-and-prepare:
     name: Validate Version and Prepare Release
-    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -83,7 +80,6 @@ jobs:
 
   build-and-publish-collection:
     name: Build and Publish to Ansible Galaxy
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: validate-and-prepare
     runs-on: ubuntu-latest
     steps:
@@ -151,7 +147,6 @@ jobs:
 
   create-github-release:
     name: Create GitHub Release
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: [validate-and-prepare, build-and-publish-collection]
     runs-on: ubuntu-latest
     permissions:
