@@ -64,17 +64,17 @@ jobs:
           echo "Version validation successful!"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-      - name: Generate CHANGELOG.rst for release
+      - name: Verify CHANGELOG.rst is up to date
         run: |
-          pip install antsibull-changelog
+          # Check if CHANGELOG.rst contains the version being released
+          if ! grep -q "^v${{ steps.extract_version.outputs.version }}" CHANGELOG.rst; then
+            echo "Error: CHANGELOG.rst does not contain version ${{ steps.extract_version.outputs.version }}"
+            echo "Please run 'antsibull-changelog release' locally and commit the changes before creating the tag"
+            exit 1
+          fi
+          echo "CHANGELOG.rst is up to date"
 
-          # Generate the changelog (this updates CHANGELOG.rst in the working directory)
-          # but we won't commit it - we'll just use it for the release notes
-          antsibull-changelog release --version ${{ steps.extract_version.outputs.version }} || true
-
-          echo "Changelog generated (for release notes only, not committed)"
-
-      - name: Upload repository with generated files
+      - name: Upload repository workspace
         uses: actions/upload-artifact@v4
         with:
           name: release-workspace

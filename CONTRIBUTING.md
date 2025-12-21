@@ -109,18 +109,33 @@ Releases are automatically created when you push a version tag to the repository
 
    See [antsibull-changelog documentation](https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.md) for all available fragment types (`bugfixes`, `major_changes`, `minor_changes`, `breaking_changes`, etc.).
 
-3. **Commit and push your changes** to the main branch via a pull request:
+3. **Generate the CHANGELOG.rst** file:
+
+   ```bash
+   pip install ansible-core antsibull-changelog
+   antsibull-changelog release
+   ```
+
+   This will:
+   - Update `CHANGELOG.rst` with the new version
+   - Process all fragments in `changelogs/fragments/`
+   - Update `changelogs/changelog.yaml`
+   - Remove the processed fragments
+
+   Review the updated `CHANGELOG.rst` to ensure it looks correct.
+
+4. **Commit and push your changes** to the main branch via a pull request:
 
    ```bash
    git checkout -b release-2.2.0
-   git add galaxy.yml changelogs/fragments/*.yml
+   git add galaxy.yml CHANGELOG.rst changelogs/
    git commit -m "chore: prepare release 2.2.0"
    git push origin release-2.2.0
    ```
 
    Create a pull request, get it reviewed and merged to main.
 
-4. **Create and push a version tag** from the main branch:
+5. **Create and push a version tag** from the main branch:
 
    ```bash
    git checkout main
@@ -134,15 +149,15 @@ Releases are automatically created when you push a version tag to the repository
    - Follow semantic versioning format `X.X.X`
    - Match the version in `galaxy.yml` exactly
 
-5. **The automation will**:
+6. **The automation will**:
    - Validate that the tag version matches the version in `galaxy.yml`
-   - Generate `CHANGELOG.rst` using antsibull-changelog
+   - Verify that `CHANGELOG.rst` has been updated
    - Build the Ansible collection tarball
    - Publish the collection to [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
    - Build and publish documentation to GitHub Pages
    - Create a GitHub Release with the collection tarball and changelog
 
-6. **Monitor the release** by checking the [GitHub Actions workflow](../../actions/workflows/Release.yml)
+7. **Monitor the release** by checking the [GitHub Actions workflow](../../actions/workflows/Release.yml)
 
 ### Manual Changelog Generation (for testing)
 

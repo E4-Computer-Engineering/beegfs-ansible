@@ -4,6 +4,16 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v2.2.0
+======
+
+Release Summary
+---------------
+
+| Release Date: 2025-12-21
+| This release adds automated release workflows with GitHub Actions,
+| including automatic publishing to Ansible Galaxy and documentation generation.
+
 v2.1.0
 ======
 
