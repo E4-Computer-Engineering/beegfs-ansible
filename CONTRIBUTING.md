@@ -82,9 +82,11 @@ Releases are automatically created when you push a version tag to the repository
 
    ```yaml
    release_summary: |
-      | Release Date: 2024-12-21
+      | Release Date: YYYY-MM-DD
       | Description of this release
    ```
+
+   **Note**: Replace `YYYY-MM-DD` with the actual release date (e.g., `2025-12-21`).
 
    For new features, create additional fragments with appropriate keywords:
 
