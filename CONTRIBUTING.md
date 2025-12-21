@@ -78,6 +78,16 @@ Releases are automatically created when you push a version tag to the repository
 
 2. **Create changelog fragments** for your changes in the [changelogs/fragments/](changelogs/fragments/) directory:
 
+   **Option A - Using the helper script (recommended):**
+
+   ```bash
+   ./.github/scripts/create-release-fragment.sh 2.2.0 "Description of this release"
+   ```
+
+   This automatically creates the fragment with the correct date.
+
+   **Option B - Manual creation:**
+
    Create a `release_summary` fragment (e.g., `2.2.0.yml`):
 
    ```yaml

@@ -1,8 +1,29 @@
 # Release Automation Scripts
 
-This directory contains scripts used by the automated release workflow.
+This directory contains scripts used by the automated release workflow and helper scripts for preparing releases.
 
 ## Scripts
+
+### create-release-fragment.sh
+
+Helper script to create a changelog fragment with the correct date automatically.
+
+**Usage:**
+```bash
+./.github/scripts/create-release-fragment.sh 2.3.0 "Description of this release"
+```
+
+**What it does:**
+- Creates a new changelog fragment file in `changelogs/fragments/`
+- Automatically uses the current date (YYYY-MM-DD format)
+- Provides next steps for completing the release process
+
+**Example:**
+```bash
+./.github/scripts/create-release-fragment.sh 2.3.0 "This release adds support for BeeGFS v8"
+```
+
+This will create `changelogs/fragments/2.3.0.yml` with today's date.
 
 ### validate-version.sh
 
