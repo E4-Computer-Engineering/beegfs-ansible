@@ -1,0 +1,4 @@
+release_summary: |
+  | Release Date: 2024-12-21
+  | This release adds automated release workflows with GitHub Actions,
+  | including automatic publishing to Ansible Galaxy and documentation generation.

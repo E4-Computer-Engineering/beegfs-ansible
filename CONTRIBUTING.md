@@ -65,11 +65,18 @@ This project uses [antsibull-changelog](https://docs.ansible.com/ansible/latest/
 
 ### Automated Release Process
 
-Releases are automatically created when you push a version tag to the repository. The automation handles version bumping, changelog generation, and publishing to Ansible Galaxy.
+Releases are automatically created when you push a version tag to the repository. The automation handles changelog generation, building, and publishing to Ansible Galaxy.
 
 #### Creating a Release
 
-1. **Create changelog fragments** for your changes in the [changelogs/fragments/](changelogs/fragments/) directory:
+1. **Update the version** in [galaxy.yml](galaxy.yml):
+
+   ```bash
+   # Edit galaxy.yml and update the version field
+   version: 2.2.0
+   ```
+
+2. **Create changelog fragments** for your changes in the [changelogs/fragments/](changelogs/fragments/) directory:
 
    Create a `release_summary` fragment (e.g., `2.2.0.yml`):
 
@@ -90,17 +97,22 @@ Releases are automatically created when you push a version tag to the repository
 
    See [antsibull-changelog documentation](https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.md) for all available fragment types (`bugfixes`, `major_changes`, `minor_changes`, `breaking_changes`, etc.).
 
-2. **Push your changes** to the main branch:
+3. **Commit and push your changes** to the main branch via a pull request:
 
    ```bash
-   git add changelogs/fragments/*.yml
-   git commit -m "feat: add release fragments for version X.X.X"
-   git push origin main
+   git checkout -b release-2.2.0
+   git add galaxy.yml changelogs/fragments/*.yml
+   git commit -m "chore: prepare release 2.2.0"
+   git push origin release-2.2.0
    ```
 
-3. **Create and push a version tag**:
+   Create a pull request, get it reviewed and merged to main.
+
+4. **Create and push a version tag** from the main branch:
 
    ```bash
+   git checkout main
+   git pull
    git tag v2.2.0
    git push origin v2.2.0
    ```
@@ -108,19 +120,17 @@ Releases are automatically created when you push a version tag to the repository
    **Important**: The tag must:
    - Start with `v` (e.g., `v2.2.0`)
    - Follow semantic versioning format `X.X.X`
-   - Be higher than the current version in `galaxy.yml`
+   - Match the version in `galaxy.yml` exactly
 
-4. **The automation will**:
-   - Validate the version tag format and ensure it's higher than the current version
-   - Update the `version` field in `galaxy.yml` to match the tag (without the `v` prefix)
-   - Generate and update `CHANGELOG.rst` using antsibull-changelog
-   - Commit these changes back to the main branch
+5. **The automation will**:
+   - Validate that the tag version matches the version in `galaxy.yml`
+   - Generate `CHANGELOG.rst` using antsibull-changelog
    - Build the Ansible collection tarball
    - Publish the collection to [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
    - Build and publish documentation to GitHub Pages
-   - Create a GitHub Release with the collection tarball attached
+   - Create a GitHub Release with the collection tarball and changelog
 
-5. **Monitor the release** by checking the [GitHub Actions workflow](../../actions/workflows/Release.yml)
+6. **Monitor the release** by checking the [GitHub Actions workflow](../../actions/workflows/Release.yml)
 
 ### Manual Changelog Generation (for testing)
 

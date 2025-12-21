@@ -21,76 +21,63 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     outputs:
-      version: ${{ steps.validate.outputs.version }}
+      version: ${{ steps.extract_version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full history for changelog generation
-          ref: main  # Checkout main branch, not the tag
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Make validation script executable
-        run: chmod +x .github/scripts/validate-version.sh
-
-      - name: Validate version tag
-        id: validate
+      - name: Extract and validate version
+        id: extract_version
         run: |
-          VERSION=$(.github/scripts/validate-version.sh ${{ github.ref_name }})
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_REF_NAME: ${{ github.ref_name }}
+          TAG="${{ github.ref_name }}"
+          VERSION="${TAG#v}"  # Remove 'v' prefix
 
-      - name: Update galaxy.yml version
-        run: |
-          VERSION="${{ github.ref_name }}"
-          VERSION="${VERSION#v}"  # Remove 'v' prefix
-          sed -i "s/^version:.*/version: ${VERSION}/" galaxy.yml
-          echo "Updated galaxy.yml to version ${VERSION}"
-          cat galaxy.yml
+          echo "Tag: $TAG"
+          echo "Version: $VERSION"
 
-      - name: Make changelog script executable
-        run: chmod +x .github/scripts/update-changelog.sh
-
-      - name: Update CHANGELOG.rst
-        run: |
-          .github/scripts/update-changelog.sh
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Commit and push version and changelog updates
-        run: |
-          git add galaxy.yml CHANGELOG.rst changelogs/
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            # Commit the changes to main branch
-            git commit -m "chore: release version ${{ github.ref_name }}"
-            git push origin main
+          # Validate tag format
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Tag must follow format v*.*.* (e.g., v1.2.3)"
+            exit 1
           fi
 
-      - name: Checkout and update tag
-        run: |
-          # Checkout the latest commit (which includes our changes)
-          git checkout main
-          # Move the tag to point to this commit
-          git tag -f ${{ github.ref_name }}
-          git push -f origin ${{ github.ref_name }}
+          # Get version from galaxy.yml
+          GALAXY_VERSION=$(grep -E "^version:" galaxy.yml | awk '{print $2}')
+          echo "Version in galaxy.yml: $GALAXY_VERSION"
 
-      - name: Upload updated repository
+          # Verify versions match
+          if [ "$VERSION" != "$GALAXY_VERSION" ]; then
+            echo "Error: Tag version ($VERSION) does not match galaxy.yml version ($GALAXY_VERSION)"
+            echo "Please update galaxy.yml to version $VERSION before creating the tag"
+            exit 1
+          fi
+
+          echo "Version validation successful!"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Generate CHANGELOG.rst for release
+        run: |
+          pip install antsibull-changelog
+
+          # Generate the changelog (this updates CHANGELOG.rst in the working directory)
+          # but we won't commit it - we'll just use it for the release notes
+          antsibull-changelog release --version ${{ steps.extract_version.outputs.version }} || true
+
+          echo "Changelog generated (for release notes only, not committed)"
+
+      - name: Upload repository with generated files
         uses: actions/upload-artifact@v4
         with:
-          name: updated-repo
+          name: release-workspace
           path: .
           retention-days: 1
 
@@ -100,10 +87,10 @@ jobs:
     needs: validate-and-prepare
     runs-on: ubuntu-latest
     steps:
-      - name: Download updated repository
+      - name: Download release workspace
         uses: actions/download-artifact@v4
         with:
-          name: updated-repo
+          name: release-workspace
           path: .
 
       - name: Set up Python
@@ -170,10 +157,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download updated repository
+      - name: Download release workspace
         uses: actions/download-artifact@v4
         with:
-          name: updated-repo
+          name: release-workspace
           path: .
 
       - name: Download collection tarball

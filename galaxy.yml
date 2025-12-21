@@ -1,7 +1,7 @@
 ---
 namespace: e4_computer_engineering
 name: beegfs
-version: 2.1.0
+version: 2.2.0
 readme: README.md
 authors:
   - Davide Obbi <davide.obbi@e4company.com>
