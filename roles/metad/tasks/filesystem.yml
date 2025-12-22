@@ -18,7 +18,8 @@
         {
           "device_name": "{{ tgt.device }}",
           "mount_point": "{{ target_directory }}",
-          "device_mounted": {{ mounted }},
+          "device_mounted": "{{ mounted }}",
+          "device_label": "meta-t{{ tgt.target_id | string }}",
           "fs_options": "{{ target_options | regex_replace(' ', '') }}"
         }{% if not loop.last %},{% endif %}
       {% endfor %}
@@ -107,11 +108,12 @@
     dev: "/dev/{{ target.device_name }}"
     force: "{{ metad_filesystem_purge }}"
     opts: >
+      -L {{ target.device_label }}
       -i {{ metad_filesystem_bytes_per_inode }} -I {{ metad_filesystem_inode_size }}
       -J size={{ metad_filesystem_journal_size }} -O {{ metad_filesystem_features }}
   vars:
     target: "{{ item }}"
-  when: not target.device_mounted
+  when: not (target.device_mounted | bool)
   loop: "{{ metad_mounts }}"
   loop_control:
     label: "{{ target.mount_point }}"
@@ -120,7 +122,7 @@
     - storaged_configure
     - configure
 
-- name: Collect mounted devices for fs UUIDs
+- name: Collect mounted devices for fs labels
   ansible.builtin.setup:
     gather_subset:
       - '!all'
@@ -132,18 +134,18 @@
   become: true
   ansible.builtin.command: |
       tune2fs -o user_xattr /dev/{{ target.device_name }} \
-      -U {{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}
+      -L {{ target.device_label }}
   vars:
     target: "{{ item }}"
   loop: "{{ metad_mounts }}"
   changed_when: false
-  when: not target.device_mounted
+  when: not (target.device_mounted | bool)
   tags:
     - configure
 
-- name: Display device UUIDs
+- name: Display device labels
   ansible.builtin.debug:
-    msg: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
+    msg: "LABELS={{ item.device_label }}"
   loop: "{{ metad_mounts }}"
   tags:
     - debug
@@ -153,7 +155,7 @@
   become: true
   ansible.posix.mount:
     path: "{{ target.mount_point }}"
-    src: "UUID={{ ansible_facts['devices'][item.device_name]['links']['uuids'] | first }}"
+    src: "LABEL={{ target.device_label }}"
     fstype: "{{ metad_filesystem_type }}"
     opts: "{{ target.fs_options }}"
     state: mounted
