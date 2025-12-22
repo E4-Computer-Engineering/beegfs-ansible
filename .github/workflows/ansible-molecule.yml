@@ -42,6 +42,7 @@ jobs:
         role: ${{ fromJson(needs.detect-changed-roles.outputs.roles) }}
         distro:
           - ubuntu2204
+          - ubuntu2404
           - almalinux8
           - almalinux9
         include:
@@ -74,6 +75,9 @@ jobs:
             scenario: v8
             distro: almalinux9
           - role: mgmtd
+            scenario: v8
+            distro: ubuntu2404
+          - role: mgmtd
             scenario: v8-custom
             distro: ubuntu2204
           - role: mgmtd
@@ -82,6 +86,9 @@ jobs:
           - role: mgmtd
             scenario: v8-custom
             distro: almalinux9
+          - role: mgmtd
+            scenario: v8-custom
+            distro: ubuntu2404
           # mon role has multiple scenarios for v7 and v8 testing
           - role: mon
             scenario: default
@@ -111,6 +118,9 @@ jobs:
             scenario: v8
             distro: almalinux9
           - role: mon
+            scenario: v8
+            distro: ubuntu2404
+          - role: mon
             scenario: v8-custom
             distro: ubuntu2204
           - role: mon
@@ -119,6 +129,9 @@ jobs:
           - role: mon
             scenario: v8-custom
             distro: almalinux9
+          - role: mon
+            scenario: v8-custom
+            distro: ubuntu2404
           # metad role has multiple scenarios for v7 and v8 testing
           - role: metad
             scenario: default
@@ -157,6 +170,9 @@ jobs:
             scenario: v8
             distro: almalinux9
           - role: metad
+            scenario: v8
+            distro: ubuntu2404
+          - role: metad
             scenario: v8-custom
             distro: ubuntu2204
           - role: metad
@@ -166,6 +182,9 @@ jobs:
             scenario: v8-custom
             distro: almalinux9
           - role: metad
+            scenario: v8-custom
+            distro: ubuntu2404
+          - role: metad
             scenario: v8-multi
             distro: ubuntu2204
           - role: metad
@@ -174,6 +193,9 @@ jobs:
           - role: metad
             scenario: v8-multi
             distro: almalinux9
+          - role: metad
+            scenario: v8-multi
+            distro: ubuntu2404
           # storaged role has multiple scenarios for v7 and v8 testing
           - role: storaged
             scenario: default
@@ -212,6 +234,9 @@ jobs:
             scenario: v8
             distro: almalinux9
           - role: storaged
+            scenario: v8
+            distro: ubuntu2404
+          - role: storaged
             scenario: v8-custom
             distro: ubuntu2204
           - role: storaged
@@ -221,6 +246,9 @@ jobs:
             scenario: v8-custom
             distro: almalinux9
           - role: storaged
+            scenario: v8-custom
+            distro: ubuntu2404
+          - role: storaged
             scenario: v8-multi
             distro: ubuntu2204
           - role: storaged
@@ -229,6 +257,9 @@ jobs:
           - role: storaged
             scenario: v8-multi
             distro: almalinux9
+          - role: storaged
+            scenario: v8-multi
+            distro: ubuntu2404
 
     name: Molecule test - ${{ matrix.role }}/${{ matrix.scenario || 'default' }} on ${{ matrix.distro }}
     steps:
