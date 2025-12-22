@@ -1,0 +1,6 @@
+.github/scripts/create-release-fragment.sh shebang
+.github/scripts/detect-changed-roles.sh shebang
+.github/scripts/extract-version.sh shebang
+.github/scripts/label-changed-roles.sh shebang
+.github/scripts/update-changelog.sh shebang
+.github/scripts/validate-version.sh shebang

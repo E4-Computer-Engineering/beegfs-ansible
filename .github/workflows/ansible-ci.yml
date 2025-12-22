@@ -20,10 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint collection
-        uses: ansible/ansible-lint@v24
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          requirements_file: requirements.yml
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint collection
+        run: ansible-lint
 
   ansible-test-sanity:
     name: Perform sanity testing with ansible-test
