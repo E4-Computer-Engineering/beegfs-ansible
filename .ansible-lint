@@ -3,6 +3,7 @@ use_default_rules: true
 exclude_paths:
   - extensions/
   - .github/
+  - examples/
 skip_list:
   - role-name  # Allow underscore prefix in role name for internal _common role
   - var-naming[no-role-prefix]  # <https://github.com/ansible/ansible-lint/pull/3422#issuecomment-1549584988>
