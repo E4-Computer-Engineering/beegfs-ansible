@@ -49,7 +49,7 @@ jobs:
           echo "CHANGELOG.rst is up to date"
 
       - name: Upload repository workspace
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: release-workspace
           path: .
@@ -87,7 +87,7 @@ jobs:
             e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
 
       - name: Upload collection artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: collection-tarball
           path: e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
