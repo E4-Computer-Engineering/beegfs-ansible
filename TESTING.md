@@ -22,6 +22,7 @@ This document describes the testing strategy and infrastructure for the BeeGFS A
 #### Supported Operating Systems
 All server roles are tested against:
 - Ubuntu 22.04
+- Ubuntu 24.04
 - AlmaLinux 8
 - AlmaLinux 9
 
