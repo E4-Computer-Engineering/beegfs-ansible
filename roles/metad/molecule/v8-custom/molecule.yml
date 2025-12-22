@@ -18,8 +18,8 @@ provisioner:
     group_vars:
       all:
         # BeeGFS v8 with custom configuration
-        metad_beegfs_version: "8.0.0"
-        metad_repo_url: "https://www.beegfs.io/release/beegfs_8.0.0"
+        metad_beegfs_version: "8.2"
+        metad_repo_url: "https://www.beegfs.io/release/beegfs_8.2"
         metad_conn_metad_port_tcp: "9005"
         metad_conn_metad_port_udp: "9005"
         metad_conn_interfaces: ["eth0"]

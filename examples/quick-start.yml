@@ -1,0 +1,8 @@
+---
+# Quick Start - Complete Cluster Deployment
+# Use the provided site playbook for deploying a complete BeeGFS cluster
+- name: Deploy complete BeeGFS cluster
+  hosts: all
+  tasks:
+    - name: Include BeeGFS site playbook
+      ansible.builtin.import_playbook: e4_computer_engineering.beegfs.site

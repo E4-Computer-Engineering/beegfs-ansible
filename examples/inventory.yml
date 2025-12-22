@@ -1,0 +1,41 @@
+---
+# Example Inventory File
+# This inventory defines a complete BeeGFS cluster topology
+all:
+  children:
+    management:
+      hosts:
+        mgmt-01:
+          ansible_host: 192.168.1.10
+
+    monitoring:
+      hosts:
+        mgmt-01:
+          ansible_host: 192.168.1.10
+
+    metadata:
+      hosts:
+        meta-01:
+          ansible_host: 192.168.1.20
+        meta-02:
+          ansible_host: 192.168.1.21
+
+    storage:
+      hosts:
+        storage-01:
+          ansible_host: 192.168.1.30
+        storage-02:
+          ansible_host: 192.168.1.31
+        storage-03:
+          ansible_host: 192.168.1.32
+        storage-04:
+          ansible_host: 192.168.1.33
+
+    clients:
+      hosts:
+        compute-[01:10]:
+          ansible_host: 192.168.1.[40:49]
+
+  vars:
+    ansible_user: ansible
+    ansible_become: true

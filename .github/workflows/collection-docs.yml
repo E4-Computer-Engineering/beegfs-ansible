@@ -1,0 +1,49 @@
+---
+name: Collection Docs
+
+concurrency:
+  group: docs-push-${{ github.sha }}
+  cancel-in-progress: true
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  schedule:
+    - cron: '0 6 * * *'
+  # Allow manual trigger (for newer antsibull-docs, sphinx-ansible-theme, ... versions)
+  workflow_dispatch:
+
+jobs:
+  build-docs:
+    name: Build Ansible Docs
+    permissions:
+      contents: read
+    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-push.yml@main
+    with:
+      init-lenient: false
+      init-fail-on-error: true
+      collection-name: e4_computer_engineering.beegfs
+      squash-hierarchy: true
+      init-project: e4_computer_engineering.beegfs Collection
+      init-copyright: e4_computer_engineering.beegfs Contributors
+      init-title: e4_computer_engineering.beegfs Collection Documentation
+      init-html-short-title: e4_computer_engineering.beegfs Collection Docs
+
+  publish-docs:
+    name: Publish Ansible Docs
+    if: github.repository == 'E4-Computer-Engineering/beegfs-ansible'
+    needs: [build-docs]
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-gh-pages.yml@main
+    with:
+      artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
+      publish-gh-pages-branch: true
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

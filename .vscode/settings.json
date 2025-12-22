@@ -90,5 +90,6 @@
   "files.associations": {
     "*.yaml": "ansible",
     "*.yml": "ansible"
-  }
+  },
+  "ansible.python.interpreterPath": "/usr/bin/python3"
 }

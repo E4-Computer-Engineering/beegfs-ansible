@@ -21,8 +21,8 @@ provisioner:
     group_vars:
       all:
         # Configuration for validation testing (no actual cluster)
-        client_beegfs_version: "7.4.4"
-        client_repo_url: "https://www.beegfs.io/release/beegfs_7.4.4"
+        client_beegfs_version: "7.4.6"
+        client_repo_url: "https://www.beegfs.io/release/beegfs_7.4.6"
         client_start_services: false  # Don't start services in container tests
         client_deploy_auth_file: false
         client_dkms_install: false  # Don't build kernel modules in containers

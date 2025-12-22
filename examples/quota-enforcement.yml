@@ -1,0 +1,52 @@
+---
+# Quota Enforcement Configuration
+# Deploy BeeGFS cluster with quota enforcement enabled
+- name: Deploy BeeGFS Management with quota enforcement
+  hosts: management
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.mgmtd
+      vars:
+        mgmtd_beegfs_version: "8.1"
+        mgmtd_auth_file_path: playbooks/files/conn.auth
+        mgmtd_quota_enable_enforcement: "true"
+
+- name: Deploy BeeGFS Metadata with quota enforcement
+  hosts: metadata
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.metad
+      vars:
+        metad_beegfs_version: "8.1"
+        metad_auth_file_path: playbooks/files/conn.auth
+        metad_server_targets:
+          - target_id: "1"
+            device: "nvme0n1"
+            sys_mgmtd_host: mgmt-01
+            quota_enable_enforcement: "true"
+
+- name: Deploy BeeGFS Storage with quota enforcement
+  hosts: storage
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.storaged
+      vars:
+        storaged_beegfs_version: "8.1"
+        storaged_auth_file_path: playbooks/files/conn.auth
+        storaged_server_targets:
+          - target_id: "1"
+            device: "sdb"
+            sys_mgmtd_host: mgmt-01
+            quota_enable_enforcement: "true"
+
+- name: Configure clients for quota
+  hosts: clients
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.client
+      vars:
+        client_beegfs_version: "8.1"
+        client_auth_file_path: playbooks/files/conn.auth
+        client_clusters:
+          - sys_mgmtd_host: mgmt-01
+            quota_enabled: "true"

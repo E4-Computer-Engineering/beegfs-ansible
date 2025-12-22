@@ -18,8 +18,8 @@ provisioner:
     group_vars:
       all:
         # BeeGFS v8 with default configuration
-        storaged_beegfs_version: "8.0.0"
-        storaged_repo_url: "https://www.beegfs.io/release/beegfs_8.0.0"
+        storaged_beegfs_version: "8.2"
+        storaged_repo_url: "https://www.beegfs.io/release/beegfs_8.2"
         storaged_deploy_auth_file: false
         storaged_server_targets:
           - target_id: 1

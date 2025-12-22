@@ -1,0 +1,31 @@
+---
+# Client with Custom Mount Points and Chunk Size
+# Deploy BeeGFS client with custom mount points, custom chunk size, and properly tuned RDMA buffers
+- name: Deploy BeeGFS Clients with custom mount points
+  hosts: clients
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.client
+      vars:
+        client_beegfs_version: "8.1"
+        client_auth_file_path: playbooks/files/conn.auth
+        client_clusters:
+          - sys_mgmtd_host: mgmt-01
+            conn_interfaces: ["eth0"]
+            # RDMA buffer configuration for 1Mi chunk size
+            # Formula: conn_rdma_buf_size × conn_rdma_buf_num must be >= chunk_size
+            # 16384 × 70 = 1146880 bytes >= 1048576 bytes (1Mi)
+            conn_rdma_buf_size: "16384"
+            conn_rdma_buf_num: "70"
+            # Cache buffer should be a multiple of chunk size
+            # 2097152 = 2Mi (2 × 1Mi chunk size)
+            tune_file_cache_buf_size: "2097152"
+            client_dir_paths:
+              # Mount /work with 1Mi chunk size and RAID0 striping
+              - beegfs_path: work
+                fs_path: /mnt/beegfs/work
+                chunk_size: 1m
+                pattern: raid0
+              # Mount /scratch with default settings
+              - beegfs_path: scratch
+                fs_path: /scratch

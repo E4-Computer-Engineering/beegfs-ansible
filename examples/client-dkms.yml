@@ -1,0 +1,15 @@
+---
+# Client with DKMS Installation
+# Deploy BeeGFS client with DKMS support for automatic kernel module rebuilds
+- name: Deploy BeeGFS Clients with DKMS
+  hosts: clients
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.client
+      vars:
+        client_beegfs_version: "8.1"
+        client_dkms_install: true
+        client_auth_file_path: playbooks/files/conn.auth
+        client_clusters:
+          - sys_mgmtd_host: mgmt-01
+            conn_interfaces: ["eth0"]

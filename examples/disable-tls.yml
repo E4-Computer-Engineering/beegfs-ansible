@@ -1,0 +1,12 @@
+---
+# Disable TLS for gRPC (BeeGFS 8.x)
+# Deploy BeeGFS Management without TLS encryption
+- name: Deploy BeeGFS Management without TLS
+  hosts: management
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.mgmtd
+      vars:
+        mgmtd_beegfs_version: "8.1"
+        mgmtd_auth_file_path: playbooks/files/conn.auth
+        mgmtd_enable_tls: false

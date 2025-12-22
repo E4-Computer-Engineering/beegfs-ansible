@@ -1,0 +1,66 @@
+---
+# Multi-Node Cluster Deployment
+# Deploy a multi-node BeeGFS cluster with dedicated management, metadata, storage, and client nodes
+- name: Deploy BeeGFS Management Service
+  hosts: management
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.mgmtd
+      vars:
+        mgmtd_beegfs_version: "8.1"
+        mgmtd_store_mgmtd_directory: /data/beegfs/mgmtd
+        mgmtd_conn_interfaces: ["eth0"]
+        mgmtd_auth_file_path: playbooks/files/conn.auth
+
+- name: Deploy BeeGFS Monitoring Service
+  hosts: monitoring
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.mon
+      vars:
+        mon_beegfs_version: "8.1"
+        mon_sys_mgmtd_host: mgmt-node-01
+        mon_db_type: influxdb
+        mon_db_hostname: localhost
+        mon_conn_interfaces: ["eth0"]
+        mon_auth_file_path: playbooks/files/conn.auth
+
+- name: Deploy BeeGFS Metadata Services
+  hosts: metadata
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.metad
+      vars:
+        metad_beegfs_version: "8.1"
+        metad_auth_file_path: playbooks/files/conn.auth
+        metad_server_targets:
+          - target_id: "1"
+            device: "nvme0n1"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-node-01
+
+- name: Deploy BeeGFS Storage Services
+  hosts: storage
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.storaged
+      vars:
+        storaged_beegfs_version: "8.1"
+        storaged_auth_file_path: playbooks/files/conn.auth
+        storaged_server_targets:
+          - target_id: "1"
+            device: "sdb"
+            conn_interfaces: ["eth0"]
+            sys_mgmtd_host: mgmt-node-01
+
+- name: Deploy BeeGFS Clients
+  hosts: clients
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.client
+      vars:
+        client_beegfs_version: "8.1"
+        client_auth_file_path: playbooks/files/conn.auth
+        client_clusters:
+          - sys_mgmtd_host: mgmt-node-01
+            conn_interfaces: ["eth0"]

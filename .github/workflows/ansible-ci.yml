@@ -1,0 +1,43 @@
+---
+name: Ansible CI
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - labeled
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  ansible-lint:
+    name: Lint collection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint collection
+        uses: ansible/ansible-lint@v24
+        with:
+          requirements_file: requirements.yml
+
+  ansible-test-sanity:
+    name: Perform sanity testing with ansible-test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Perform sanity test with ansible-test
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          testing-type: sanity
+
+  ansible-molecule:
+    name: Run Molecule tests
+    needs: [ansible-lint, ansible-test-sanity]
+    uses: ./.github/workflows/ansible-molecule.yml

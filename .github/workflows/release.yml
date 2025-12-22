@@ -9,7 +9,9 @@ concurrency:
 on:
   push:
     tags:
-      - 'v*'
+      # Match semantic version tags vX.Y.Z where X is 1-2 digits, Y and Z are 1 digit
+      - 'v[0-9].[0-9].[0-9]'        # v1.2.3 (X single digit)
+      - 'v[0-9][0-9].[0-9].[0-9]'   # v12.3.4 (X double digit)
   # Allow manual trigger
   workflow_dispatch:
 
@@ -27,44 +29,14 @@ jobs:
         with:
           fetch-depth: 0  # Full history for changelog generation
 
-      - name: Read Python version
-        id: python-version
-        run: echo "version=$(cat .python-version)" >> $GITHUB_OUTPUT
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
       - name: Set up Python
-        run: uv python install ${{ steps.python-version.outputs.version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Extract and validate version
         id: extract_version
-        run: |
-          TAG="${{ github.ref_name }}"
-          VERSION="${TAG#v}"  # Remove 'v' prefix
-
-          echo "Tag: $TAG"
-          echo "Version: $VERSION"
-
-          # Validate tag format
-          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Tag must follow format v*.*.* (e.g., v1.2.3)"
-            exit 1
-          fi
-
-          # Get version from galaxy.yml
-          GALAXY_VERSION=$(grep -E "^version:" galaxy.yml | awk '{print $2}')
-          echo "Version in galaxy.yml: $GALAXY_VERSION"
-
-          # Verify versions match
-          if [ "$VERSION" != "$GALAXY_VERSION" ]; then
-            echo "Error: Tag version ($VERSION) does not match galaxy.yml version ($GALAXY_VERSION)"
-            echo "Please update galaxy.yml to version $VERSION before creating the tag"
-            exit 1
-          fi
-
-          echo "Version validation successful!"
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        run: .github/scripts/extract-version.sh
 
       - name: Verify CHANGELOG.rst is up to date
         run: |
@@ -94,19 +66,15 @@ jobs:
           name: release-workspace
           path: .
 
-      - name: Read Python version
-        id: python-version
-        run: echo "version=$(cat .python-version)" >> $GITHUB_OUTPUT
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
       - name: Set up Python
-        run: uv python install ${{ steps.python-version.outputs.version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Install Ansible
         run: |
-          uv pip install --system ansible-core
+          python -m pip install --upgrade pip
+          pip install ansible-core
 
       - name: Build collection
         run: |
@@ -124,36 +92,6 @@ jobs:
           name: collection-tarball
           path: e4_computer_engineering-beegfs-${{ needs.validate-and-prepare.outputs.version }}.tar.gz
           retention-days: 90
-
-  build-docs:
-    name: Build Ansible Docs
-    permissions:
-      contents: read
-    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-push.yml@main
-    with:
-      init-lenient: false
-      init-fail-on-error: true
-      collection-name: e4_computer_engineering.beegfs
-      squash-hierarchy: true
-      init-project: e4_computer_engineering.beegfs Collection
-      init-copyright: e4_computer_engineering.beegfs Contributors
-      init-title: e4_computer_engineering.beegfs Collection Documentation
-      init-html-short-title: e4_computer_engineering.beegfs Collection Docs
-
-  publish-docs:
-    name: Publish Ansible Docs
-    if: github.repository == 'E4-Computer-Engineering/beegfs-ansible'
-    needs: [build-docs]
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-gh-pages.yml@main
-    with:
-      artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
-      publish-gh-pages-branch: true
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   create-github-release:
     name: Create GitHub Release

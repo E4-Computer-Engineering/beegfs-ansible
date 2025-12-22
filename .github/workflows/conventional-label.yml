@@ -1,0 +1,60 @@
+---
+name: Conventional Label
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  pr-label:
+    name: Validate PR title and apply semantic labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title
+        uses: deepakputhraya/action-pr-title@v1.0.2
+        with:
+          allowed_prefixes: 'breaking,chore,feat,fix,docs,test,ci,refactor,perf,style,build'
+          prefix_case_sensitive: false
+
+      - name: Apply semantic labels
+        uses: bcoe/conventional-release-labels@v1.3.1
+        with:
+          type_labels: |
+            {
+              "feat": "enhancement",
+              "feature": "enhancement",
+              "fix": "bugfix",
+              "breaking": "breaking",
+              "docs": "trivial",
+              "test": "trivial",
+              "chore": "trivial",
+              "security": "security"
+            }
+
+  role-label:
+    name: Apply role labels based on changed files
+    needs: pr-label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply role labels
+        run: .github/scripts/label-changed-roles.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}

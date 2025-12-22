@@ -1,0 +1,12 @@
+---
+# Populate /etc/hosts (Optional)
+# Deploy BeeGFS with automatic /etc/hosts population for cluster nodes
+- name: Deploy BeeGFS with /etc/hosts population
+  hosts: all
+  become: true
+  roles:
+    - role: e4_computer_engineering.beegfs.mgmtd
+      vars:
+        mgmtd_beegfs_version: "8.1"
+        mgmtd_auth_file_path: playbooks/files/conn.auth
+        mgmtd_populate_etc_hosts: true

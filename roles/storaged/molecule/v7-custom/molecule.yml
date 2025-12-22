@@ -18,8 +18,8 @@ provisioner:
     group_vars:
       all:
         # BeeGFS v7 with custom configuration
-        storaged_beegfs_version: "7.4.4"
-        storaged_repo_url: "https://www.beegfs.io/release/beegfs_7.4.4"
+        storaged_beegfs_version: "7.4.6"
+        storaged_repo_url: "https://www.beegfs.io/release/beegfs_7.4.6"
         storaged_conn_storage_port_tcp: "9003"
         storaged_conn_storage_port_udp: "9003"
         storaged_conn_interfaces: ["eth0"]
