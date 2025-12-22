@@ -4,4 +4,4 @@
   tasks:
     - name: Include beegfs-ansible.metad role
       ansible.builtin.include_role:
-        name: beegfs-ansible.metad
+        name: e4_computer_engineering.beegfs.metad
