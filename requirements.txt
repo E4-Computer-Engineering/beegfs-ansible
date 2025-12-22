@@ -2,7 +2,7 @@
 ansible==8.7.0
 ansible-core==2.15.13
 # Do not upgrade ansible-lint because incompatible with ansible-core 2.15.7
-ansible-lint==24.10.0
+ansible-lint==25.12.2
 antsibull-changelog==0.34.0
 antsibull-docs>=2.11.0
 molecule>=24.6.0
