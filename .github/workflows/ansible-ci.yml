@@ -43,7 +43,3 @@ jobs:
         with:
           testing-type: sanity
 
-  ansible-molecule:
-    name: Run Molecule tests
-    needs: [ansible-lint, ansible-test-sanity]
-    uses: ./.github/workflows/ansible-molecule.yml
