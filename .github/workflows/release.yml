@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download release workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: release-workspace
           path: .
@@ -101,13 +101,13 @@ jobs:
       contents: write
     steps:
       - name: Download release workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: release-workspace
           path: .
 
       - name: Download collection tarball
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: collection-tarball
           path: .
