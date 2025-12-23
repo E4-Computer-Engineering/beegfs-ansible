@@ -4,4 +4,4 @@
   tasks:
     - name: Include beegfs-ansible.storaged role
       ansible.builtin.include_role:
-        name: beegfs-ansible.storaged
+        name: e4_computer_engineering.beegfs.storaged

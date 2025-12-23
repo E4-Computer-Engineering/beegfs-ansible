@@ -23,7 +23,7 @@ jobs:
       - name: Validate PR title
         uses: deepakputhraya/action-pr-title@v1.0.2
         with:
-          allowed_prefixes: 'breaking,chore,feat,fix,docs,test,ci,refactor,perf,style,build'
+          allowed_prefixes: 'breaking,chore,feat,fix,docs,test,ci,refactor,perf,style,build,dependabot-deps-updates'
           prefix_case_sensitive: false
 
       - name: Apply semantic labels
@@ -38,6 +38,7 @@ jobs:
               "docs": "trivial",
               "test": "trivial",
               "chore": "trivial",
+              "dependabot-deps-updates": "trivial",
               "security": "security"
             }
 

@@ -23,15 +23,15 @@ provisioner:
         metad_deploy_auth_file: false
         # Multiple metadata targets with different IDs, ports, and interfaces
         metad_server_targets:
-          - target_id: 1
+          - target_id: "1"
             device: "/dev/vdb"
             conn_interfaces: []
             sys_mgmtd_host: localhost
-          - target_id: 2
+          - target_id: "2"
             device: "/dev/vdc"
             conn_interfaces: ["eth0"]
             sys_mgmtd_host: localhost
-          - target_id: 3
+          - target_id: "3"
             device: "/dev/vdd"
             conn_interfaces: []
             sys_mgmtd_host: localhost

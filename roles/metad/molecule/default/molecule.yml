@@ -22,8 +22,8 @@ provisioner:
         metad_repo_url: "https://www.beegfs.io/release/beegfs_7.4.6"
         metad_deploy_auth_file: false
         metad_server_targets:
-          - target_id: 1
-            device: "/dev/vdb"
+          - target_id: "1"
+            device: "vdb"
             conn_interfaces: []
             sys_mgmtd_host: localhost
 verifier:
