@@ -6,7 +6,7 @@ ansible-lint==24.10.0
 antsibull-changelog==0.34.0
 antsibull-docs>=2.11.0
 molecule>=24.6.0
-pre-commit==4.5.0
+pre-commit==4.5.1
 shellcheck-py==0.11.0.1
 openstacksdk==4.8.0
 python-openstackclient==8.2.0
