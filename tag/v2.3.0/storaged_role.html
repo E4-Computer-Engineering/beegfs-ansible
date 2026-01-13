@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="2.24.0" name="antsibull-docs" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services &mdash; e4_computer_engineering.beegfs Collection  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=41de9001" />
+      <link rel="stylesheet" type="text/css" href="_static/css/ansible.css?v=b54c304f" />
+      <link rel="stylesheet" type="text/css" href="_static/antsibull-minimal.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/rtd-ethical-ads.css?v=289b023e" />
+
+  
+    <link rel="shortcut icon" href="_static/images/Ansible-Mark-RGB_Black.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7f41d439"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services" href="mon_role.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
+
+
+
+
+</head>
+
+<body class="wy-body-for-nav"><!-- extra body elements for Ansible beyond RTD Sphinx Theme -->
+
+<div class="DocSite-globalNav ansibleNav">
+  <ul>
+    <li><a href="https://www.ansible.com/blog" target="_blank">Blog</a></li>
+    <li><a href="https://forum.ansible.com/" target="_blank">Ansible community forum</a></li>
+    <li><a href="https://docs.ansible.com/" target="_blank">Documentation</a></li>
+  </ul>
+</div>
+
+<a class="DocSite-nav" href="/" style="padding-bottom: 30px;">
+
+  <img class="DocSiteNav-logo"
+    src="_static/images/Ansible-Mark-RGB_White.png"
+    alt="Ansible Logo">
+  <div class="DocSiteNav-title">e4_computer_engineering.beegfs Collection Docs</div>
+</a>
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            e4_computer_engineering.beegfs Collection
+          </a><!--- Based on https://github.com/rtfd/sphinx_rtd_theme/pull/438/files -->
+
+<div class="version">
+  
+    
+  
+</div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <label class="sr-only" for="q">Search docs:</label>
+    <input type="text" class="st-default-search-input" id="q" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="_common_role.html">e4_computer_engineering.beegfs._common role – Beegfs roles common tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_role.html">e4_computer_engineering.beegfs.client role – Deploy Beegfs client services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metad_role.html">e4_computer_engineering.beegfs.metad role – Configure Beegfs Metadata services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mgmtd_role.html">e4_computer_engineering.beegfs.mgmtd role – Configure Beegfs Management services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mon_role.html">e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#entry-point-main-configure-beegfs-storage-services">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs Storage services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authors">Authors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#collection-links">Collection links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- extra nav elements for Ansible beyond RTD Sphinx Theme -->
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">e4_computer_engineering.beegfs Collection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  
+           <div itemprop="articleBody">
+             
+  <span class="target" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role"></span><section id="e4-computer-engineering-beegfs-storaged-role-configure-beegfs-storage-services">
+<h1>e4_computer_engineering.beegfs.storaged role – Configure Beegfs Storage services<a class="headerlink" href="#e4-computer-engineering-beegfs-storaged-role-configure-beegfs-storage-services" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This role is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/">e4_computer_engineering.beegfs collection</a> (version 2.2.0).</p>
+<p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
+To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
+<p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">e4_computer_engineering.beegfs</span></code>.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">e4_computer_engineering.beegfs.storaged</span></code>.</p>
+</div>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#entry-point-main-configure-beegfs-storage-services" id="id1">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs Storage services</a></p>
+<ul>
+<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#authors" id="id4">Authors</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<span class="target" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-entrypoint-main"></span><section id="entry-point-main-configure-beegfs-storage-services">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Entry point <code class="docutils literal notranslate"><span class="pre">main</span></code> – Configure Beegfs Storage services</a><a class="headerlink" href="#entry-point-main-configure-beegfs-storage-services" title="Link to this heading"></a></h2>
+<p class="ansible-version-added">New in e4_computer_engineering.beegfs 1.0.0</p>
+<section id="synopsis">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Install and configure Beegfs Storage services.</p></li>
+</ul>
+</section>
+<section id="parameters">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_auth_file_path"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-auth-file-path"><strong>storaged_auth_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_auth_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The location on local filesystem to deploy the connection auth file from</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">role_path</span> <span class="pre">}}/files/conn.auth&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_beegfs_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-beegfs-version"><strong>storaged_beegfs_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_beegfs_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Beegfs version that will be used <a class="reference external" href="https://doc.beegfs.io/latest/release_notes.html">https://doc.beegfs.io/latest/release_notes.html</a></p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.2&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.3&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.4&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.5&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;7.4.6&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.1&quot;</span></code></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;8.2&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_alloc_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-alloc-size"><strong>storaged_filesystem_alloc_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_alloc_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS allocation size for buffered I/O</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;131072k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_inode_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-inode-size"><strong>storaged_filesystem_inode_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_inode_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Inode size in bytes for the filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">512</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_bufs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-bufs"><strong>storaged_filesystem_log_bufs</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_bufs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Number of XFS log buffers</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">8</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_unit"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-unit"><strong>storaged_filesystem_log_unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS log buffer size</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;128k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_log_version"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-log-version"><strong>storaged_filesystem_log_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_log_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS log version</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">2</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_options"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-options"><strong>storaged_filesystem_options</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_options" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Mount options for the storage filesystem</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;defaults,noatime,nodiratime,seclabel,swalloc,attr2,largeio,inode64,nofail,</span> <span class="pre">allocsize={{</span> <span class="pre">storaged_filesystem_alloc_size</span> <span class="pre">}},</span> <span class="pre">logbufs={{</span> <span class="pre">storaged_filesystem_log_bufs</span> <span class="pre">}},</span> <span class="pre">logbsize={{</span> <span class="pre">storaged_filesystem_log_unit</span> <span class="pre">}}&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_purge"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-purge"><strong>storaged_filesystem_purge</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_purge" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to purge existing filesystem data before creating new filesystem</p>
+<p>WARNING - This will destroy all data on the device</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_quota_options"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-quota-options"><strong>storaged_filesystem_quota_options</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_quota_options" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Additional mount options for quota support on XFS</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;,uqnoenforce,gqnoenforce&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_strip_unit"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-strip-unit"><strong>storaged_filesystem_strip_unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_strip_unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS stripe unit size</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;128k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_strip_width"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-strip-width"><strong>storaged_filesystem_strip_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_strip_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>XFS stripe width (number of data disks in RAID)</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">8</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_filesystem_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-filesystem-type"><strong>storaged_filesystem_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_filesystem_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The filesystem type to use for storage targets</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;ext4&quot;</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;xfs&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_populate_etc_hosts"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-populate-etc-hosts"><strong>storaged_populate_etc_hosts</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_populate_etc_hosts" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Whether to populate /etc/hosts file with Beegfs cluster nodes addresses</p>
+<p>When enabled, all nodes in the inventory will be added to /etc/hosts</p>
+<p>This is useful when DNS is not available or for testing environments</p>
+<p>Not executed inside Docker/container environments</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">false</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">true</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets"><strong>storaged_server_targets</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The list of storage targets and their parameters for each storage server</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_interfaces"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-interfaces"><strong>conn_interfaces</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_interfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The list of interfaces to use by the daemon</p>
+<p>This list will be used in the `conn_interfaces_file`</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_mgmtd_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-mgmtd-port-tcp"><strong>conn_mgmtd_port_tcp</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_mgmtd_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The TCP port at which the management service is responding at</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_mgmtd_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-mgmtd-port-udp"><strong>conn_mgmtd_port_udp</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_mgmtd_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The UDP port at which the management service is responding at</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8008&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_rdma_buf_num"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-rdma-buf-num"><strong>conn_rdma_buf_num</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_rdma_buf_num" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer count allocated for the communication</p>
+<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;70&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_rdma_buf_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-rdma-buf-size"><strong>conn_rdma_buf_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_rdma_buf_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The RDMA buffer size allocated for communication</p>
+<p>conn_rdma_buf_num * conn_rdma_buf_size</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8192&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_storage_port_tcp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-storage-port-tcp"><strong>conn_storage_port_tcp</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_storage_port_tcp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The TCP port at which the storage service is responding at</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8013&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/conn_storage_port_udp"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-conn-storage-port-udp"><strong>conn_storage_port_udp</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/conn_storage_port_udp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The UDP port at which the storage service is responding at</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;8013&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/device"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-device"><strong>device</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the device that will mount the beegfs storage partition</p>
+<p>Note that /dev/ must be omitted because it is already present in the path of the device</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/log_type"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-log-type"><strong>log_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/log_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Where log entries for the Beegfs management daemon should go</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;syslog&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;file&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/mirrorgroup_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-mirrorgroup-id"><strong>mirrorgroup_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/mirrorgroup_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>An ID that must be unique among metadata and storage target mirror group definitions</p>
+<p>Even if Beegfs allows to have the same ID definition among metadata and storage mirrror groups we do not support it</p>
+<p>You must specify the same mirrorgroup id in two and only two storage targets to have a mirror relationship created</p>
+<p>The order in which the targets appear in the storaged_server_targets structure defines if these are primaries or secondaries</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/quota_enable_enforcement"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-quota-enable-enforcement"><strong>quota_enable_enforcement</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/quota_enable_enforcement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Enable the quota enforcement feature</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;false&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/storagepool_desc"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-storagepool-desc"><strong>storagepool_desc</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/storagepool_desc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A name for the storagepool that the target must be part of</p>
+<p>The name must be unique inside the cluster</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/storagepool_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-storagepool-id"><strong>storagepool_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/storagepool_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The storage pool id to assign the storage target</p>
+<p>The name must be unique inside the cluster</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/sys_mgmtd_host"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-sys-mgmtd-host"><strong>sys_mgmtd_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/sys_mgmtd_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The address at which the management service is responding at</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;localhost&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/sys_target_offline_timeout_secs"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-sys-target-offline-timeout-secs"><strong>sys_target_offline_timeout_secs</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/sys_target_offline_timeout_secs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Timeout in seconds before the target is considered “Offline”</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;180&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/target_id"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-target-id"><strong>target_id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/target_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The ID to assign to the storage target object</p>
+<p>Albeit not required by Beegfs, the ID needs to be unique in the cluster</p>
+<p>The ID is used to create the target directory mountpoint `/data/beegfs_storage/t&lt;target_id&gt;`</p>
+<p>The ID is used to setup the Buddy Mirror relationship</p>
+<p>The ID is used to setup the Storage Pool membership</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_file_read_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-file-read-size"><strong>tune_file_read_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_file_read_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file read size from filesystem</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_file_write_size"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-file-write-size"><strong>tune_file_write_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_file_write_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file write size on filesystem</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;1024k&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_server_targets/tune_num_workers"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-server-targets-tune-num-workers"><strong>tune_num_workers</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_server_targets/tune_num_workers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Number of worker threads to assign to the beegfs-storage.service</p>
+<p>This option is used and documented in the file /etc/beegfs/beegfs-storage.conf</p>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;12&quot;</span></code></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-main--storaged_start_services"></div><p class="ansible-option-title" id="ansible-collections-e4-computer-engineering-beegfs-storaged-role-parameter-main-storaged-start-services"><strong>storaged_start_services</strong></p>
+<a class="ansibleOptionLink" href="#parameter-main--storaged_start_services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Start the `beegfs-storage.service` or `beegfs-storage&#64;.service`</p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">false</span></code></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">true</span></strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="authors">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Authors</a><a class="headerlink" href="#authors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Davide Obbi</p></li>
+</ul>
+<section id="collection-links">
+<h4>Collection links<a class="headerlink" href="#collection-links" title="Link to this heading"></a></h4>
+<ul class="ansible-links">
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/E4-Computer-Engineering/beegfs-ansible/issues" rel="noopener external" target="_blank">Issue Tracker</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://www.e4company.com/" rel="noopener external" target="_blank">Homepage</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/E4-Computer-Engineering/beegfs-ansible" rel="noopener external" target="_blank">Repository (Sources)</a></span></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          
+
+<footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mon_role.html" class="btn btn-neutral float-left" title="e4_computer_engineering.beegfs.mon role – Configure Beegfs Monitoring services" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright e4_computer_engineering.beegfs Contributors.</p>
+  </div>
+
+  
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script><!-- extra footer elements for Ansible beyond RTD Sphinx Theme -->
+
+</body>
+</html>
