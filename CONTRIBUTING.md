@@ -11,8 +11,8 @@ Automated tests will be run against all PRs, these tests need to pass in order t
 You can use Pyenv to setup a working Python environment with the needed packages.
 
 ```text
-pyenv install 3.10.6
-pyenv virtualenv 3.10.6 beegfs-ansible
+pyenv install 3.12
+pyenv virtualenv 3.12 beegfs-ansible
 pyenv activate beegfs-ansible
 pip install --upgrade pip
 pip install -r requirements.txt
