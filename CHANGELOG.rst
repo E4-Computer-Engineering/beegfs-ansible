@@ -4,6 +4,16 @@ e4\_computer\_engineering.beegfs Release Notes
 
 .. contents:: Topics
 
+v2.3.0
+======
+
+Release Summary
+---------------
+
+| Release Date: 2026-01-13
+| This release adds new Ansible version and improved target filesystem
+| discovery using labels.
+
 v2.2.0
 ======
 
