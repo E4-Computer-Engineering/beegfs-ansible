@@ -1,5 +1,5 @@
+ansible-lint==26.3.0
 ansible==13.4.0
-ansible-lint==26.1.0
 antsibull-changelog==0.35.0
 antsibull-docs>=2.11.0
 molecule>=24.6.0
