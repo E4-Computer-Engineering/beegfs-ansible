@@ -8,3 +8,4 @@ shellcheck-py==0.11.0.1
 openstacksdk==4.8.0
 python-openstackclient==9.0.0
 
+
