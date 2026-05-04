@@ -1,6 +1,6 @@
 # Molecule testing requirements
 molecule>=6.0.0
 molecule-plugins[docker]>=25.8.12
-docker>=6.0.0
+docker>=7.1.0
 testinfra>=10.0.0
 pytest>=9.0.3
