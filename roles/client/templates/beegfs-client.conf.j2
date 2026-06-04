@@ -60,4 +60,8 @@ tunePreferredStorageFile      =
 tuneRemoteFSync               = true
 tuneUseGlobalAppendLocks      = false
 tuneUseGlobalFileLocks        = false
+{% if client_beegfs_version is version('8.3', '>=') %}
+tuneFileOpenRetryTimeoutMS    = {{ item.tune_file_open_retry_timeout_ms | default(client_tune_file_open_retry_timeout_ms) }}
+tuneFileOpenRetryIntervalMS   = {{ item.tune_file_open_retry_interval_ms | default(client_tune_file_open_retry_interval_ms) }}
+{% endif %}
 sysACLsEnabled                = {{ item.sys_acls_enabled | default(client_sys_acls_enabled) }}

@@ -2,6 +2,9 @@
 metad_start_services: true
 metad_server_targets: []
 metad_auth_file_path: "{{ role_path }}/files/conn.auth"
+metad_deploy_auth_file: true
+# Custom Beegfs package repository, leave empty to use the upstream repository
+metad_repo_url: ""
 
 # Filesystem specs
 metad_filesystem_type: "ext4"

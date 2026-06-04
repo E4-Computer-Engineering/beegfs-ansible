@@ -47,7 +47,7 @@
   ansible.builtin.template:
     src: "beegfs-client.service.j2"
     dest: "/usr/lib/systemd/system/beegfs-client.service"
-    mode: "640"
+    mode: "0644"
     owner: root
     group: root
   when:

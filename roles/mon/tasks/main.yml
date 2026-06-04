@@ -38,6 +38,23 @@
   tags:
     - mon_configure
 
+- name: Ensure interfaces list file is present
+  become: true
+  ansible.builtin.template:
+    src: conn_interfaces_file.j2
+    dest: "/etc/beegfs/{{ ansible_role_name | regex_replace(ansible_collection_name ~ '.', '') }}_interfaces"
+    owner: root
+    group: root
+    mode: "0640"
+  when:
+    - mon_conn_interfaces | length > 0
+  notify:
+    - Restart beegfs mon service
+  tags:
+    - mon
+    - mon_configure
+    - configure
+
 - name: Configure
   ansible.builtin.include_role:
     name: _common

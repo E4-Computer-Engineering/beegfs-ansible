@@ -62,6 +62,8 @@
     - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}_configure"
 
 - name: Ensure the Beegfs connection authentication file
+  when:
+    - _common_deploy_auth_file | bool
   tags:
     - "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
     - configure

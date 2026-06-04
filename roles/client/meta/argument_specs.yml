@@ -13,7 +13,7 @@ argument_specs:
         type: str
         description: The Beegfs version that will be used https://doc.beegfs.io/latest/release_notes.html
         required: true
-        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2"]
+        choices: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6", "8.1", "8.2", "8.3"]
       client_populate_etc_hosts:
         type: bool
         description:
@@ -61,11 +61,23 @@ argument_specs:
         description: Build the client kernel modules
         default: true
       client_auth_file_path:
-        default: /etc/beegfs/conn.auth
+        default: "{{ role_path }}/files/conn.auth"
         type: str
         description:
-          - The path to the authentication file used by the client
+          - The location on the local filesystem to deploy the connection auth file from
           - The file is used to authenticate the client with the management service
+      client_deploy_auth_file:
+        type: bool
+        description:
+          - Deploy the connection auth file.
+          - See `client_auth_file_path` for specifying the location of the auth file to deploy.
+          - WARNING do not use the authfile provided in this role
+        default: true
+      client_repo_url:
+        type: str
+        description:
+          - Custom Beegfs package repository, if not specified, upstream is used.
+        default: ""
       client_install_kernel_dev:
         type: bool
         description:
@@ -208,6 +220,20 @@ argument_specs:
               - See https://doc.beegfs.io/latest/advanced_topics/striping.html
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "1048576"
+          tune_file_open_retry_timeout_ms:
+            type: str
+            description:
+              - "BeeGFS 8.3+ only: maximum time in milliseconds the client retries opening a file
+                that is temporarily blocked by file state locks (e.g. HSM archive/restore)"
+              - A value of 0 disables retrying
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "300000"
+          tune_file_open_retry_interval_ms:
+            type: str
+            description:
+              - "BeeGFS 8.3+ only: sleep interval in milliseconds between file open retry attempts"
+              - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
+            default: "10000"
           quota_enabled:
             type: str
             description:
@@ -229,11 +255,6 @@ argument_specs:
               - This option is used and documented in the file /etc/beegfs/beegfs-client.conf
             default: "false"
             choices: ["false", "true"]
-          client_tls_tmp_dir:
-            type: str
-            description:
-              - path to the TLS certificate needed by Beegfs
-            default: ""
           client_dir_paths:
             type: list
             elements: dict

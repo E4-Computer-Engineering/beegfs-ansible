@@ -21,9 +21,9 @@ VERSION="${TAG#v}"  # Remove 'v' prefix
 echo "Tag: $TAG"
 echo "Version: $VERSION"
 
-# Validate tag format: vX.Y.Z where X is 1-2 digits, Y and Z are 1 digit
-if [[ ! "$TAG" =~ ^v[0-9]{1,2}\.[0-9]\.[0-9]$ ]]; then
-    echo "Error: Tag must follow format vX.Y.Z where X is 1-2 digits, Y and Z are 1 digit (e.g., v1.2.3 or v12.3.4)"
+# Validate tag format: vX.Y.Z where each component is one or more digits
+if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Tag must follow format vX.Y.Z where each component is one or more digits (e.g., v1.2.3, v12.3.4 or v2.10.0)"
     exit 1
 fi
 

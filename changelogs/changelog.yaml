@@ -167,3 +167,42 @@ releases:
     fragments:
     - 2.2.0.yml
     release_date: '2025-12-21'
+  2.4.0:
+    changes:
+      bugfixes:
+      - _common - harden the TLS certificate generation so the ``san.cnf`` template
+        no longer fails when ``ansible_host`` or ``ansible_default_ipv4`` are undefined,
+        and set the parent role name fact in ``tls.yml`` so it can run standalone.
+      - client - remove a stray undefined ``beegfs`` condition from the multimode
+        helperd start task.
+      - client - template the NVIDIA GPUDirect file globs in the prechecks (they were
+        literal strings), so the GDS file presence assertions work.
+      - metad - fix the filesystem creation and tune2fs task tags that were tagged
+        for the ``storaged`` role.
+      - mgmtd - fix ``tls-disable`` in ``beegfs-mgmtd.toml`` always rendering ``false``
+        due to operator precedence, so that setting ``mgmtd_enable_tls`` to ``false``
+        now correctly disables gRPC TLS.
+      - mon - fix the ``mon_db_type`` argument specification default (``influxdbv2``)
+        which was not part of its own ``choices``.
+      - storaged - fix the swapped success and failure messages in the server targets
+        precheck assertion.
+      - storaged - use ``storaged_beegfs_version`` instead of ``metad_beegfs_version``
+        in the storage configuration template, fixing rendering on storage-only hosts.
+      minor_changes:
+      - All roles - add support for BeeGFS ``8.3`` in the ``<role>_beegfs_version``
+        choices.
+      - all roles - add the previously undocumented ``<role>_repo_url`` and ``<role>_deploy_auth_file``
+        variables with defaults and argument specifications.
+      - client - add the BeeGFS 8.3 only ``tuneFileOpenRetryTimeoutMS`` and ``tuneFileOpenRetryIntervalMS``
+        client configuration options (``client_tune_file_open_retry_timeout_ms`` and
+        ``client_tune_file_open_retry_interval_ms``), gated to version 8.3 and above.
+      - metad, storaged - back up the daemon configuration files on change to match
+        the role documentation.
+      - mgmtd - align the ``beegfs-mgmtd.toml`` template comments and options (``ipv6-disable``,
+        the new ``interfaces`` filter syntax and the ``node-offline-timeout`` note)
+        with upstream BeeGFS 8.3.
+      - mon - deploy the connection interfaces file referenced by ``beegfs-mon.conf``
+        when ``mon_conn_interfaces`` is set.
+    fragments:
+    - beegfs-8.3-support.yml
+    release_date: '2026-06-04'

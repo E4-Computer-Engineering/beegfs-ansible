@@ -8,6 +8,12 @@
   tags:
     - always
 
+- name: Set parent role name
+  ansible.builtin.set_fact:
+    _common_parent_role_name: "{{ ansible_parent_role_names | first | regex_replace(ansible_collection_name ~ '.', '') }}"
+  tags:
+    - always
+
 - name: General SSL certificate
   become: false
   run_once: true

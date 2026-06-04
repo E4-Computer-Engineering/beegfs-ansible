@@ -48,8 +48,8 @@
     that:
       - storage_check.target_id_total == storage_check.target_id_unique
       - storage_check.mgmt_node_unique == 1
-    success_msg: "There storaged_server_targets are not correctly defined"
-    fail_msg: "There storaged_server_targets are correctly defined"
+    success_msg: "The storaged_server_targets are correctly defined"
+    fail_msg: "The storaged_server_targets are not correctly defined"
   when: storaged_server_targets | length > 0
   tags:
     - storaged

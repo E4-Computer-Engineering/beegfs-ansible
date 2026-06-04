@@ -18,7 +18,7 @@
         {
           "device_name": "{{ tgt.device }}",
           "mount_point": "{{ target_directory }}",
-          "device_mounted": "{{ mounted }}",
+          "device_mounted": {{ mounted }},
           "device_label": "meta-t{{ tgt.target_id | string }}",
           "fs_options": "{{ target_options | regex_replace(' ', '') }}"
         }{% if not loop.last %},{% endif %}
@@ -118,8 +118,8 @@
   loop_control:
     label: "{{ target.mount_point }}"
   tags:
-    - storaged
-    - storaged_configure
+    - metad
+    - metad_configure
     - configure
 
 - name: Collect mounted devices for fs labels
@@ -141,6 +141,8 @@
   changed_when: false
   when: not (target.device_mounted | bool)
   tags:
+    - metad
+    - metad_configure
     - configure
 
 - name: Display device labels

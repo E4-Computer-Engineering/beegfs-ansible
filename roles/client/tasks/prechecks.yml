@@ -48,7 +48,7 @@
     path: "{{ item }}"
   register: stat_nvidia_fs
   with_fileglob:
-    - _client_nvidia_fs_path'*/{nvfs-dma.h,config-host.h}'
+    - "{{ _client_nvidia_fs_path }}*/{nvfs-dma.h,config-host.h}"
   when:
     - client_nvfs_libs_path
     - client_nvfs_libs_path | length > 0
@@ -63,7 +63,7 @@
     path: "{{ item }}"
   register: stat_nvidia_libs
   with_fileglob:
-    - _client_nvidia_path'*/nv-p2p.h'
+    - "{{ _client_nvidia_path }}*/nv-p2p.h"
   when:
     - client_nvidia_libs_path
     - client_nvidia_libs_path | length > 0

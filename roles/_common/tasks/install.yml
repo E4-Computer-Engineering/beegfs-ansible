@@ -82,7 +82,7 @@
   ansible.builtin.yum_repository:
     name: beegfs
     description: "BeeGFS {{ _common_beegfs_version }}"
-    baseurl: "{{ _common_repo_url | default(__common_upstream_repo_url) }}"
+    baseurl: "{{ _common_repo_url | default(__common_upstream_repo_url, true) }}"
     gpgcheck: true
     gpgkey: "{{ __common_repo_gpg_keys }}"
   when:
@@ -113,7 +113,7 @@
     - name: Add repository to sources list
       ansible.builtin.apt_repository:
         repo: "deb [signed-by=/etc/apt/trusted.gpg.d/beegfs.asc]  \
-              {{ _common_repo_url | default(__common_upstream_repo_url) }}"
+              {{ _common_repo_url | default(__common_upstream_repo_url, true) }}"
         filename: beegfs
 
 - name: Install System packages "{{ _common_packages }}"

@@ -2,6 +2,9 @@
 client_start_services: true
 client_enable_beeond: false
 client_auth_file_path: "{{ role_path }}/files/conn.auth"
+client_deploy_auth_file: true
+# Custom Beegfs package repository, leave empty to use the upstream repository
+client_repo_url: ""
 client_clusters: []
 client_dkms_install: false
 client_dir_paths: []
@@ -37,3 +40,6 @@ client_tune_file_cache_buf_size: "1048576"
 client_quota_enabled: "false"
 client_sys_xattrs_enabled: "false"
 client_sys_acls_enabled: "false"
+# BeeGFS 8.3+ only: retry behaviour when opening files temporarily blocked by file state locks
+client_tune_file_open_retry_timeout_ms: "300000"
+client_tune_file_open_retry_interval_ms: "10000"

@@ -1,5 +1,8 @@
 ---
 mgmtd_start_services: true
+mgmtd_deploy_auth_file: true
+# Custom Beegfs package repository, leave empty to use the upstream repository
+mgmtd_repo_url: ""
 
 # /etc/beegfs/beegfs-mgmt.conf /etc/beegfs/beegfs-mgmtd.toml
 mgmtd_string_id: "{{ inventory_hostname_short }}"

@@ -33,7 +33,7 @@ beemsg-port = {{ mgmtd_conn_mgmtd_port_tcp }}
 
 # Disables TLS for gRPC communication.
 # tls-disable = false
-tls-disable = {{ not mgmtd_enable_tls | bool | lower }}
+tls-disable = {{ (not (mgmtd_enable_tls | bool)) | lower }}
 
 {% if mgmtd_enable_tls | bool %}
 # The PEM encoded .X509 certificate file that provides the identity of the gRPC server.
@@ -45,10 +45,34 @@ tls-cert-file = "/etc/beegfs/{{ mgmtd_tls_cert_file }}"
 tls-key-file = "/etc/beegfs/{{ mgmtd_tls_key_file }}"
 {% endif %}
 
-# Restricts network interfaces reported to other nodes for incoming BeeMsg communication.
-# The interfaces are reported in the given order. If not given, all suitable interfaces can be used.
-# interfaces = ["eth0", "eth1"]
+# Restricts and prioritizes network interfaces reported to other nodes for incoming BeeMsg
+# communication.
+#
+# Accepts a list of interface/nic filters. Interfaces can be filtered by name, address and protocol
+# (ipv4 or ipv6). Each filter entry has the form `[!] [<name>|*] [<addr>|*] [<protocol>|*]`, where
+# protocol can be "4" or "6". Each field can be set to "*" to match any value. Stars on the right
+# can be omitted. The order of the filter entries determines the priority of the interfaces as they
+# should be used by other nodes for BeeMsg communication. The first entry an interface matches is
+# that interfaces priority - the earlier the match, the higher the priority. Any interface that
+# doesn't match any entry is not reported and will thus not be contacted by other nodes. A single
+# `!` before the entry blacklists the matching interfaces - it is not reported even if a later entry
+# does match it.
+#
+# If not given, all suitable interfaces can be used and are reported in default order.
+#
+# EXAMPLES:
+#
+# * Prefer IPv6: ["* * 6", "* * 4"]
+# * IPv6 only: ["* * 6"]
+# * Only the eth0 interface using IPv6: ["eth0 * 6"]
+# * Prefer one IPv6 address, allow only IPv4 otherwise: ["* fd00::1", "* * 4"]
+# * Deny eth0 interface, allow everything else: ["! eth0", "*"]
+#
+# interfaces = ["*"]
 interfaces =  {{ mgmtd_conn_interfaces }}
+
+# Force disable IPv6.
+# ipv6-disable = false
 
 # Maximum number of outgoing connections per node.
 # connection-limit = 12
@@ -66,8 +90,9 @@ interfaces =  {{ mgmtd_conn_interfaces }}
 # registration-disable = false
 
 # Defines after which time without contact a node/target is considered offline.
-# IMPORTANT: This setting must be the same on all nodes in the system, especially when using
-# mirroring.
+# IMPORTANT: When adjusting this setting you must also update sysTargetOfflineTimeoutSecs in all
+# meta/storage and client configuration files, especially when using mirroring. Please refer to the
+# documentation in those files for what rules apply.
 # node-offline-timeout = "180s"
 node-offline-timeout = "{{ mgmtd_sys_target_offline_timeout_secs }}s"
 

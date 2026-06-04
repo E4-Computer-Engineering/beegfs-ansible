@@ -2,6 +2,9 @@
 storaged_start_services: true
 storaged_server_targets: []
 storaged_auth_file_path: "{{ role_path }}/files/conn.auth"
+storaged_deploy_auth_file: true
+# Custom Beegfs package repository, leave empty to use the upstream repository
+storaged_repo_url: ""
 
 # Filesystem specs
 storaged_filesystem_type: "xfs"

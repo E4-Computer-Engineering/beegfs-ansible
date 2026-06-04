@@ -43,7 +43,6 @@
   when:
     - multi_mode
     - client_start_services
-    - beegfs
     - client_beegfs_version | split('.') | first | int == 7
     - not ansible_check_mode
   tags:

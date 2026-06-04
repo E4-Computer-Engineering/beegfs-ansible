@@ -1,6 +1,8 @@
 # Ansible Collection - e4_computer_engineering.beegfs
 
 [![License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/E4-Computer-Engineering/beegfs/blob/main/LICENSE)
+[![Galaxy Version](https://img.shields.io/badge/dynamic/json?label=galaxy&query=%24.highest_version.version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fe4_computer_engineering%2Fbeegfs%2F&prefix=v&color=blue&logo=ansible)](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
+[![Galaxy Downloads](https://img.shields.io/badge/dynamic/json?label=downloads&query=%24.download_count&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fe4_computer_engineering%2Fbeegfs%2F&color=green&logo=ansible)](https://galaxy.ansible.com/ui/repo/published/e4_computer_engineering/beegfs/)
 [![Collection Docs](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/collection-docs.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/collection-docs.yml)
 [![Ansible CI](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/ansible-ci.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/ansible-ci.yml)
 [![Release](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/release.yml/badge.svg)](https://github.com/E4-Computer-Engineering/beegfs-ansible/actions/workflows/release.yml)

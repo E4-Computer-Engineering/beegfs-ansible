@@ -9,9 +9,8 @@ concurrency:
 on:
   push:
     tags:
-      # Match semantic version tags vX.Y.Z where X is 1-2 digits, Y and Z are 1 digit
-      - 'v[0-9].[0-9].[0-9]'        # v1.2.3 (X single digit)
-      - 'v[0-9][0-9].[0-9].[0-9]'   # v12.3.4 (X double digit)
+      # Match semantic version tags vX.Y.Z where each component is one or more digits
+      - 'v[0-9]+.[0-9]+.[0-9]+'     # e.g. v1.2.3, v12.3.4, v2.10.0
   # Allow manual trigger
   workflow_dispatch:
 
@@ -59,6 +58,9 @@ jobs:
     name: Build and Publish to Ansible Galaxy
     needs: validate-and-prepare
     runs-on: ubuntu-latest
+    if: github.repository == 'E4-Computer-Engineering/beegfs-ansible'
+    permissions:
+      contents: read
     steps:
       - name: Download release workspace
         uses: actions/download-artifact@v8
