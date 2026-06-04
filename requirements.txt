@@ -1,6 +1,6 @@
 ansible-lint==26.4.0
 ansible==13.6.0
-antsibull-changelog==0.35.0
+antsibull-changelog==0.35.1
 antsibull-docs>=2.24.0
 molecule>=26.4.0
 pre-commit==4.6.0
